@@ -5,7 +5,7 @@ export default function Profile() {
   return (
     <AppLayout>
       <Head>
-        <title>NodeBird</title>
+        <title>프로필 | NodeBird</title>
       </Head>
       <div>내 프로필</div>
     </AppLayout>
