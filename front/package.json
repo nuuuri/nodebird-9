@@ -2,7 +2,7 @@
   "name": "nodebird-9-front",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.tsx",
   "scripts": {
     "dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider next -p 3060",
     "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider ANALYZE=true NODE_ENV=production next build",
@@ -11,9 +11,12 @@
   "author": "nuuuri",
   "license": "ISC",
   "dependencies": {
+    "@types/node": "^22.5.5",
+    "@types/react": "^18.3.8",
     "cross-env": "^7.0.3",
     "next": "9",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "typescript": "^5.6.2"
   }
 }
