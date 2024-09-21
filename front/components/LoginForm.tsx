@@ -18,7 +18,7 @@ export default function LoginForm({ setIsLoggedIn }: LoginFormProps) {
       id,
       password,
     });
-  }, [id, password, setIsLoggedIn]);
+  }, [id, password]);
 
   return (
     <Form onFinish={onSubmitForm} style={{ padding: "10px" }}>
