@@ -1,12 +1,17 @@
 import Link from "next/link";
-import React from "react";
-import { Button, Input, Menu } from "antd";
+import React, { useState } from "react";
+import { Button, Col, Input, Menu, Row } from "antd";
+
+import LoginForm from "./LoginForm";
+import UserProfile from "./UserProfile";
 
 interface AppLayoutProps {
   children: React.ReactNode;
 }
 
 export default function AppLayout({ children }: AppLayoutProps) {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   return (
     <div>
       <Menu mode="horizontal">
@@ -23,13 +28,35 @@ export default function AppLayout({ children }: AppLayoutProps) {
         <Menu.Item key="mail">
           <Input.Search enterButton style={{ verticalAlign: "middle" }} />
         </Menu.Item>
+        <Menu.Item>
+          <Link href="/signup">
+            <a>
+              <Button>회원가입</Button>
+            </a>
+          </Link>
+        </Menu.Item>
       </Menu>
-      <Link href="/signup">
-        <a>
-          <Button>회원가입</Button>
-        </a>
-      </Link>
-      {children}
+      <Row gutter={8}>
+        <Col xs={24} md={6}>
+          {isLoggedIn ? (
+            <UserProfile />
+          ) : (
+            <LoginForm setIsLoggedIn={setIsLoggedIn} />
+          )}
+        </Col>
+        <Col xs={24} md={12}>
+          {children}
+        </Col>
+        <Col xs={24} md={6}>
+          <a
+            href="https://github.com/nuuuri"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            Made by Nuuuri
+          </a>
+        </Col>
+      </Row>
     </div>
   );
 }
