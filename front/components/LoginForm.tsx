@@ -18,7 +18,7 @@ export default function LoginForm() {
       id,
       password,
     });
-  }, [id, password]);
+  }, [id, password, dispatch]);
 
   return (
     <Form onFinish={onSubmitForm} style={{ padding: "10px" }}>

@@ -16,12 +16,12 @@ export default function PostForm() {
 
   const onClickImageUpload = useCallback(() => {
     imageInput.current.click();
-  }, [imageInput.current]);
+  }, []);
 
   const onSubmit = useCallback(() => {
     dispath(addPost);
     setText("");
-  }, []);
+  }, [dispath, setText]);
 
   return (
     <Form

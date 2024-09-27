@@ -16,7 +16,7 @@ export default function UserProfile() {
 
   const onLogOut = useCallback(() => {
     dispatch(logoutAction());
-  }, []);
+  }, [dispatch]);
 
   return (
     <Card

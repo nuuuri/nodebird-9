@@ -3,7 +3,7 @@ import Head from "next/head";
 import "antd/dist/antd.css";
 import wrapper from "../store/configureStore";
 
-export default wrapper.withRedux(function App({ Component }: AppProps) {
+const App = wrapper.withRedux(function ({ Component }: AppProps) {
   return (
     <>
       <Head>
@@ -13,3 +13,5 @@ export default wrapper.withRedux(function App({ Component }: AppProps) {
     </>
   );
 });
+
+export default App;
