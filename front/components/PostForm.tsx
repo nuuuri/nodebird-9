@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button, Form, Input } from "antd";
 
 import { RootState } from "@/reducers";
-import { addPost } from "@/reducers/post";
+import { addPost } from "@/reducers/postReducer";
 
 import { useInput } from "@/utils";
 
@@ -21,7 +21,19 @@ export default function PostForm() {
   }, []);
 
   const onSubmit = useCallback(() => {
-    dispath(addPost);
+    dispath(
+      // dummy post
+      addPost({
+        id: 2,
+        User: {
+          id: 1,
+          nickname: "nuuuri",
+        },
+        content: "두 번째 게시글입니다",
+        Images: [],
+        Comments: [],
+      })
+    );
     setText("");
   }, [dispath, setText]);
 

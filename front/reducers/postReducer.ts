@@ -1,4 +1,12 @@
-export const initialState = {
+import type { Post } from "@/types";
+
+interface State {
+  mainPosts: Post[];
+  imagePaths: string[];
+  postAdded: boolean;
+}
+
+const initialState: State = {
   mainPosts: [
     {
       id: 1,
@@ -15,12 +23,14 @@ export const initialState = {
       Comments: [
         {
           User: {
+            id: 2,
             nickname: "nero",
           },
           content: "댓글입니당",
         },
         {
           User: {
+            id: 3,
             nickname: "박누리",
           },
           content: "우왕!",
@@ -32,28 +42,24 @@ export const initialState = {
   postAdded: false,
 };
 
-const dummyPost = {
-  id: 2,
-  User: {
-    id: 1,
-    nickname: "nuuuri",
-  },
-  content: "두 번째 게시글입니다",
-  Images: [],
-  Comments: [],
-};
+const ActionType = {
+  ADD_POST: "ADD_POST",
+  REMOVE_POST: "REMOVE_POST",
+} as const;
 
-const ADD_POST = "ADD_POST";
-export const addPost = {
-  type: "ADD_POST",
-};
+export const addPost = (value: Post) => ({
+  type: ActionType.ADD_POST,
+  payload: value,
+});
 
-export const postReducer = (state = initialState, action) => {
+type Action = ReturnType<typeof addPost>;
+
+const postReducer = (state: State = initialState, action: Action) => {
   switch (action.type) {
-    case ADD_POST:
+    case ActionType.ADD_POST:
       return {
         ...state,
-        mainPosts: [dummyPost, ...state.mainPosts],
+        mainPosts: [action.payload, ...state.mainPosts],
         postAdded: true,
       };
     default:
@@ -61,4 +67,4 @@ export const postReducer = (state = initialState, action) => {
   }
 };
 
-export type PostState = ReturnType<typeof postReducer>;
+export default postReducer;

@@ -1,7 +1,9 @@
 import { createWrapper } from "next-redux-wrapper";
+
 import { applyMiddleware, compose, createStore } from "redux";
-import { rootReducer } from "../reducers";
 import { composeWithDevTools } from "redux-devtools-extension";
+
+import { rootReducer } from "@/reducers";
 
 const configureStore = () => {
   const middlewares = [];

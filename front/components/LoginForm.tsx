@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 
 import { Button, Form, Input } from "antd";
 
-import { loginAction } from "@/reducers/user";
+import { loginAction } from "@/reducers/userReducer";
 
 import { useInput } from "@/utils";
 

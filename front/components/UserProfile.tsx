@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 
 import { Avatar, Button, Card } from "antd";
 
-import { logoutAction } from "@/reducers/user";
+import { logoutAction } from "@/reducers/userReducer";
 
 const dummy = {
   nickname: "박누리",

@@ -1,10 +1,10 @@
 import { useSelector } from "react-redux";
 
-import AppLayout from "../components/AppLayout";
-import PostForm from "../components/PostForm";
-import PostCard from "../components/PostCard";
+import AppLayout from "@/components/AppLayout";
+import PostCard from "@/components/PostCard";
+import PostForm from "@/components/PostForm";
 
-import { RootState } from "../reducers";
+import { RootState } from "@/reducers";
 
 export default function Home() {
   const { isLoggedIn } = useSelector((state: RootState) => state.user);
