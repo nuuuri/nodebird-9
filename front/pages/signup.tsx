@@ -1,15 +1,17 @@
 import Head from "next/head";
-import AppLayout from "../components/AppLayout";
-import { Button, Checkbox, Form, Input } from "antd";
-import { useInput } from "../utils/useInput";
 import { ChangeEvent, useState } from "react";
+
+import { Button, Checkbox, Form, Input } from "antd";
 import { CheckboxChangeEvent } from "antd/lib/checkbox";
 
-export default function Signup() {
-  const [id, onChangeId] = useInput("");
-  const [nickname, onChangeNickname] = useInput("");
+import AppLayout from "../components/AppLayout";
+import { useInput } from "../utils/useInput";
 
-  const [password, onChangePassword] = useInput("");
+export default function Signup() {
+  const { value: id, handler: onChangeId } = useInput("");
+  const { value: nickname, handler: onChangeNickname } = useInput("");
+  const { value: password, handler: onChangePassword } = useInput("");
+
   const [passwordCheck, setPasswordCheck] = useState("");
   const [passwordError, setPasswordError] = useState(false);
 

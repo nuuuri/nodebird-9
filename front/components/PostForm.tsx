@@ -10,9 +10,13 @@ import { useInput } from "@/utils";
 
 export default function PostForm() {
   const imageInput = useRef<HTMLInputElement>();
-
   const { imagePaths } = useSelector((state: RootState) => state.post);
-  const [text, onChangeText, setText] = useInput("");
+
+  const {
+    value: text,
+    setValue: setText,
+    handler: onChangeText,
+  } = useInput("");
 
   const dispath = useDispatch();
 

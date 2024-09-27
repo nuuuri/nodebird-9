@@ -9,8 +9,8 @@ import { loginAction } from "@/reducers/userReducer";
 import { useInput } from "@/utils";
 
 export default function LoginForm() {
-  const [id, onChangeId] = useInput("");
-  const [password, onChangePassword] = useInput("");
+  const { value: id, handler: onChangeId } = useInput("");
+  const { value: password, handler: onChangePassword } = useInput("");
 
   const dispatch = useDispatch();
 

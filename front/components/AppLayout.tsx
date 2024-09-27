@@ -32,7 +32,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
         <Menu.Item key="mail">
           <Input.Search enterButton style={{ verticalAlign: "middle" }} />
         </Menu.Item>
-        <Menu.Item>
+        <Menu.Item key="signup">
           <Link href="/signup">
             <a>
               <Button>회원가입</Button>

@@ -10,5 +10,5 @@ export const useInput = (initialValue: string | number) => {
     []
   );
 
-  return [value, handler, setValue] as const;
+  return { value, setValue, handler };
 };
