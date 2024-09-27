@@ -1,5 +1,6 @@
-import { Form, Input } from "antd";
 import { useMemo } from "react";
+
+import { Form, Input } from "antd";
 
 export default function NicknameEditForm() {
   const style = useMemo(

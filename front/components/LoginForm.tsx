@@ -1,9 +1,12 @@
-import { Button, Form, Input } from "antd";
-import { useInput } from "../utils/useInput";
-import { useCallback } from "react";
 import Link from "next/link";
+import { useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { loginAction } from "../reducers/user";
+
+import { Button, Form, Input } from "antd";
+
+import { loginAction } from "@/reducers/user";
+
+import { useInput } from "@/utils";
 
 export default function LoginForm() {
   const [id, onChangeId] = useInput("");

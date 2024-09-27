@@ -1,7 +1,9 @@
-import { Avatar, Button, Card } from "antd";
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { logoutAction } from "../reducers/user";
+
+import { Avatar, Button, Card } from "antd";
+
+import { logoutAction } from "@/reducers/user";
 
 const dummy = {
   nickname: "박누리",

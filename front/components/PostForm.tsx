@@ -1,10 +1,12 @@
-import { Button, Form, Input } from "antd";
 import { useCallback, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { useInput } from "../utils/useInput";
-import { RootState } from "../reducers";
-import { addPost } from "../reducers/post";
+import { Button, Form, Input } from "antd";
+
+import { RootState } from "@/reducers";
+import { addPost } from "@/reducers/post";
+
+import { useInput } from "@/utils";
 
 export default function PostForm() {
   const imageInput = useRef<HTMLInputElement>();

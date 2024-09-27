@@ -23,7 +23,7 @@ module.exports = {
     },
   },
 
-  plugins: ["react", "react-refresh", "jsx-a11y"],
+  plugins: ["react", "react-refresh", "jsx-a11y", "import"],
   extends: [
     //  "@rushstack/eslint-config/profile/web-app",
     "plugin:react/recommended",
@@ -33,6 +33,60 @@ module.exports = {
   ],
 
   rules: {
+    "import/order": [
+      "error",
+      {
+        groups: [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index",
+          "object",
+          "type",
+          "unknown",
+        ],
+        pathGroups: [
+          {
+            pattern: "{next*,next*/*,next*/*/*,react*,react*/*}",
+            group: "external",
+            position: "before",
+          },
+          {
+            pattern: "@/components/*",
+            group: "external",
+            position: "after",
+          },
+          {
+            pattern: "{@/reducers*,@/reducers/*}",
+            group: "external",
+            position: "after",
+          },
+          {
+            pattern: "@/store/*",
+            group: "external",
+            position: "after",
+          },
+          {
+            pattern: "@/types",
+            group: "external",
+            position: "after",
+          },
+          {
+            pattern: "@/utils",
+            group: "external",
+            position: "after",
+          },
+        ],
+        "newlines-between": "always",
+        pathGroupsExcludedImportTypes: [],
+        alphabetize: {
+          order: "asc",
+        },
+      },
+    ],
+
     "react-refresh/only-export-components": [
       "warn",
       { allowConstantExport: true },

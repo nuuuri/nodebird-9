@@ -1,11 +1,13 @@
 import Link from "next/link";
 import React from "react";
-import { Button, Col, Input, Menu, Row } from "antd";
 import { useSelector } from "react-redux";
 
-import LoginForm from "./LoginForm";
-import UserProfile from "./UserProfile";
-import { RootState } from "../reducers";
+import { Button, Col, Input, Menu, Row } from "antd";
+
+import LoginForm from "@/components/LoginForm";
+import UserProfile from "@/components/UserProfile";
+
+import { RootState } from "@/reducers";
 
 interface AppLayoutProps {
   children: React.ReactNode;
