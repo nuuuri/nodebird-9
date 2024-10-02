@@ -1,13 +1,13 @@
 interface State {
   isLoggedIn: boolean;
-  user: any;
+  me: any;
   signUpData: {};
   loginData: {};
 }
 
 const initialState: State = {
   isLoggedIn: false,
-  user: null,
+  me: null,
   signUpData: {},
   loginData: {},
 };
@@ -36,13 +36,13 @@ const userReducer = (state: State = initialState, action: Action) => {
       return {
         ...state,
         isLoggedIn: true,
-        user: action.payload,
+        me: action.payload,
       };
     case ActionType.LOG_OUT:
       return {
         ...state,
         isLoggedIn: false,
-        user: null,
+        me: null,
       };
     default:
       return state;

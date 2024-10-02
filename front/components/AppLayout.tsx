@@ -3,6 +3,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import { Button, Col, Input, Menu, Row } from "antd";
+import { createGlobalStyle } from "styled-components";
 
 import LoginForm from "@/components/LoginForm";
 import UserProfile from "@/components/UserProfile";
@@ -13,11 +14,27 @@ interface AppLayoutProps {
   children: React.ReactNode;
 }
 
+const Global = createGlobalStyle`
+  .ant-row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .ant-col:first-child {
+    padding-left: 0 !important;
+  }
+
+  .ant-col:last-child {
+    padding-right: 0 !important;
+  }
+`;
+
 export default function AppLayout({ children }: AppLayoutProps) {
   const { isLoggedIn } = useSelector((state: RootState) => state.user);
 
   return (
     <div>
+      <Global />
       <Menu mode="horizontal">
         <Menu.Item key="home">
           <Link href="/">
