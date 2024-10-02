@@ -1,4 +1,6 @@
-import type { Image, User, Comment } from "@/types";
+import type { Comment } from "./Comment";
+import type { Image } from "./Image";
+import type { User } from "./User";
 
 export interface Post {
   id: number;

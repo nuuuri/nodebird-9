@@ -6,7 +6,7 @@ import { Button, Form, Input } from "antd";
 import { RootState } from "@/reducers";
 import { addPost } from "@/reducers/postReducer";
 
-import { useInput } from "@/utils";
+import { useInput } from "@/utils/useInput";
 
 export default function PostForm() {
   const imageInput = useRef<HTMLInputElement>();

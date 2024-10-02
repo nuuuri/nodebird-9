@@ -69,12 +69,12 @@ module.exports = {
             position: "after",
           },
           {
-            pattern: "@/types",
+            pattern: "@/types/*",
             group: "external",
             position: "after",
           },
           {
-            pattern: "@/utils",
+            pattern: "@/utils/*",
             group: "external",
             position: "after",
           },

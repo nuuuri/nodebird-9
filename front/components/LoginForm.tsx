@@ -6,7 +6,7 @@ import { Button, Form, Input } from "antd";
 
 import { loginAction } from "@/reducers/userReducer";
 
-import { useInput } from "@/utils";
+import { useInput } from "@/utils/useInput";
 
 export default function LoginForm() {
   const { value: id, handler: onChangeId } = useInput("");

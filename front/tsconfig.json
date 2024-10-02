@@ -20,8 +20,8 @@
       "@/reducers": ["reducers"],
       "@/reducers/*": ["reducers/*"],
       "@/store/*": ["store/*"],
-      "@/types": ["types"],
-      "@/utils": ["utils"]
+      "@/types/*": ["types/*"],
+      "@/utils/*": ["utils/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
