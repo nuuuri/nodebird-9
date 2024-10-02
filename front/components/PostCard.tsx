@@ -16,6 +16,7 @@ import { RootState } from "@/reducers";
 import type { Post } from "@/types/Post";
 
 import CommentForm from "./CommentForm";
+import PostCardContent from "./PostCardContent";
 import PostImages from "./PostImages";
 
 interface PostCardProps {
@@ -73,7 +74,7 @@ export default function PostCard({ post }: PostCardProps) {
         <Card.Meta
           avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
           title={post.User.nickname}
-          description={post.content}
+          description={<PostCardContent postData={post.content} />}
         />
       </Card>
       {commentFormOpened && (
