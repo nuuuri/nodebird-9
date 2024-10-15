@@ -1,46 +1,10 @@
-import { all, call, delay, fork, takeEvery, put } from "redux-saga/effects";
+import { all, fork } from "redux-saga/effects";
 
-function logInAPI(data) {
-  // return axios.post("/api/login");
-}
-
-function* logIn(action) {
-  try {
-    const result = yield call(logInAPI, action.data);
-    // logInAPI(action.data)와 같음
-    // 굳이 call을 사용하는 이유? : generator는 test하기가 매우 용이함
-
-    yield put({
-      type: "LOG_IN_SUCCESS",
-      data: result.data,
-    });
-  } catch (err) {
-    yield put({
-      type: "LOG_IN_FAILURE",
-      data: err.response.data,
-    });
-  }
-}
-
-function* logOut() {}
-
-function* addPost() {}
-
-// eventListener와 비슷한 역할을 함
-function* watchLogIn() {
-  yield takeEvery("LOG_IN_REQUEST", logIn);
-}
-
-function* watchLogOut() {
-  yield takeEvery("LOG_OUT_REQUEST", logOut);
-}
-
-function* watchAddPost() {
-  yield takeEvery("ADD_POST_REQUEST", addPost);
-}
+import postSaga from "./post";
+import userSaga from "./user";
 
 export default function* rootSaga() {
-  yield all([fork(watchLogIn), fork(watchLogOut), fork(watchAddPost)]);
+  yield all([fork(postSaga), fork(userSaga)]);
 }
 
 // call : 동기 함수 호출
