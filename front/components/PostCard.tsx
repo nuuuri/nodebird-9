@@ -11,13 +11,13 @@ import {
 import { Avatar, Button, Card, Comment, List, Popover } from "antd";
 import ButtonGroup from "antd/lib/button/button-group";
 
-import { RootState } from "@/store/reducers";
-
 import type { Post } from "@/types/Post";
 
 import CommentForm from "./CommentForm";
 import PostCardContent from "./PostCardContent";
 import PostImages from "./PostImages";
+
+import { RootState } from "@/store/reducers";
 
 interface PostCardProps {
   post: Post;
@@ -27,7 +27,7 @@ export default function PostCard({ post }: PostCardProps) {
   const [liked, setLiked] = useState(false);
   const [commentFormOpened, setCommentFormOpened] = useState(false);
 
-  const id = useSelector((state: RootState) => state.user.me?.id);
+  const email = useSelector((state: RootState) => state.user.me?.email);
 
   const onToggleLike = useCallback(() => {
     setLiked((prev) => !prev);
@@ -57,7 +57,7 @@ export default function PostCard({ post }: PostCardProps) {
             key="more"
             content={
               <ButtonGroup>
-                {id && post.User.id === id && (
+                {email && post.User.email === email && (
                   <>
                     <Button>수정</Button>
                     <Button color="danger">삭제</Button>

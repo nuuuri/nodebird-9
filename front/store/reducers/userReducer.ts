@@ -4,27 +4,21 @@ interface State {
   isLoggedIn: boolean;
   isLoggingIn: boolean; // 로그인 시도 중
   isLoggingOut: boolean; // 로그아웃 시도 중
+  signUpLoading: boolean; // 회원가입 시도 중
+  signUpDone: boolean;
+  signUpError: any;
   me: any;
-  signUpData: {};
-  loginData: {};
 }
 
 const initialState: State = {
   isLoggedIn: false,
   isLoggingIn: false,
   isLoggingOut: false,
+  signUpLoading: false,
+  signUpDone: false,
+  signUpError: null,
   me: null,
-  signUpData: {},
-  loginData: {},
 };
-
-const dummyUser = (data: { id: string; password: string }) => ({
-  ...data,
-  nickname: "nuuuri",
-  Posts: [],
-  Followings: [],
-  Followers: [],
-});
 
 const userReducer = (state: State = initialState, action: UserAction) => {
   switch (action.type) {
@@ -39,7 +33,7 @@ const userReducer = (state: State = initialState, action: UserAction) => {
         ...state,
         isLoggingIn: false,
         isLoggedIn: true,
-        me: dummyUser(action.payload),
+        me: action.payload,
       };
     case UserActionType.LOG_IN_FAILURE:
       return {

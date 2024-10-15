@@ -6,14 +6,6 @@ import { Avatar, Button, Card } from "antd";
 import { logoutRequestAction } from "@/store/actions/userAction";
 import { RootState } from "@/store/reducers";
 
-const dummy = {
-  nickname: "박누리",
-  Posts: [],
-  Followings: [],
-  Followers: [],
-  isLoggedIn: false,
-};
-
 export default function UserProfile() {
   const { isLoggingOut, me } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
@@ -28,17 +20,17 @@ export default function UserProfile() {
         <div key="twit">
           짹짹
           <br />
-          {dummy.Posts.length}
+          {me.Posts.length}
         </div>,
         <div key="following">
           팔로잉
           <br />
-          {dummy.Followings.length}
+          {me.Followings.length}
         </div>,
         <div key="follower">
           팔로워
           <br />
-          {dummy.Followers.length}
+          {me.Followers.length}
         </div>,
       ]}
     >

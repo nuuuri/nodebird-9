@@ -1,4 +1,4 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Button, Form, Input } from "antd";
@@ -10,7 +10,9 @@ import { RootState } from "@/store/reducers";
 
 export default function PostForm() {
   const imageInput = useRef<HTMLInputElement>();
-  const { imagePaths } = useSelector((state: RootState) => state.post);
+  const { imagePaths, addPostDone } = useSelector(
+    (state: RootState) => state.post
+  );
 
   const {
     value: text,
@@ -30,7 +32,7 @@ export default function PostForm() {
       addPostRequestAction({
         id: 2,
         User: {
-          id: 1,
+          email: "sbfl125@gmail.com",
           nickname: "nuuuri",
         },
         content: text.toString(),
@@ -38,8 +40,13 @@ export default function PostForm() {
         Comments: [],
       })
     );
-    setText("");
-  }, [dispath, text, setText]);
+  }, [dispath, text]);
+
+  useEffect(() => {
+    if (addPostDone) {
+      setText("");
+    }
+  }, [addPostDone, setText]);
 
   return (
     <Form

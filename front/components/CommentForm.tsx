@@ -1,26 +1,44 @@
-import { useCallback } from "react";
-import { useSelector } from "react-redux";
+import { useCallback, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Button, Form, Input } from "antd";
-
-import { RootState } from "@/store/reducers";
 
 import type { Post } from "@/types/Post";
 
 import { useInput } from "@/utils/useInput";
+
+import { addCommentRequestAction } from "@/store/actions/postAction";
+import { RootState } from "@/store/reducers";
 
 interface CommentFormProps {
   post: Post;
 }
 
 export default function CommentForm({ post }: CommentFormProps) {
-  const id = useSelector((state: RootState) => state.user.me?.id);
+  const { me } = useSelector((state: RootState) => state.user);
+  const { addCommentDone } = useSelector((state: RootState) => state.post);
+  const {
+    value: commentText,
+    setValue: setCommentText,
+    handler: onChangeCommentText,
+  } = useInput("");
 
-  const { value: commentText, handler: onChangeCommentText } = useInput("");
+  const dispatch = useDispatch();
 
   const onSubmitComment = useCallback(() => {
-    console.log(post.id, commentText);
-  }, [post.id, commentText]);
+    dispatch(
+      addCommentRequestAction({
+        postId: post.id,
+        comment: { User: me, content: commentText + "" },
+      })
+    );
+  }, [post.id, me, commentText, dispatch]);
+
+  useEffect(() => {
+    if (addCommentDone) {
+      setCommentText("");
+    }
+  }, [addCommentDone, setCommentText]);
 
   return (
     <Form onFinish={onSubmitComment}>
@@ -33,7 +51,7 @@ export default function CommentForm({ post }: CommentFormProps) {
         <Button
           type="primary"
           htmlType="submit"
-          style={{ position: "absolute", right: 0, bottom: -40 }}
+          style={{ position: "absolute", right: 0, bottom: -40, zIndex: 1 }}
         >
           삐약
         </Button>

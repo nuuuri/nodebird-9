@@ -8,7 +8,7 @@ import AppLayout from "../components/AppLayout";
 import { useInput } from "../utils/useInput";
 
 export default function Signup() {
-  const { value: id, handler: onChangeId } = useInput("");
+  const { value: email, handler: onChangeEmail } = useInput("");
   const { value: nickname, handler: onChangeNickname } = useInput("");
   const { value: password, handler: onChangePassword } = useInput("");
 
@@ -39,7 +39,7 @@ export default function Signup() {
       return;
     }
 
-    console.log({ id, nickname, password, passwordCheck, term });
+    console.log({ email, nickname, password, passwordCheck, term });
   };
 
   return (
@@ -50,9 +50,15 @@ export default function Signup() {
       <AppLayout>
         <Form onFinish={onSubmit}>
           <div>
-            <label htmlFor="user-id">아이디</label>
+            <label htmlFor="user-email">이메일</label>
             <br />
-            <Input name="user-id" value={id} required onChange={onChangeId} />
+            <Input
+              name="user-email"
+              type="email"
+              value={email}
+              required
+              onChange={onChangeEmail}
+            />
           </div>
           <div>
             <label htmlFor="user-nick">닉네임</label>

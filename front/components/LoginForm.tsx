@@ -11,26 +11,34 @@ import { RootState } from "@/store/reducers";
 
 export default function LoginForm() {
   const { isLoggingIn } = useSelector((state: RootState) => state.user);
-  const { value: id, handler: onChangeId } = useInput("");
+  const { value: email, handler: onChangeEmail } = useInput("");
   const { value: password, handler: onChangePassword } = useInput("");
 
   const dispatch = useDispatch();
 
   const onSubmitForm = useCallback(() => {
-    dispatch(loginRequestAction({ id: id + "", password: password + "" }));
+    dispatch(
+      loginRequestAction({ email: email + "", password: password + "" })
+    );
 
     console.log({
-      id,
+      email,
       password,
     });
-  }, [id, password, dispatch]);
+  }, [email, password, dispatch]);
 
   return (
     <Form onFinish={onSubmitForm} style={{ padding: "10px" }}>
       <div>
-        <label htmlFor="user-id">아이디</label>
+        <label htmlFor="user-email">이메일</label>
         <br />
-        <Input name="user-id" value={id} onChange={onChangeId} required />
+        <Input
+          type="email"
+          name="user-email"
+          value={email}
+          onChange={onChangeEmail}
+          required
+        />
       </div>
       <div>
         <label htmlFor="user-password">비밀번호</label>

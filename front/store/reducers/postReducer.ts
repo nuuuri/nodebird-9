@@ -8,6 +8,9 @@ interface State {
   addPostLoading: boolean;
   addPostDone: boolean;
   addPostError: any;
+  addCommentLoading: boolean;
+  addCommentDone: boolean;
+  addCommentError: any;
 }
 
 const initialState: State = {
@@ -15,7 +18,7 @@ const initialState: State = {
     {
       id: 1,
       User: {
-        id: 1,
+        email: "sbfl125@gmail.com",
         nickname: "nuuuri",
       },
       content: "첫 번째 게시글 #해시태그 #익스프레스",
@@ -33,14 +36,14 @@ const initialState: State = {
       Comments: [
         {
           User: {
-            id: 2,
+            email: "nero@gmail.com",
             nickname: "nero",
           },
           content: "댓글입니당",
         },
         {
           User: {
-            id: 3,
+            email: "nuuuri@gmail.com",
             nickname: "박누리",
           },
           content: "우왕!",
@@ -52,6 +55,9 @@ const initialState: State = {
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,
+  addCommentLoading: false,
+  addCommentDone: false,
+  addCommentError: null,
 };
 
 const postReducer = (state: State = initialState, action: PostAction) => {
@@ -77,6 +83,36 @@ const postReducer = (state: State = initialState, action: PostAction) => {
         addPostLoading: false,
         addPostDone: false,
         addPostError: action.error,
+      };
+    case PostActionType.ADD_COMMENT_REQUEST:
+      return {
+        ...state,
+        addCommentLoading: true,
+        addCommentDone: false,
+        addCommentError: null,
+      };
+    case PostActionType.ADD_COMMENT_SUCCESS:
+      const postIndex = state.mainPosts.findIndex(
+        (v) => v.id === action.payload.postId
+      );
+      const post = { ...state.mainPosts[postIndex] };
+      post.Comments = [action.payload.comment, ...post.Comments];
+      const mainPosts = [...state.mainPosts];
+      mainPosts[postIndex] = post;
+
+      return {
+        ...state,
+        mainPosts,
+        addCommentLoading: false,
+        addCommentDone: true,
+        addCommentError: null,
+      };
+    case PostActionType.ADD_COMMENT_FAILURE:
+      return {
+        ...state,
+        addCommentLoading: false,
+        addCommentDone: false,
+        addCommentError: action.error,
       };
     default:
       return state;
