@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { Button, Form, Input } from "antd";
 
-import { RootState } from "@/reducers";
-import { loginRequestAction } from "@/reducers/userReducer";
-
 import { useInput } from "@/utils/useInput";
+
+import { loginRequestAction } from "@/store/actions/userAction";
+import { RootState } from "@/store/reducers";
 
 export default function LoginForm() {
   const { isLoggingIn } = useSelector((state: RootState) => state.user);
@@ -17,7 +17,7 @@ export default function LoginForm() {
   const dispatch = useDispatch();
 
   const onSubmitForm = useCallback(() => {
-    dispatch(loginRequestAction({ id, password }));
+    dispatch(loginRequestAction({ id: id + "", password: password + "" }));
 
     console.log({
       id,

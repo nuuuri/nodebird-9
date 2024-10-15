@@ -1,5 +1,7 @@
 import { all, call, delay, fork, put, takeEvery } from "redux-saga/effects";
 
+import { UserActionType } from "../actions/userAction";
+
 function logInAPI(data) {
   // return axios.post("/api/login");
 }
@@ -12,13 +14,13 @@ function* logIn(action) {
     // 굳이 call을 사용하는 이유? : generator는 test하기가 매우 용이함
 
     yield put({
-      type: "LOG_IN_SUCCESS",
+      type: UserActionType.LOG_IN_SUCCESS,
       // payload: result.data,
       payload: action.payload,
     });
   } catch (err) {
     yield put({
-      type: "LOG_IN_FAILURE",
+      type: UserActionType.LOG_IN_FAILURE,
       payload: err.response.data,
     });
   }
@@ -28,11 +30,11 @@ function* logOut() {}
 
 // eventListener와 비슷한 역할을 함
 function* watchLogIn() {
-  yield takeEvery("LOG_IN_REQUEST", logIn);
+  yield takeEvery(UserActionType.LOG_IN_REQUEST, logIn);
 }
 
 function* watchLogOut() {
-  yield takeEvery("LOG_OUT_REQUEST", logOut);
+  yield takeEvery(UserActionType.LOG_OUT_REQUEST, logOut);
 }
 
 export default function* userSaga() {

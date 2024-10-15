@@ -11,7 +11,7 @@ import {
 import { Avatar, Button, Card, Comment, List, Popover } from "antd";
 import ButtonGroup from "antd/lib/button/button-group";
 
-import { RootState } from "@/reducers";
+import { RootState } from "@/store/reducers";
 
 import type { Post } from "@/types/Post";
 

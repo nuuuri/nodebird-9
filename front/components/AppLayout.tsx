@@ -8,7 +8,7 @@ import { createGlobalStyle } from "styled-components";
 import LoginForm from "@/components/LoginForm";
 import UserProfile from "@/components/UserProfile";
 
-import { RootState } from "@/reducers";
+import { RootState } from "@/store/reducers";
 
 interface AppLayoutProps {
   children: React.ReactNode;

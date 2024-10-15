@@ -4,7 +4,7 @@ import AppLayout from "@/components/AppLayout";
 import PostCard from "@/components/PostCard";
 import PostForm from "@/components/PostForm";
 
-import { RootState } from "@/reducers";
+import { RootState } from "@/store/reducers";
 
 export default function Home() {
   const { isLoggedIn } = useSelector((state: RootState) => state.user);

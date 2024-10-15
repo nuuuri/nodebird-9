@@ -1,9 +1,13 @@
 import type { Post } from "@/types/Post";
 
+import { PostAction, PostActionType } from "../actions/postAction";
+
 interface State {
   mainPosts: Post[];
   imagePaths: string[];
-  postAdded: boolean;
+  addPostLoading: boolean;
+  addPostDone: boolean;
+  addPostError: any;
 }
 
 const initialState: State = {
@@ -45,28 +49,34 @@ const initialState: State = {
     },
   ],
   imagePaths: [],
-  postAdded: false,
+  addPostLoading: false,
+  addPostDone: false,
+  addPostError: null,
 };
 
-const ActionType = {
-  ADD_POST: "ADD_POST",
-  REMOVE_POST: "REMOVE_POST",
-} as const;
-
-export const addPost = (value: Post) => ({
-  type: ActionType.ADD_POST,
-  payload: value,
-});
-
-type Action = ReturnType<typeof addPost>;
-
-const postReducer = (state: State = initialState, action: Action) => {
+const postReducer = (state: State = initialState, action: PostAction) => {
   switch (action.type) {
-    case ActionType.ADD_POST:
+    case PostActionType.ADD_POST_REQUEST:
+      return {
+        ...state,
+        addPostLoading: true,
+        addPostDone: false,
+        addPostError: null,
+      };
+    case PostActionType.ADD_POST_SUCCESS:
       return {
         ...state,
         mainPosts: [action.payload, ...state.mainPosts],
-        postAdded: true,
+        addPostLoading: false,
+        addPostDone: true,
+        addPostError: null,
+      };
+    case PostActionType.ADD_POST_FAILURE:
+      return {
+        ...state,
+        addPostLoading: false,
+        addPostDone: false,
+        addPostError: action.error,
       };
     default:
       return state;

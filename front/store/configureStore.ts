@@ -3,9 +3,10 @@ import { createWrapper } from "next-redux-wrapper";
 import { applyMiddleware, compose, createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import createSagaMiddleware from "redux-saga";
-import rootSaga from "saga";
 
-import { rootReducer } from "@/reducers";
+import { rootReducer } from "@/store/reducers";
+
+import rootSaga from "@/store/sagas";
 
 const loggerMiddleware =
   ({ dispatch, getState }) =>

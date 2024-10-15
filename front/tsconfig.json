@@ -17,8 +17,6 @@
     "baseUrl": ".",
     "paths": {
       "@/components/*": ["components/*"],
-      "@/reducers": ["reducers"],
-      "@/reducers/*": ["reducers/*"],
       "@/store/*": ["store/*"],
       "@/types/*": ["types/*"],
       "@/utils/*": ["utils/*"]

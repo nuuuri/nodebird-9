@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { Button, Form, Input } from "antd";
 
-import { RootState } from "@/reducers";
-import { addPost } from "@/reducers/postReducer";
-
 import { useInput } from "@/utils/useInput";
+
+import { addPostRequestAction } from "@/store/actions/postAction";
+import { RootState } from "@/store/reducers";
 
 export default function PostForm() {
   const imageInput = useRef<HTMLInputElement>();
@@ -27,19 +27,19 @@ export default function PostForm() {
   const onSubmit = useCallback(() => {
     dispath(
       // dummy post
-      addPost({
+      addPostRequestAction({
         id: 2,
         User: {
           id: 1,
           nickname: "nuuuri",
         },
-        content: "두 번째 게시글입니다",
+        content: text.toString(),
         Images: [],
         Comments: [],
       })
     );
     setText("");
-  }, [dispath, setText]);
+  }, [dispath, text, setText]);
 
   return (
     <Form

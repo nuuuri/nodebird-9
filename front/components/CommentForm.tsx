@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 import { Button, Form, Input } from "antd";
 
-import { RootState } from "@/reducers";
+import { RootState } from "@/store/reducers";
 
 import type { Post } from "@/types/Post";
 

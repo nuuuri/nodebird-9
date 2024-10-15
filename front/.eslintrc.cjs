@@ -59,12 +59,7 @@ module.exports = {
             position: "after",
           },
           {
-            pattern: "{@/reducers*,@/reducers/*}",
-            group: "external",
-            position: "after",
-          },
-          {
-            pattern: "@/store/*",
+            pattern: "@/store/*/*/*",
             group: "external",
             position: "after",
           },

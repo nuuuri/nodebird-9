@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { Avatar, Button, Card } from "antd";
 
-import { RootState } from "@/reducers";
-import { logoutRequestAction } from "@/reducers/userReducer";
+import { logoutRequestAction } from "@/store/actions/userAction";
+import { RootState } from "@/store/reducers";
 
 const dummy = {
   nickname: "박누리",
