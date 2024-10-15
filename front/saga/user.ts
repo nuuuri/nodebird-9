@@ -1,4 +1,4 @@
-import { all, call, fork, put, takeEvery } from "redux-saga/effects";
+import { all, call, delay, fork, put, takeEvery } from "redux-saga/effects";
 
 function logInAPI(data) {
   // return axios.post("/api/login");
@@ -6,18 +6,20 @@ function logInAPI(data) {
 
 function* logIn(action) {
   try {
-    const result = yield call(logInAPI, action.data);
+    yield delay(1000);
+    //  const result = yield call(logInAPI, action.data);
     // logInAPI(action.data)와 같음
     // 굳이 call을 사용하는 이유? : generator는 test하기가 매우 용이함
 
     yield put({
       type: "LOG_IN_SUCCESS",
-      data: result.data,
+      // payload: result.data,
+      payload: action.payload,
     });
   } catch (err) {
     yield put({
       type: "LOG_IN_FAILURE",
-      data: err.response.data,
+      payload: err.response.data,
     });
   }
 }
