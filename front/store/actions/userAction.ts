@@ -49,7 +49,7 @@ export const logoutFailureAction = (error: any) => {
   return { type: UserActionType.LOG_OUT_FAILURE, error };
 };
 
-export const signInRequestAction = (value: {
+export const signUpRequestAction = (value: {
   email: string;
   password: string;
 }) => {
@@ -59,7 +59,7 @@ export const signInRequestAction = (value: {
   };
 };
 
-export const signInSuccessAction = (value: {
+export const signUpSuccessAction = (value: {
   email: string;
   password: string;
 }) => {
@@ -69,7 +69,7 @@ export const signInSuccessAction = (value: {
   };
 };
 
-export const signInFailureAction = (error: any) => {
+export const signUpFailureAction = (error: any) => {
   return {
     type: UserActionType.LOG_IN_FAILURE,
     error,
@@ -83,6 +83,6 @@ export type UserAction =
   | ReturnType<typeof logoutRequestAction>
   | ReturnType<typeof logoutSuccessAction>
   | ReturnType<typeof logoutFailureAction>
-  | ReturnType<typeof signInRequestAction>
-  | ReturnType<typeof signInSuccessAction>
-  | ReturnType<typeof signInFailureAction>;
+  | ReturnType<typeof signUpRequestAction>
+  | ReturnType<typeof signUpSuccessAction>
+  | ReturnType<typeof signUpFailureAction>;
