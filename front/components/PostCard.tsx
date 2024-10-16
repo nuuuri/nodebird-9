@@ -14,13 +14,11 @@ import ButtonGroup from 'antd/lib/button/button-group';
 import type { Post } from '@/types/Post';
 
 import CommentForm from './CommentForm';
+import FollowButton from './FollowButton';
 import PostCardContent from './PostCardContent';
 import PostImages from './PostImages';
 
-import {
-  PostActionType,
-  removePostRequestAction,
-} from '@/store/actions/postAction';
+import { removePostRequestAction } from '@/store/actions/postAction';
 import { RootState } from '@/store/reducers';
 
 interface PostCardProps {
@@ -84,7 +82,8 @@ export default function PostCard({ post }: PostCardProps) {
             }>
             <EllipsisOutlined />
           </Popover>,
-        ]}>
+        ]}
+        extra={email && <FollowButton post={post} />}>
         <Card.Meta
           avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
           title={post.User.nickname}

@@ -35,6 +35,38 @@ function* logIn(action) {
 
 function* logOut() {}
 
+function* follow(action) {
+  try {
+    yield delay(1000);
+
+    yield put({
+      type: UserActionType.FOLLOW_SUCCESS,
+      payload: action.payload,
+    });
+  } catch (err) {
+    yield put({
+      type: UserActionType.FOLLOW_FAILURE,
+      payload: err.response.data,
+    });
+  }
+}
+
+function* unfollow(action) {
+  try {
+    yield delay(1000);
+
+    yield put({
+      type: UserActionType.UNFOLLOW_SUCCESS,
+      payload: action.payload,
+    });
+  } catch (err) {
+    yield put({
+      type: UserActionType.UNFOLLOW_FAILURE,
+      payload: err.response.data,
+    });
+  }
+}
+
 // eventListener와 비슷한 역할을 함
 function* watchLogIn() {
   yield takeLatest(UserActionType.LOG_IN_REQUEST, logIn);
@@ -44,6 +76,19 @@ function* watchLogOut() {
   yield takeLatest(UserActionType.LOG_OUT_REQUEST, logOut);
 }
 
+function* watchFollow() {
+  yield takeLatest(UserActionType.FOLLOW_REQUEST, follow);
+}
+
+function* watchUnFollow() {
+  yield takeLatest(UserActionType.UNFOLLOW_REQUEST, unfollow);
+}
+
 export default function* userSaga() {
-  yield all([fork(watchLogIn), fork(watchLogOut)]);
+  yield all([
+    fork(watchLogIn),
+    fork(watchLogOut),
+    fork(watchFollow),
+    fork(watchUnFollow),
+  ]);
 }

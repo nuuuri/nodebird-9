@@ -11,6 +11,12 @@ interface State {
   signUpLoading: boolean; // 회원가입 시도 중
   signUpDone: boolean;
   signUpError: any;
+  followLoading: boolean; // 팔로잉 시도 중
+  followDone: boolean;
+  followError: any;
+  unfollowLoading: boolean; // 언팔로잉 시도 중
+  unfollowDone: boolean;
+  unfollowError: any;
   me: User;
 }
 
@@ -21,6 +27,12 @@ const initialState: State = {
   signUpLoading: false,
   signUpDone: false,
   signUpError: null,
+  followLoading: false,
+  followDone: false,
+  followError: null,
+  unfollowLoading: false,
+  unfollowDone: false,
+  unfollowError: null,
   me: null,
 };
 
@@ -52,6 +64,36 @@ const userReducer = (state: State = initialState, action: UserAction) =>
       case UserActionType.LOG_OUT_FAILURE:
         draft.isLoggingOut = true;
         draft.isLoggedIn = true;
+        break;
+      case UserActionType.FOLLOW_REQUEST:
+        draft.followLoading = true;
+        draft.followDone = false;
+        break;
+      case UserActionType.FOLLOW_SUCCESS:
+        draft.followLoading = false;
+        draft.followDone = true;
+        draft.me.Followings.push({ ...action.payload });
+        break;
+      case UserActionType.FOLLOW_FAILURE:
+        draft.followLoading = false;
+        draft.followDone = false;
+        draft.followError = action.error;
+        break;
+      case UserActionType.UNFOLLOW_REQUEST:
+        draft.unfollowLoading = true;
+        draft.unfollowDone = false;
+        break;
+      case UserActionType.UNFOLLOW_SUCCESS:
+        draft.unfollowLoading = false;
+        draft.unfollowDone = true;
+        draft.me.Followings = draft.me.Followings.filter(
+          (v) => v.email !== action.payload.email
+        );
+        break;
+      case UserActionType.UNFOLLOW_FAILURE:
+        draft.unfollowLoading = false;
+        draft.unfollowDone = false;
+        draft.unfollowError = action.error;
         break;
       case UserActionType.ADD_POST_TO_ME:
         draft.me.Posts.unshift(action.payload);
