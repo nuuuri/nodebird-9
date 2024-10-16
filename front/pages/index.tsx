@@ -5,19 +5,44 @@ import AppLayout from '@/components/AppLayout';
 import PostCard from '@/components/PostCard';
 import PostForm from '@/components/PostForm';
 
-import { PostActionType } from '@/store/actions/postAction';
+import { loadPostRequestAction } from '@/store/actions/postAction';
 import { RootState } from '@/store/reducers';
 
 export default function Home() {
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state: RootState) => state.user);
-  const { mainPosts } = useSelector((state: RootState) => state.post);
+  const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector(
+    (state: RootState) => state.post
+  );
 
   useEffect(() => {
-    dispatch({
-      type: PostActionType.LOAD_POST_REQUEST,
-    });
+    dispatch(loadPostRequestAction());
   }, [dispatch]);
+
+  useEffect(() => {
+    const onScroll = () => {
+      console.log(
+        window.scrollY,
+        document.documentElement.clientHeight,
+        document.documentElement.scrollHeight
+      );
+
+      if (
+        window.scrollY + document.documentElement.clientHeight >
+        document.documentElement.scrollHeight - 300
+      ) {
+        if (hasMorePosts && !loadPostsLoading) {
+          dispatch(loadPostRequestAction());
+        }
+      }
+    };
+
+    window.addEventListener('scroll', onScroll);
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, [hasMorePosts, loadPostsLoading, dispatch]);
 
   return (
     <AppLayout>

@@ -1,4 +1,13 @@
-import { all, call, delay, fork, put, takeEvery } from 'redux-saga/effects';
+import {
+  all,
+  call,
+  delay,
+  fork,
+  put,
+  takeEvery,
+  takeLatest,
+  throttle,
+} from 'redux-saga/effects';
 import shortId from 'shortid';
 
 import { PostActionType } from '../actions/postAction';
@@ -57,10 +66,12 @@ function* addComment(action) {
     // logInAPI(action.data)와 같음
     // 굳이 call을 사용하는 이유? : generator는 test하기가 매우 용이함
 
+    const id = shortId.generate();
+
     yield put({
       type: PostActionType.ADD_COMMENT_SUCCESS,
       // payload: result.data,
-      payload: action.payload,
+      payload: { id, ...action.payload },
     });
   } catch (err) {
     yield put({
@@ -91,19 +102,19 @@ function* removePost(action) {
 }
 
 function* watchLoadPosts() {
-  yield takeEvery(PostActionType.LOAD_POST_REQUEST, loadPosts);
+  yield throttle(5000, PostActionType.LOAD_POST_REQUEST, loadPosts);
 }
 
 function* watchAddPost() {
-  yield takeEvery(PostActionType.ADD_POST_REQUEST, addPost);
+  yield takeLatest(PostActionType.ADD_POST_REQUEST, addPost);
 }
 
 function* watchRemovePost() {
-  yield takeEvery(PostActionType.REMOVE_POST_REQUEST, removePost);
+  yield takeLatest(PostActionType.REMOVE_POST_REQUEST, removePost);
 }
 
 function* watchAddComment() {
-  yield takeEvery(PostActionType.ADD_COMMENT_REQUEST, addComment);
+  yield takeLatest(PostActionType.ADD_COMMENT_REQUEST, addComment);
 }
 
 export default function* postSaga() {

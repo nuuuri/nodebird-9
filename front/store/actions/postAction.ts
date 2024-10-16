@@ -64,7 +64,7 @@ export const removePostFailureAction = (error: any) => ({
 
 export const addCommentRequestAction = (payload: {
   postId: number;
-  comment: Comment;
+  comment: Omit<Comment, 'id'>;
 }) => ({
   type: PostActionType.ADD_COMMENT_REQUEST,
   payload,

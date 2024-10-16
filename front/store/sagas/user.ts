@@ -1,4 +1,4 @@
-import { all, call, delay, fork, put, takeEvery } from 'redux-saga/effects';
+import { all, call, delay, fork, put, takeLatest } from 'redux-saga/effects';
 
 import { UserActionType } from '../actions/userAction';
 
@@ -37,11 +37,11 @@ function* logOut() {}
 
 // eventListener와 비슷한 역할을 함
 function* watchLogIn() {
-  yield takeEvery(UserActionType.LOG_IN_REQUEST, logIn);
+  yield takeLatest(UserActionType.LOG_IN_REQUEST, logIn);
 }
 
 function* watchLogOut() {
-  yield takeEvery(UserActionType.LOG_OUT_REQUEST, logOut);
+  yield takeLatest(UserActionType.LOG_OUT_REQUEST, logOut);
 }
 
 export default function* userSaga() {

@@ -10,9 +10,9 @@ interface State {
   mainPosts: Post[];
   imagePaths: string[];
   hasMorePosts: boolean;
-  loadPostLoading: boolean;
-  loadPostDone: boolean;
-  loadPostError: any;
+  loadPostsLoading: boolean;
+  loadPostsDone: boolean;
+  loadPostsError: any;
   addPostLoading: boolean;
   addPostDone: boolean;
   addPostError: any;
@@ -28,9 +28,9 @@ const initialState: State = {
   mainPosts: [],
   imagePaths: [],
   hasMorePosts: true,
-  loadPostLoading: false,
-  loadPostDone: false,
-  loadPostError: null,
+  loadPostsLoading: false,
+  loadPostsDone: false,
+  loadPostsError: null,
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,
@@ -71,20 +71,20 @@ const postReducer = (state: State = initialState, action: PostAction) =>
   produce(state, (draft) => {
     switch (action.type) {
       case PostActionType.LOAD_POST_REQUEST:
-        draft.addPostLoading = true;
-        draft.addPostDone = false;
-        draft.addPostError = null;
+        draft.loadPostsLoading = true;
+        draft.loadPostsDone = false;
+        draft.loadPostsError = null;
         break;
       case PostActionType.LOAD_POST_SUCCESS:
         draft.mainPosts = action.payload.concat(draft.mainPosts);
-        draft.addPostLoading = false;
-        draft.addPostDone = true;
+        draft.loadPostsLoading = false;
+        draft.loadPostsDone = true;
         draft.hasMorePosts = draft.mainPosts.length < 50;
         break;
       case PostActionType.LOAD_POST_FAILURE:
-        draft.addPostLoading = false;
-        draft.addPostDone = false;
-        draft.addPostError = action.error;
+        draft.loadPostsLoading = false;
+        draft.loadPostsDone = false;
+        draft.loadPostsError = action.error;
         break;
       case PostActionType.ADD_POST_REQUEST:
         draft.addPostLoading = true;
