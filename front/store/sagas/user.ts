@@ -3,17 +3,21 @@ import { all, call, delay, fork, put, takeEvery } from 'redux-saga/effects';
 import { UserActionType } from '../actions/userAction';
 
 function logInAPI(data) {
-  // return axios.post("/api/login");
-
   return {
-    data: { nickname: 'nuuuri', Posts: [], Followings: [], Followers: [] },
+    data: {
+      ...data,
+      nickname: 'nuuuri',
+      Posts: [],
+      Followings: [],
+      Followers: [],
+    },
   };
 }
 
 function* logIn(action) {
   try {
     yield delay(1000);
-    const result = yield call(logInAPI, action.data);
+    const result = yield call(logInAPI, action.payload);
     // logInAPI(action.data)와 같음
     // 굳이 call을 사용하는 이유? : generator는 test하기가 매우 용이함
 

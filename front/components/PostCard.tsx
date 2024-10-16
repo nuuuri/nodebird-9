@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   EllipsisOutlined,
@@ -17,6 +17,10 @@ import CommentForm from './CommentForm';
 import PostCardContent from './PostCardContent';
 import PostImages from './PostImages';
 
+import {
+  PostActionType,
+  removePostRequestAction,
+} from '@/store/actions/postAction';
 import { RootState } from '@/store/reducers';
 
 interface PostCardProps {
@@ -24,10 +28,13 @@ interface PostCardProps {
 }
 
 export default function PostCard({ post }: PostCardProps) {
+  const email = useSelector((state: RootState) => state.user.me?.email);
+  const { removePostLoading } = useSelector((state: RootState) => state.post);
+
   const [liked, setLiked] = useState(false);
   const [commentFormOpened, setCommentFormOpened] = useState(false);
 
-  const email = useSelector((state: RootState) => state.user.me?.email);
+  const dispatch = useDispatch();
 
   const onToggleLike = useCallback(() => {
     setLiked((prev) => !prev);
@@ -36,6 +43,10 @@ export default function PostCard({ post }: PostCardProps) {
   const onToggleComment = useCallback(() => {
     setCommentFormOpened((prev) => !prev);
   }, []);
+
+  const onRemovePost = useCallback(() => {
+    dispatch(removePostRequestAction({ postId: post.id }));
+  }, [post.id, dispatch]);
 
   return (
     <div>
@@ -60,7 +71,12 @@ export default function PostCard({ post }: PostCardProps) {
                 {email && post.User.email === email && (
                   <>
                     <Button>수정</Button>
-                    <Button color="danger">삭제</Button>
+                    <Button
+                      color="danger"
+                      loading={removePostLoading}
+                      onClick={onRemovePost}>
+                      삭제
+                    </Button>
                   </>
                 )}
                 <Button>신고</Button>

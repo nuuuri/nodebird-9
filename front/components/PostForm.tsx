@@ -13,6 +13,7 @@ export default function PostForm() {
   const { imagePaths, addPostDone } = useSelector(
     (state: RootState) => state.post
   );
+  const { email, nickname } = useSelector((state: RootState) => state.user.me);
 
   const {
     value: text,
@@ -28,19 +29,13 @@ export default function PostForm() {
 
   const onSubmit = useCallback(() => {
     dispath(
-      // dummy post
       addPostRequestAction({
-        id: 2,
-        User: {
-          email: 'sbfl125@gmail.com',
-          nickname: 'nuuuri',
-        },
         content: text.toString(),
         Images: [],
-        Comments: [],
+        User: { email, nickname },
       })
     );
-  }, [dispath, text]);
+  }, [dispath, text, email, nickname]);
 
   useEffect(() => {
     if (addPostDone) {

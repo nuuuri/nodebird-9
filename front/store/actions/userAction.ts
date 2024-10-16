@@ -1,3 +1,5 @@
+import { Post } from '@/types/Post';
+
 export const UserActionType = {
   LOG_IN_REQUEST: 'LOG_IN_REQUEST',
   LOG_IN_SUCCESS: 'LOG_IN_SUCCESS',
@@ -8,22 +10,24 @@ export const UserActionType = {
   SIGN_IN_REQUEST: 'SIGN_IN_REQUEST',
   SIGN_IN_SUCCESS: 'SIGN_IN_SUCCESS',
   SIGN_IN_FAILURE: 'SIGN_IN_FAILURE',
+  ADD_POST_TO_ME: ' ADD_POST_TO_ME',
+  REMOVE_POST_OF_ME: 'REMOVE_POST_OF_ME',
 } as const;
 
-export const loginRequestAction = (value: {
+export const loginRequestAction = (payload: {
   email: string;
   password: string;
 }) => {
   return {
     type: UserActionType.LOG_IN_REQUEST,
-    payload: value,
+    payload,
   };
 };
 
-export const loginSuccessAction = (value: any) => {
+export const loginSuccessAction = (payload: any) => {
   return {
     type: UserActionType.LOG_IN_SUCCESS,
-    payload: value,
+    payload,
   };
 };
 
@@ -46,23 +50,23 @@ export const logoutFailureAction = (error: any) => {
   return { type: UserActionType.LOG_OUT_FAILURE, error };
 };
 
-export const signUpRequestAction = (value: {
+export const signUpRequestAction = (payload: {
   email: string;
   password: string;
 }) => {
   return {
     type: UserActionType.LOG_IN_REQUEST,
-    payload: value,
+    payload,
   };
 };
 
-export const signUpSuccessAction = (value: {
+export const signUpSuccessAction = (payload: {
   email: string;
   password: string;
 }) => {
   return {
     type: UserActionType.LOG_IN_SUCCESS,
-    payload: value,
+    payload,
   };
 };
 
@@ -71,6 +75,14 @@ export const signUpFailureAction = (error: any) => {
     type: UserActionType.LOG_IN_FAILURE,
     error,
   };
+};
+
+export const addPostToMe = (payload: Post) => {
+  return { type: UserActionType.ADD_POST_TO_ME, payload };
+};
+
+export const removePostOfMe = (payload: { postId: number }) => {
+  return { type: UserActionType.REMOVE_POST_OF_ME, payload };
 };
 
 export type UserAction =
@@ -82,4 +94,6 @@ export type UserAction =
   | ReturnType<typeof logoutFailureAction>
   | ReturnType<typeof signUpRequestAction>
   | ReturnType<typeof signUpSuccessAction>
-  | ReturnType<typeof signUpFailureAction>;
+  | ReturnType<typeof signUpFailureAction>
+  | ReturnType<typeof addPostToMe>
+  | ReturnType<typeof removePostOfMe>;

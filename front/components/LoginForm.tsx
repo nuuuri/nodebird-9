@@ -6,7 +6,7 @@ import { Button, Form, Input } from 'antd';
 
 import { useInput } from '@/utils/useInput';
 
-import { loginRequestAction } from '@/store/actions/userAction';
+import { loginRequestAction, UserActionType } from '@/store/actions/userAction';
 import { RootState } from '@/store/reducers';
 
 export default function LoginForm() {
@@ -20,11 +20,6 @@ export default function LoginForm() {
     dispatch(
       loginRequestAction({ email: email + '', password: password + '' })
     );
-
-    console.log({
-      email,
-      password,
-    });
   }, [email, password, dispatch]);
 
   return (

@@ -16,6 +16,9 @@ interface State {
   addPostLoading: boolean;
   addPostDone: boolean;
   addPostError: any;
+  removePostLoading: boolean;
+  removePostDone: boolean;
+  removePostError: any;
   addCommentLoading: boolean;
   addCommentDone: boolean;
   addCommentError: any;
@@ -31,6 +34,9 @@ const initialState: State = {
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,
+  removePostLoading: false,
+  removePostDone: false,
+  removePostError: null,
   addCommentLoading: false,
   addCommentDone: false,
   addCommentError: null,
@@ -94,6 +100,23 @@ const postReducer = (state: State = initialState, action: PostAction) =>
         draft.addPostLoading = false;
         draft.addPostDone = false;
         draft.addPostError = action.error;
+        break;
+      case PostActionType.REMOVE_POST_REQUEST:
+        draft.removePostLoading = true;
+        draft.removePostDone = false;
+        draft.removePostError = null;
+        break;
+      case PostActionType.REMOVE_POST_SUCCESS:
+        draft.mainPosts = draft.mainPosts.filter(
+          (v) => v.id !== action.payload.postId
+        );
+        draft.removePostLoading = false;
+        draft.removePostDone = true;
+        break;
+      case PostActionType.REMOVE_POST_FAILURE:
+        draft.removePostLoading = false;
+        draft.removePostDone = false;
+        draft.removePostError = action.error;
         break;
       case PostActionType.ADD_COMMENT_REQUEST:
         draft.addCommentLoading = true;

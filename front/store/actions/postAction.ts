@@ -20,9 +20,9 @@ export const loadPostRequestAction = () => ({
   type: PostActionType.LOAD_POST_REQUEST,
 });
 
-export const loadPostSuccessAction = (value: Post[]) => ({
+export const loadPostSuccessAction = (payload: Post[]) => ({
   type: PostActionType.LOAD_POST_SUCCESS,
-  payload: value,
+  payload,
 });
 
 export const loadPostFailureAction = (error: any) => ({
@@ -30,14 +30,16 @@ export const loadPostFailureAction = (error: any) => ({
   error,
 });
 
-export const addPostRequestAction = (value: Post) => ({
+export const addPostRequestAction = (
+  payload: Pick<Post, 'content' | 'Images' | 'User'>
+) => ({
   type: PostActionType.ADD_POST_REQUEST,
-  payload: value,
+  payload,
 });
 
-export const addPostSuccessAction = (value: Post) => ({
+export const addPostSuccessAction = (payload: Post) => ({
   type: PostActionType.ADD_POST_SUCCESS,
-  payload: value,
+  payload,
 });
 
 export const addPostFailureAction = (error: any) => ({
@@ -45,20 +47,35 @@ export const addPostFailureAction = (error: any) => ({
   error,
 });
 
-export const addCommentRequestAction = (value: {
+export const removePostRequestAction = (payload: { postId: number }) => ({
+  type: PostActionType.REMOVE_POST_REQUEST,
+  payload,
+});
+
+export const removePostSuccessAction = (payload: { postId: number }) => ({
+  type: PostActionType.REMOVE_POST_SUCCESS,
+  payload,
+});
+
+export const removePostFailureAction = (error: any) => ({
+  type: PostActionType.REMOVE_POST_FAILURE,
+  error,
+});
+
+export const addCommentRequestAction = (payload: {
   postId: number;
   comment: Comment;
 }) => ({
   type: PostActionType.ADD_COMMENT_REQUEST,
-  payload: value,
+  payload,
 });
 
-export const addCommentSuccessAction = (value: {
+export const addCommentSuccessAction = (payload: {
   postId: number;
   comment: Comment;
 }) => ({
   type: PostActionType.ADD_COMMENT_SUCCESS,
-  payload: value,
+  payload,
 });
 
 export const addCommentFailureAction = (error: any) => ({
@@ -73,6 +90,9 @@ export type PostAction =
   | ReturnType<typeof addPostRequestAction>
   | ReturnType<typeof addPostSuccessAction>
   | ReturnType<typeof addPostFailureAction>
+  | ReturnType<typeof removePostRequestAction>
+  | ReturnType<typeof removePostSuccessAction>
+  | ReturnType<typeof removePostFailureAction>
   | ReturnType<typeof addCommentRequestAction>
   | ReturnType<typeof addCommentSuccessAction>
   | ReturnType<typeof addCommentFailureAction>;

@@ -53,6 +53,14 @@ const userReducer = (state: State = initialState, action: UserAction) =>
         draft.isLoggingOut = true;
         draft.isLoggedIn = true;
         break;
+      case UserActionType.ADD_POST_TO_ME:
+        draft.me.Posts.unshift(action.payload);
+        break;
+      case UserActionType.REMOVE_POST_OF_ME:
+        draft.me.Posts = draft.me.Posts.filter(
+          (v) => v.id !== action.payload.postId
+        );
+        break;
       default:
         return state;
     }
