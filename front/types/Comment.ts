@@ -1,6 +1,7 @@
 import type { User } from './User';
 
 export interface Comment {
-  User: User;
+  id: number;
+  User: Pick<User, 'email' | 'nickname'>;
   content: string;
 }

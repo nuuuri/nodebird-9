@@ -1,3 +1,5 @@
+import { User } from '@/types/User';
+
 import { UserAction, UserActionType } from '../actions/userAction';
 
 interface State {
@@ -7,7 +9,7 @@ interface State {
   signUpLoading: boolean; // 회원가입 시도 중
   signUpDone: boolean;
   signUpError: any;
-  me: any;
+  me: User;
 }
 
 const initialState: State = {

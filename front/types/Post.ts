@@ -4,7 +4,7 @@ import type { User } from './User';
 
 export interface Post {
   id: number;
-  User: User;
+  User: Pick<User, 'email' | 'nickname'>;
   content: string;
   Images: Image[];
   Comments: Comment[];

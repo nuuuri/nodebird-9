@@ -1,3 +1,5 @@
+import shortId from 'shortid';
+
 import type { Post } from '@/types/Post';
 
 import { PostAction, PostActionType } from '../actions/postAction';
@@ -16,7 +18,7 @@ interface State {
 const initialState: State = {
   mainPosts: [
     {
-      id: 1,
+      id: shortId.generate(),
       User: {
         email: 'sbfl125@gmail.com',
         nickname: 'nuuuri',
@@ -35,6 +37,7 @@ const initialState: State = {
       ],
       Comments: [
         {
+          id: shortId.generate(),
           User: {
             email: 'nero@gmail.com',
             nickname: 'nero',
@@ -42,6 +45,7 @@ const initialState: State = {
           content: '댓글입니당',
         },
         {
+          id: shortId.generate(),
           User: {
             email: 'nuuuri@gmail.com',
             nickname: '박누리',
