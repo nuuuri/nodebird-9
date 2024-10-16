@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker';
 import { produce } from 'immer';
 import shortId from 'shortid';
 
@@ -8,6 +9,10 @@ import { PostAction, PostActionType } from '../actions/postAction';
 interface State {
   mainPosts: Post[];
   imagePaths: string[];
+  hasMorePosts: boolean;
+  loadPostLoading: boolean;
+  loadPostDone: boolean;
+  loadPostError: any;
   addPostLoading: boolean;
   addPostDone: boolean;
   addPostError: any;
@@ -17,46 +22,12 @@ interface State {
 }
 
 const initialState: State = {
-  mainPosts: [
-    {
-      id: shortId.generate(),
-      User: {
-        email: 'sbfl125@gmail.com',
-        nickname: 'nuuuri',
-      },
-      content: '첫 번째 게시글 #해시태그 #익스프레스',
-      Images: [
-        {
-          src: 'https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726',
-        },
-        {
-          src: 'https://gimg.gilbut.co.kr/book/BN001958/rn_view_BN001958.jpg',
-        },
-        {
-          src: 'https://gimg.gilbut.co.kr/book/BN001998/rn_view_BN001998.jpg',
-        },
-      ],
-      Comments: [
-        {
-          id: shortId.generate(),
-          User: {
-            email: 'nero@gmail.com',
-            nickname: 'nero',
-          },
-          content: '댓글입니당',
-        },
-        {
-          id: shortId.generate(),
-          User: {
-            email: 'nuuuri@gmail.com',
-            nickname: '박누리',
-          },
-          content: '우왕!',
-        },
-      ],
-    },
-  ],
+  mainPosts: [],
   imagePaths: [],
+  hasMorePosts: true,
+  loadPostLoading: false,
+  loadPostDone: false,
+  loadPostError: null,
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,
@@ -65,9 +36,50 @@ const initialState: State = {
   addCommentError: null,
 };
 
+export const generateDummyPost = (count: number) =>
+  initialState.mainPosts.concat(
+    Array(count)
+      .fill({})
+      .map(() => ({
+        id: shortId.generate(),
+        content: faker.lorem.paragraph(),
+        User: {
+          email: faker.internet.email(),
+          nickname: faker.internet.userName(),
+        },
+        Comments: [
+          {
+            id: shortId.generate(),
+            User: {
+              email: faker.internet.email(),
+              nickname: faker.internet.userName(),
+            },
+            content: faker.lorem.sentence(),
+          },
+        ],
+        Images: [{ src: faker.image.imageUrl() }],
+      }))
+  );
+
 const postReducer = (state: State = initialState, action: PostAction) =>
   produce(state, (draft) => {
     switch (action.type) {
+      case PostActionType.LOAD_POST_REQUEST:
+        draft.addPostLoading = true;
+        draft.addPostDone = false;
+        draft.addPostError = null;
+        break;
+      case PostActionType.LOAD_POST_SUCCESS:
+        draft.mainPosts = action.payload.concat(draft.mainPosts);
+        draft.addPostLoading = false;
+        draft.addPostDone = true;
+        draft.hasMorePosts = draft.mainPosts.length < 50;
+        break;
+      case PostActionType.LOAD_POST_FAILURE:
+        draft.addPostLoading = false;
+        draft.addPostDone = false;
+        draft.addPostError = action.error;
+        break;
       case PostActionType.ADD_POST_REQUEST:
         draft.addPostLoading = true;
         draft.addPostDone = false;

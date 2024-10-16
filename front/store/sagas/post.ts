@@ -1,6 +1,28 @@
 import { all, call, delay, fork, put, takeEvery } from 'redux-saga/effects';
+import shortId from 'shortid';
 
 import { PostActionType } from '../actions/postAction';
+import { generateDummyPost } from '../reducers/postReducer';
+
+function loadPostsAPI(data) {
+  return [];
+}
+
+function* loadPosts(action) {
+  try {
+    yield delay(1000);
+
+    yield put({
+      type: PostActionType.LOAD_POST_SUCCESS,
+      payload: generateDummyPost(10),
+    });
+  } catch (err) {
+    yield put({
+      type: PostActionType.LOAD_POST_FAILURE,
+      payload: err.response.data,
+    });
+  }
+}
 
 function* addPost(action) {
   try {
@@ -42,6 +64,10 @@ function* addComment(action) {
   }
 }
 
+function* watchLoadPosts() {
+  yield takeEvery(PostActionType.LOAD_POST_REQUEST, loadPosts);
+}
+
 function* watchAddPost() {
   yield takeEvery(PostActionType.ADD_POST_REQUEST, addPost);
 }
@@ -51,5 +77,5 @@ function* watchAddComment() {
 }
 
 export default function* postSaga() {
-  yield all([fork(watchAddPost), fork(watchAddComment)]);
+  yield all([fork(watchLoadPosts), fork(watchAddPost), fork(watchAddComment)]);
 }
