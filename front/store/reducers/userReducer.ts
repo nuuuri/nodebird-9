@@ -1,3 +1,5 @@
+import { produce } from 'immer';
+
 import { User } from '@/types/User';
 
 import { UserAction, UserActionType } from '../actions/userAction';
@@ -22,49 +24,38 @@ const initialState: State = {
   me: null,
 };
 
-const userReducer = (state: State = initialState, action: UserAction) => {
-  switch (action.type) {
-    case UserActionType.LOG_IN_REQUEST:
-      return {
-        ...state,
-        isLoggingIn: true,
-        isLoggedIn: false,
-      };
-    case UserActionType.LOG_IN_SUCCESS:
-      return {
-        ...state,
-        isLoggingIn: false,
-        isLoggedIn: true,
-        me: action.payload,
-      };
-    case UserActionType.LOG_IN_FAILURE:
-      return {
-        ...state,
-        isLoggingIn: false,
-        isLoggedIn: false,
-      };
-    case UserActionType.LOG_OUT_REQUEST:
-      return {
-        ...state,
-        isLoggingOut: true,
-        isLoggingIn: true,
-      };
-    case UserActionType.LOG_OUT_SUCCESS:
-      return {
-        ...state,
-        isLoggingOut: false,
-        isLoggedIn: false,
-        me: null,
-      };
-    case UserActionType.LOG_OUT_FAILURE:
-      return {
-        ...state,
-        isLoggingOut: true,
-        isLoggedIn: true,
-      };
-    default:
-      return state;
-  }
-};
+const userReducer = (state: State = initialState, action: UserAction) =>
+  produce(state, (draft) => {
+    switch (action.type) {
+      case UserActionType.LOG_IN_REQUEST:
+        draft.isLoggingIn = true;
+        draft.isLoggedIn = false;
+        break;
+      case UserActionType.LOG_IN_SUCCESS:
+        draft.isLoggingIn = false;
+        draft.isLoggedIn = true;
+        draft.me = action.payload;
+        break;
+      case UserActionType.LOG_IN_FAILURE:
+        draft.isLoggingIn = false;
+        draft.isLoggedIn = false;
+        break;
+      case UserActionType.LOG_OUT_REQUEST:
+        draft.isLoggingOut = true;
+        draft.isLoggedIn = true;
+        break;
+      case UserActionType.LOG_OUT_SUCCESS:
+        draft.isLoggingOut = false;
+        draft.isLoggedIn = false;
+        draft.me = null;
+        break;
+      case UserActionType.LOG_OUT_FAILURE:
+        draft.isLoggingOut = true;
+        draft.isLoggedIn = true;
+        break;
+      default:
+        return state;
+    }
+  });
 
 export default userReducer;

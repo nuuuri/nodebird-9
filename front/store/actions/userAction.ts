@@ -20,10 +20,7 @@ export const loginRequestAction = (value: {
   };
 };
 
-export const loginSuccessAction = (value: {
-  email: string;
-  password: string;
-}) => {
+export const loginSuccessAction = (value: any) => {
   return {
     type: UserActionType.LOG_IN_SUCCESS,
     payload: value,

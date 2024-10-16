@@ -1,3 +1,4 @@
+import { produce } from 'immer';
 import shortId from 'shortid';
 
 import type { Post } from '@/types/Post';
@@ -64,63 +65,59 @@ const initialState: State = {
   addCommentError: null,
 };
 
-const postReducer = (state: State = initialState, action: PostAction) => {
-  switch (action.type) {
-    case PostActionType.ADD_POST_REQUEST:
-      return {
-        ...state,
-        addPostLoading: true,
-        addPostDone: false,
-        addPostError: null,
-      };
-    case PostActionType.ADD_POST_SUCCESS:
-      return {
-        ...state,
-        mainPosts: [action.payload, ...state.mainPosts],
-        addPostLoading: false,
-        addPostDone: true,
-        addPostError: null,
-      };
-    case PostActionType.ADD_POST_FAILURE:
-      return {
-        ...state,
-        addPostLoading: false,
-        addPostDone: false,
-        addPostError: action.error,
-      };
-    case PostActionType.ADD_COMMENT_REQUEST:
-      return {
-        ...state,
-        addCommentLoading: true,
-        addCommentDone: false,
-        addCommentError: null,
-      };
-    case PostActionType.ADD_COMMENT_SUCCESS:
-      const postIndex = state.mainPosts.findIndex(
-        (v) => v.id === action.payload.postId
-      );
-      const post = { ...state.mainPosts[postIndex] };
-      post.Comments = [action.payload.comment, ...post.Comments];
-      const mainPosts = [...state.mainPosts];
-      mainPosts[postIndex] = post;
+const postReducer = (state: State = initialState, action: PostAction) =>
+  produce(state, (draft) => {
+    switch (action.type) {
+      case PostActionType.ADD_POST_REQUEST:
+        draft.addPostLoading = true;
+        draft.addPostDone = false;
+        draft.addPostError = null;
+        break;
+      case PostActionType.ADD_POST_SUCCESS:
+        draft.mainPosts = [action.payload, ...state.mainPosts];
+        draft.addPostLoading = false;
+        draft.addPostDone = true;
+        break;
+      case PostActionType.ADD_POST_FAILURE:
+        draft.addPostLoading = false;
+        draft.addPostDone = false;
+        draft.addPostError = action.error;
+        break;
+      case PostActionType.ADD_COMMENT_REQUEST:
+        draft.addCommentLoading = true;
+        draft.addCommentDone = false;
+        draft.addCommentError = null;
+        break;
+      case PostActionType.ADD_COMMENT_SUCCESS:
+        const post = draft.mainPosts.find(
+          (v) => v.id === action.payload.postId
+        );
+        post.Comments.unshift(action.payload.comment);
+        draft.addCommentLoading = false;
+        draft.addCommentDone = true;
+        break;
+      // const postIndex = state.mainPosts.findIndex(
+      //   (v) => v.id === action.payload.postId
+      // );
+      // const post = { ...state.mainPosts[postIndex] };
+      // post.Comments = [action.payload.comment, ...post.Comments];
+      // const mainPosts = [...state.mainPosts];
+      // mainPosts[postIndex] = post;
 
-      return {
-        ...state,
-        mainPosts,
-        addCommentLoading: false,
-        addCommentDone: true,
-        addCommentError: null,
-      };
-    case PostActionType.ADD_COMMENT_FAILURE:
-      return {
-        ...state,
-        addCommentLoading: false,
-        addCommentDone: false,
-        addCommentError: action.error,
-      };
-    default:
-      return state;
-  }
-};
+      // return {
+      //   ...state,
+      //   mainPosts,
+      //   addCommentLoading: false,
+      //   addCommentDone: true,
+      // };
+      case PostActionType.ADD_COMMENT_FAILURE:
+        draft.addCommentLoading = false;
+        draft.addCommentDone = false;
+        draft.addCommentError = action.error;
+        break;
+      default:
+        return state;
+    }
+  });
 
 export default postReducer;
