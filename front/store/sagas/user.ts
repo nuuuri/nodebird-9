@@ -1,12 +1,12 @@
-import { all, call, delay, fork, put, takeEvery } from "redux-saga/effects";
+import { all, call, delay, fork, put, takeEvery } from 'redux-saga/effects';
 
-import { UserActionType } from "../actions/userAction";
+import { UserActionType } from '../actions/userAction';
 
 function logInAPI(data) {
   // return axios.post("/api/login");
 
   return {
-    data: { nickname: "nuuuri", Posts: [], Followings: [], Followers: [] },
+    data: { nickname: 'nuuuri', Posts: [], Followings: [], Followers: [] },
   };
 }
 

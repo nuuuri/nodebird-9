@@ -1,11 +1,11 @@
-import Head from "next/head";
-import { useSelector } from "react-redux";
+import Head from 'next/head';
+import { useSelector } from 'react-redux';
 
-import AppLayout from "../components/AppLayout";
-import FollowList from "../components/FollowList";
-import NicknameEditForm from "../components/NicknameEditForm";
+import AppLayout from '../components/AppLayout';
+import FollowList from '../components/FollowList';
+import NicknameEditForm from '../components/NicknameEditForm';
 
-import { RootState } from "@/store/reducers";
+import { RootState } from '@/store/reducers';
 
 export default function Profile() {
   const { me } = useSelector((state: RootState) => state.user);

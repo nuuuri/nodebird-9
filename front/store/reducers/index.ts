@@ -1,9 +1,9 @@
-import { HYDRATE } from "next-redux-wrapper";
+import { HYDRATE } from 'next-redux-wrapper';
 
-import { combineReducers } from "redux";
+import { combineReducers } from 'redux';
 
-import postReducer from "./postReducer";
-import userReducer from "./userReducer";
+import postReducer from './postReducer';
+import userReducer from './userReducer';
 
 export const rootReducer = (state, action) => {
   switch (action.type) {

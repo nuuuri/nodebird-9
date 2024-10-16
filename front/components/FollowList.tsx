@@ -1,5 +1,5 @@
-import { StopOutlined } from "@ant-design/icons";
-import { Button, Card, List } from "antd";
+import { StopOutlined } from '@ant-design/icons';
+import { Button, Card, List } from 'antd';
 
 interface FollowListProps {
   header: string;
@@ -14,7 +14,7 @@ export default function FollowList({ header, data }: FollowListProps) {
       size="small"
       header={<div>{header}</div>}
       loadMore={
-        <div style={{ textAlign: "center", margin: "10px 0" }}>
+        <div style={{ textAlign: 'center', margin: '10px 0' }}>
           <Button>더 보기</Button>
         </div>
       }

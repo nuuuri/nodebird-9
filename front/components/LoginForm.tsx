@@ -1,24 +1,24 @@
-import Link from "next/link";
-import { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import Link from 'next/link';
+import { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input } from 'antd';
 
-import { useInput } from "@/utils/useInput";
+import { useInput } from '@/utils/useInput';
 
-import { loginRequestAction } from "@/store/actions/userAction";
-import { RootState } from "@/store/reducers";
+import { loginRequestAction } from '@/store/actions/userAction';
+import { RootState } from '@/store/reducers';
 
 export default function LoginForm() {
   const { isLoggingIn } = useSelector((state: RootState) => state.user);
-  const { value: email, handler: onChangeEmail } = useInput("");
-  const { value: password, handler: onChangePassword } = useInput("");
+  const { value: email, handler: onChangeEmail } = useInput('');
+  const { value: password, handler: onChangePassword } = useInput('');
 
   const dispatch = useDispatch();
 
   const onSubmitForm = useCallback(() => {
     dispatch(
-      loginRequestAction({ email: email + "", password: password + "" })
+      loginRequestAction({ email: email + '', password: password + '' })
     );
 
     console.log({
@@ -28,7 +28,7 @@ export default function LoginForm() {
   }, [email, password, dispatch]);
 
   return (
-    <Form onFinish={onSubmitForm} style={{ padding: "10px" }}>
+    <Form onFinish={onSubmitForm} style={{ padding: '10px' }}>
       <div>
         <label htmlFor="user-email">이메일</label>
         <br />
@@ -51,7 +51,7 @@ export default function LoginForm() {
           required
         />
       </div>
-      <div style={{ marginTop: "10px" }}>
+      <div style={{ marginTop: '10px' }}>
         <Button type="primary" htmlType="submit" loading={isLoggingIn}>
           로그인
         </Button>

@@ -1,7 +1,7 @@
-import { useState } from "react";
-import Slick from "react-slick";
+import { useState } from 'react';
+import Slick from 'react-slick';
 
-import { Image } from "@/types/Image";
+import { Image } from '@/types/Image';
 
 import {
   CloseBtn,
@@ -11,11 +11,11 @@ import {
   Indicator,
   Overlay,
   SlickWrapper,
-} from "./styles";
+} from './styles';
 
 interface ImagesZoomProps {
   images: Image[];
-  onClose: Function;
+  onClose: () => void;
 }
 
 export default function ImagesZoom({ images, onClose }: ImagesZoomProps) {
@@ -36,8 +36,7 @@ export default function ImagesZoom({ images, onClose }: ImagesZoomProps) {
             infinite
             arrows={false}
             slidesToShow={1}
-            slidesToScroll={1}
-          >
+            slidesToScroll={1}>
             {images.map((v) => (
               <ImageWrapper key={v.src}>
                 <img src={v.src} alt={v.src} />

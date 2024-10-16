@@ -1,14 +1,14 @@
-import Link from "next/link";
-import React from "react";
-import { useSelector } from "react-redux";
+import Link from 'next/link';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
-import { Button, Col, Input, Menu, Row } from "antd";
-import { createGlobalStyle } from "styled-components";
+import { Button, Col, Input, Menu, Row } from 'antd';
+import { createGlobalStyle } from 'styled-components';
 
-import LoginForm from "@/components/LoginForm";
-import UserProfile from "@/components/UserProfile";
+import LoginForm from '@/components/LoginForm';
+import UserProfile from '@/components/UserProfile';
 
-import { RootState } from "@/store/reducers";
+import { RootState } from '@/store/reducers';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -47,7 +47,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
           </Link>
         </Menu.Item>
         <Menu.Item key="mail">
-          <Input.Search enterButton style={{ verticalAlign: "middle" }} />
+          <Input.Search enterButton style={{ verticalAlign: 'middle' }} />
         </Menu.Item>
         <Menu.Item key="signup">
           <Link href="/signup">
@@ -68,8 +68,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
           <a
             href="https://github.com/nuuuri"
             target="_blank"
-            rel="noreferrer noopener"
-          >
+            rel="noreferrer noopener">
             Made by Nuuuri
           </a>
         </Col>

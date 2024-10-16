@@ -1,5 +1,5 @@
-import { useCallback, useState } from "react";
-import { useSelector } from "react-redux";
+import { useCallback, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import {
   EllipsisOutlined,
@@ -7,17 +7,17 @@ import {
   HeartTwoTone,
   MessageOutlined,
   RetweetOutlined,
-} from "@ant-design/icons";
-import { Avatar, Button, Card, Comment, List, Popover } from "antd";
-import ButtonGroup from "antd/lib/button/button-group";
+} from '@ant-design/icons';
+import { Avatar, Button, Card, Comment, List, Popover } from 'antd';
+import ButtonGroup from 'antd/lib/button/button-group';
 
-import type { Post } from "@/types/Post";
+import type { Post } from '@/types/Post';
 
-import CommentForm from "./CommentForm";
-import PostCardContent from "./PostCardContent";
-import PostImages from "./PostImages";
+import CommentForm from './CommentForm';
+import PostCardContent from './PostCardContent';
+import PostImages from './PostImages';
 
-import { RootState } from "@/store/reducers";
+import { RootState } from '@/store/reducers';
 
 interface PostCardProps {
   post: Post;
@@ -45,7 +45,7 @@ export default function PostCard({ post }: PostCardProps) {
           <RetweetOutlined key="retweet" />,
           liked ? (
             <HeartTwoTone
-              twoToneColor={"#eb2f96"}
+              twoToneColor={'#eb2f96'}
               key="heart"
               onClick={onToggleLike}
             />
@@ -65,12 +65,10 @@ export default function PostCard({ post }: PostCardProps) {
                 )}
                 <Button>신고</Button>
               </ButtonGroup>
-            }
-          >
+            }>
             <EllipsisOutlined />
           </Popover>,
-        ]}
-      >
+        ]}>
         <Card.Meta
           avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
           title={post.User.nickname}

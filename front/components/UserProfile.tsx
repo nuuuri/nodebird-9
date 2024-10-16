@@ -1,10 +1,10 @@
-import { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { Avatar, Button, Card } from "antd";
+import { Avatar, Button, Card } from 'antd';
 
-import { logoutRequestAction } from "@/store/actions/userAction";
-import { RootState } from "@/store/reducers";
+import { logoutRequestAction } from '@/store/actions/userAction';
+import { RootState } from '@/store/reducers';
 
 export default function UserProfile() {
   const { isLoggingOut, me } = useSelector((state: RootState) => state.user);
@@ -32,8 +32,7 @@ export default function UserProfile() {
           <br />
           {me.Followers.length}
         </div>,
-      ]}
-    >
+      ]}>
       <Card.Meta
         avatar={<Avatar>{me.nickname[0]}</Avatar>}
         title={me.nickname}

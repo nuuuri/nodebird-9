@@ -1,6 +1,6 @@
-import { all, call, delay, fork, put, takeEvery } from "redux-saga/effects";
+import { all, call, delay, fork, put, takeEvery } from 'redux-saga/effects';
 
-import { PostActionType } from "../actions/postAction";
+import { PostActionType } from '../actions/postAction';
 
 function* addPost(action) {
   try {

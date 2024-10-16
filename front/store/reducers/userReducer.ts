@@ -1,4 +1,4 @@
-import { UserAction, UserActionType } from "../actions/userAction";
+import { UserAction, UserActionType } from '../actions/userAction';
 
 interface State {
   isLoggedIn: boolean;

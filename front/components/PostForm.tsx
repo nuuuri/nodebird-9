@@ -1,12 +1,12 @@
-import { useCallback, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useCallback, useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input } from 'antd';
 
-import { useInput } from "@/utils/useInput";
+import { useInput } from '@/utils/useInput';
 
-import { addPostRequestAction } from "@/store/actions/postAction";
-import { RootState } from "@/store/reducers";
+import { addPostRequestAction } from '@/store/actions/postAction';
+import { RootState } from '@/store/reducers';
 
 export default function PostForm() {
   const imageInput = useRef<HTMLInputElement>();
@@ -18,7 +18,7 @@ export default function PostForm() {
     value: text,
     setValue: setText,
     handler: onChangeText,
-  } = useInput("");
+  } = useInput('');
 
   const dispath = useDispatch();
 
@@ -32,8 +32,8 @@ export default function PostForm() {
       addPostRequestAction({
         id: 2,
         User: {
-          email: "sbfl125@gmail.com",
-          nickname: "nuuuri",
+          email: 'sbfl125@gmail.com',
+          nickname: 'nuuuri',
         },
         content: text.toString(),
         Images: [],
@@ -44,16 +44,15 @@ export default function PostForm() {
 
   useEffect(() => {
     if (addPostDone) {
-      setText("");
+      setText('');
     }
   }, [addPostDone, setText]);
 
   return (
     <Form
-      style={{ margin: "10px 0 20px" }}
+      style={{ margin: '10px 0 20px' }}
       encType="multipart/form-data"
-      onFinish={onSubmit}
-    >
+      onFinish={onSubmit}>
       <Input.TextArea
         value={text}
         onChange={onChangeText}
@@ -63,13 +62,13 @@ export default function PostForm() {
       <div>
         <input ref={imageInput} type="file" multiple hidden />
         <Button onClick={onClickImageUpload}>이미지 업로드</Button>
-        <Button type="primary" style={{ float: "right" }} htmlType="submit">
+        <Button type="primary" style={{ float: 'right' }} htmlType="submit">
           짹짹
         </Button>
         <div>
           {imagePaths.map((v) => (
-            <div key={v} style={{ display: "inline-block" }}>
-              <img src={v} style={{ width: "200px" }} alt="v" />
+            <div key={v} style={{ display: 'inline-block' }}>
+              <img src={v} style={{ width: '200px' }} alt="v" />
               <div>
                 <Button>제거</Button>
               </div>

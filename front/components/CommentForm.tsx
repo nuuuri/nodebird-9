@@ -1,14 +1,14 @@
-import { useCallback, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input } from 'antd';
 
-import type { Post } from "@/types/Post";
+import type { Post } from '@/types/Post';
 
-import { useInput } from "@/utils/useInput";
+import { useInput } from '@/utils/useInput';
 
-import { addCommentRequestAction } from "@/store/actions/postAction";
-import { RootState } from "@/store/reducers";
+import { addCommentRequestAction } from '@/store/actions/postAction';
+import { RootState } from '@/store/reducers';
 
 interface CommentFormProps {
   post: Post;
@@ -21,7 +21,7 @@ export default function CommentForm({ post }: CommentFormProps) {
     value: commentText,
     setValue: setCommentText,
     handler: onChangeCommentText,
-  } = useInput("");
+  } = useInput('');
 
   const dispatch = useDispatch();
 
@@ -29,20 +29,20 @@ export default function CommentForm({ post }: CommentFormProps) {
     dispatch(
       addCommentRequestAction({
         postId: post.id,
-        comment: { User: me, content: commentText + "" },
+        comment: { User: me, content: commentText + '' },
       })
     );
   }, [post.id, me, commentText, dispatch]);
 
   useEffect(() => {
     if (addCommentDone) {
-      setCommentText("");
+      setCommentText('');
     }
   }, [addCommentDone, setCommentText]);
 
   return (
     <Form onFinish={onSubmitComment}>
-      <Form.Item style={{ position: "relative", margin: 0 }}>
+      <Form.Item style={{ position: 'relative', margin: 0 }}>
         <Input.TextArea
           value={commentText}
           onChange={onChangeCommentText}
@@ -51,8 +51,7 @@ export default function CommentForm({ post }: CommentFormProps) {
         <Button
           type="primary"
           htmlType="submit"
-          style={{ position: "absolute", right: 0, bottom: -40, zIndex: 1 }}
-        >
+          style={{ position: 'absolute', right: 0, bottom: -40, zIndex: 1 }}>
           삐약
         </Button>
       </Form.Item>
