@@ -13,6 +13,13 @@ module.exports = (sequelize, DataTypes) => {
       collate: "utf8mb4_general_ci",
     }
   );
-  Post.associate = (db) => {};
+  Post.associate = (db) => {
+    db.Post.belongsTo(db.User);
+    db.Post.hasMany(db.Comment);
+    db.Post.hasMany(db.Image);
+    db.Post.belongsToMany(db.Hashtag, { through: "PostHashtag" }); // N:M 관계
+    db.Post.belongsTo(db.Post, { as: "Retweet" }); // 리트윗
+    db.Post.belongsToMany(db.User, { through: "Like", as: "Likers" });
+  };
   return Post;
 };
