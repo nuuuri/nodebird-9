@@ -44,6 +44,8 @@ app.use(passport.initialize());
 app.use("/post", postRouter);
 app.use("/user", userRouter);
 
+// app.use((err, req, res, next) => {}); // 해당 위치에 에러 처리 미들웨어가 내부적으로 존재
+
 app.listen(3065, () => {
   console.log("서버 실행 중");
 });
