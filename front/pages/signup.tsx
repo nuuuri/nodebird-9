@@ -1,5 +1,7 @@
 import Head from 'next/head';
-import { ChangeEvent, useState } from 'react';
+import Router from 'next/router';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Button, Checkbox, Form, Input } from 'antd';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
@@ -7,7 +9,14 @@ import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import AppLayout from '../components/AppLayout';
 import { useInput } from '../utils/useInput';
 
+import { signUpRequestAction } from '@/store/actions/userAction';
+import { RootState } from '@/store/reducers';
+
 export default function Signup() {
+  const { signUpLoading, signUpDone, signUpError } = useSelector(
+    (state: RootState) => state.user
+  );
+
   const { value: email, handler: onChangeEmail } = useInput('');
   const { value: nickname, handler: onChangeNickname } = useInput('');
   const { value: password, handler: onChangePassword } = useInput('');
@@ -17,6 +26,8 @@ export default function Signup() {
 
   const [term, setTerm] = useState(false);
   const [termError, setTermError] = useState(false);
+
+  const dispatch = useDispatch();
 
   const onChangePasswordCheck = (e: ChangeEvent<HTMLInputElement>) => {
     setPasswordCheck(e.target.value);
@@ -40,7 +51,27 @@ export default function Signup() {
     }
 
     console.log({ email, nickname, password, passwordCheck, term });
+
+    dispatch(
+      signUpRequestAction({
+        email: email + '',
+        password,
+        nickname: nickname + '',
+      })
+    );
   };
+
+  useEffect(() => {
+    if (signUpDone) {
+      Router.push('/').catch(() => {});
+    }
+  }, [signUpDone]);
+
+  useEffect(() => {
+    if (signUpError) {
+      alert(signUpError);
+    }
+  }, [signUpError]);
 
   return (
     <>

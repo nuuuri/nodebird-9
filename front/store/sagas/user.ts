@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { all, call, delay, fork, put, takeLatest } from 'redux-saga/effects';
 
 import { UserActionType } from '../actions/userAction';
@@ -28,12 +29,33 @@ function* logIn(action) {
   } catch (err) {
     yield put({
       type: UserActionType.LOG_IN_FAILURE,
-      payload: err.response.data,
+      error: err.response.data,
     });
   }
 }
 
 function* logOut() {}
+
+function signUpAPI(data) {
+  return axios.post('http://localhost:3065/user', data);
+}
+
+function* signUp(action) {
+  try {
+    const result = yield call(signUpAPI, action.payload);
+
+    console.log(result);
+
+    yield put({
+      type: UserActionType.SIGN_UP_SUCCESS,
+    });
+  } catch (err) {
+    yield put({
+      type: UserActionType.SIGN_UP_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
 
 function* follow(action) {
   try {
@@ -46,7 +68,7 @@ function* follow(action) {
   } catch (err) {
     yield put({
       type: UserActionType.FOLLOW_FAILURE,
-      payload: err.response.data,
+      error: err.response.data,
     });
   }
 }
@@ -62,7 +84,7 @@ function* unfollow(action) {
   } catch (err) {
     yield put({
       type: UserActionType.UNFOLLOW_FAILURE,
-      payload: err.response.data,
+      error: err.response.data,
     });
   }
 }
@@ -74,6 +96,10 @@ function* watchLogIn() {
 
 function* watchLogOut() {
   yield takeLatest(UserActionType.LOG_OUT_REQUEST, logOut);
+}
+
+function* watchSignUp() {
+  yield takeLatest(UserActionType.SIGN_UP_REQUEST, signUp);
 }
 
 function* watchFollow() {
@@ -88,6 +114,7 @@ export default function* userSaga() {
   yield all([
     fork(watchLogIn),
     fork(watchLogOut),
+    fork(watchSignUp),
     fork(watchFollow),
     fork(watchUnFollow),
   ]);

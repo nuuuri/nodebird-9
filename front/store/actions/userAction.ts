@@ -7,9 +7,9 @@ export const UserActionType = {
   LOG_OUT_REQUEST: 'LOG_OUT_REQUEST',
   LOG_OUT_SUCCESS: 'LOG_OUT_SUCCESS',
   LOG_OUT_FAILURE: 'LOG_OUT_FAILURE',
-  SIGN_IN_REQUEST: 'SIGN_IN_REQUEST',
-  SIGN_IN_SUCCESS: 'SIGN_IN_SUCCESS',
-  SIGN_IN_FAILURE: 'SIGN_IN_FAILURE',
+  SIGN_UP_REQUEST: 'SIGN_UP_REQUEST',
+  SIGN_UP_SUCCESS: 'SIGN_UP_SUCCESS',
+  SIGN_UP_FAILURE: 'SIGN_UP_FAILURE',
   FOLLOW_REQUEST: 'FOLLOW_REQUEST',
   FOLLOW_SUCCESS: 'FOLLOW_SUCCESS',
   FOLLOW_FAILURE: 'FOLLOW_FAILURE',
@@ -59,9 +59,10 @@ export const logoutFailureAction = (error: any) => {
 export const signUpRequestAction = (payload: {
   email: string;
   password: string;
+  nickname: string;
 }) => {
   return {
-    type: UserActionType.LOG_IN_REQUEST,
+    type: UserActionType.SIGN_UP_REQUEST,
     payload,
   };
 };
@@ -69,16 +70,17 @@ export const signUpRequestAction = (payload: {
 export const signUpSuccessAction = (payload: {
   email: string;
   password: string;
+  nickname: string;
 }) => {
   return {
-    type: UserActionType.LOG_IN_SUCCESS,
+    type: UserActionType.SIGN_UP_SUCCESS,
     payload,
   };
 };
 
 export const signUpFailureAction = (error: any) => {
   return {
-    type: UserActionType.LOG_IN_FAILURE,
+    type: UserActionType.SIGN_UP_FAILURE,
     error,
   };
 };

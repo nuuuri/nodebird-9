@@ -65,6 +65,19 @@ const userReducer = (state: State = initialState, action: UserAction) =>
         draft.isLoggingOut = true;
         draft.isLoggedIn = true;
         break;
+      case UserActionType.SIGN_UP_REQUEST:
+        draft.signUpLoading = true;
+        draft.signUpDone = false;
+        draft.signUpError = null;
+        break;
+      case UserActionType.SIGN_UP_SUCCESS:
+        draft.signUpLoading = false;
+        draft.signUpDone = true;
+        break;
+      case UserActionType.SIGN_UP_FAILURE:
+        draft.signUpLoading = false;
+        draft.signUpError = action.error;
+        break;
       case UserActionType.FOLLOW_REQUEST:
         draft.followLoading = true;
         draft.followDone = false;
