@@ -1,8 +1,62 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
-const { User } = require("../models");
+const passport = require("passport");
+const { User, Post } = require("../models");
 
 const router = express.Router();
+
+router.post("/login", (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    // serverError 처리
+    if (err) {
+      console.error(err);
+      return next(err);
+    }
+
+    // clientError 처리
+    if (info) {
+      return res.status(401).send(info.reason); // 401 허가되지 않음
+    }
+
+    return req.login(user, async (loginErr) => {
+      if (loginErr) {
+        console.error(loginErr);
+        return next(loginErr);
+      }
+
+      const fullUserInfoWithoutPassword = await User.findOne({
+        where: { id: user.id },
+        attributes: { exclude: ["password"] },
+        include: [
+          {
+            model: Post,
+          },
+          {
+            model: User,
+            as: "Followings",
+          },
+          {
+            model: User,
+            as: "Followers",
+          },
+        ],
+      });
+
+      return res.status(200).json(fullUserInfoWithoutPassword);
+    });
+  })(req, res, next);
+});
+
+router.post("/logout", async (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+
+    req.session.destroy();
+    res.status(200).send("ok");
+  });
+});
 
 // POST /user
 router.post("/", async (req, res, next) => {

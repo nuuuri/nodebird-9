@@ -1,16 +1,18 @@
 import Link from 'next/link';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Button, Form, Input } from 'antd';
 
 import { useInput } from '@/utils/useInput';
 
-import { loginRequestAction, UserActionType } from '@/store/actions/userAction';
+import { loginRequestAction } from '@/store/actions/userAction';
 import { RootState } from '@/store/reducers';
 
 export default function LoginForm() {
-  const { isLoggingIn } = useSelector((state: RootState) => state.user);
+  const { isLoggingIn, loginError } = useSelector(
+    (state: RootState) => state.user
+  );
   const { value: email, handler: onChangeEmail } = useInput('');
   const { value: password, handler: onChangePassword } = useInput('');
 
@@ -21,6 +23,12 @@ export default function LoginForm() {
       loginRequestAction({ email: email + '', password: password + '' })
     );
   }, [email, password, dispatch]);
+
+  useEffect(() => {
+    if (loginError) {
+      alert(loginError);
+    }
+  }, [loginError]);
 
   return (
     <Form onFinish={onSubmitForm} style={{ padding: '10px' }}>

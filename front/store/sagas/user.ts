@@ -4,20 +4,15 @@ import { all, call, delay, fork, put, takeLatest } from 'redux-saga/effects';
 import { UserActionType } from '../actions/userAction';
 
 function logInAPI(data) {
-  return {
-    data: {
-      ...data,
-      nickname: 'nuuuri',
-      Posts: [],
-      Followings: [],
-      Followers: [],
-    },
-  };
+  return axios.post('/user/login', data);
+}
+
+function logOutAPI() {
+  return axios.post('/user/logout');
 }
 
 function* logIn(action) {
   try {
-    yield delay(1000);
     const result = yield call(logInAPI, action.payload);
     // logInAPI(action.data)와 같음
     // 굳이 call을 사용하는 이유? : generator는 test하기가 매우 용이함
@@ -34,10 +29,22 @@ function* logIn(action) {
   }
 }
 
-function* logOut() {}
+function* logOut() {
+  try {
+    yield call(logOutAPI);
+    yield put({
+      type: UserActionType.LOG_OUT_SUCCESS,
+    });
+  } catch (err) {
+    yield put({
+      type: UserActionType.LOG_OUT_FAILURE,
+      error: err.repsonse.data,
+    });
+  }
+}
 
 function signUpAPI(data) {
-  return axios.post('http://localhost:3065/user', data);
+  return axios.post('/user', data);
 }
 
 function* signUp(action) {

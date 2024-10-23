@@ -13,7 +13,7 @@ import { signUpRequestAction } from '@/store/actions/userAction';
 import { RootState } from '@/store/reducers';
 
 export default function Signup() {
-  const { signUpLoading, signUpDone, signUpError } = useSelector(
+  const { me, signUpLoading, signUpDone, signUpError } = useSelector(
     (state: RootState) => state.user
   );
 
@@ -72,6 +72,12 @@ export default function Signup() {
       alert(signUpError);
     }
   }, [signUpError]);
+
+  useEffect(() => {
+    if (me && me.id) {
+      Router.replace('/').catch(() => {});
+    }
+  }, [me]);
 
   return (
     <>
@@ -135,7 +141,7 @@ export default function Signup() {
             )}
           </div>
           <div style={{ marginTop: 10 }}>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" loading={signUpLoading}>
               가입하기
             </Button>
           </div>

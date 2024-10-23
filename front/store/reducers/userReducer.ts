@@ -8,15 +8,16 @@ interface State {
   isLoggedIn: boolean;
   isLoggingIn: boolean; // 로그인 시도 중
   isLoggingOut: boolean; // 로그아웃 시도 중
+  loginError: string;
   signUpLoading: boolean; // 회원가입 시도 중
   signUpDone: boolean;
-  signUpError: any;
+  signUpError: string;
   followLoading: boolean; // 팔로잉 시도 중
   followDone: boolean;
-  followError: any;
+  followError: string;
   unfollowLoading: boolean; // 언팔로잉 시도 중
   unfollowDone: boolean;
-  unfollowError: any;
+  unfollowError: string;
   me: User;
 }
 
@@ -25,6 +26,7 @@ const initialState: State = {
   isLoggingIn: false,
   isLoggingOut: false,
   signUpLoading: false,
+  loginError: null,
   signUpDone: false,
   signUpError: null,
   followLoading: false,
@@ -51,6 +53,7 @@ const userReducer = (state: State = initialState, action: UserAction) =>
       case UserActionType.LOG_IN_FAILURE:
         draft.isLoggingIn = false;
         draft.isLoggedIn = false;
+        draft.loginError = action.error;
         break;
       case UserActionType.LOG_OUT_REQUEST:
         draft.isLoggingOut = true;
@@ -64,6 +67,7 @@ const userReducer = (state: State = initialState, action: UserAction) =>
       case UserActionType.LOG_OUT_FAILURE:
         draft.isLoggingOut = true;
         draft.isLoggedIn = true;
+        draft.loginError = action.error;
         break;
       case UserActionType.SIGN_UP_REQUEST:
         draft.signUpLoading = true;

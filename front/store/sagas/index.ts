@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { all, fork } from 'redux-saga/effects';
 
 import postSaga from './post';
@@ -6,6 +7,8 @@ import userSaga from './user';
 export default function* rootSaga() {
   yield all([fork(postSaga), fork(userSaga)]);
 }
+
+axios.defaults.baseURL = 'http://localhost:3065';
 
 // call : 동기 함수 호출
 // fork : 비동기 함수 호출
