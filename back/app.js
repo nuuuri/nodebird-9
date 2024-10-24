@@ -5,8 +5,10 @@ const passport = require("passport");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
+const morgan = require("morgan");
 
 const postRouter = require("./routes/post");
+const postsRouter = require("./routes/posts");
 const userRouter = require("./routes/user");
 
 const passportConfig = require("./passport");
@@ -23,6 +25,7 @@ db.sequelize
 
 passportConfig();
 
+app.use(morgan("dev"));
 app.use(
   cors({
     origin: "http://localhost:3060",
@@ -43,6 +46,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/post", postRouter);
+app.use("/posts", postsRouter);
 app.use("/user", userRouter);
 
 // app.use((err, req, res, next) => {}); // 해당 위치에 에러 처리 미들웨어가 내부적으로 존재

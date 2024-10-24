@@ -42,30 +42,30 @@ const initialState: State = {
   addCommentError: null,
 };
 
-export const generateDummyPost = (count: number) =>
-  initialState.mainPosts.concat(
-    Array(count)
-      .fill({})
-      .map(() => ({
-        id: shortId.generate(),
-        content: faker.lorem.paragraph(),
-        User: {
-          email: faker.internet.email(),
-          nickname: faker.internet.userName(),
-        },
-        Comments: [
-          {
-            id: shortId.generate(),
-            User: {
-              email: faker.internet.email(),
-              nickname: faker.internet.userName(),
-            },
-            content: faker.lorem.sentence(),
-          },
-        ],
-        Images: [{ src: faker.image.imageUrl() }],
-      }))
-  );
+// export const generateDummyPost = (count: number) =>
+//   initialState.mainPosts.concat(
+//     Array(count)
+//       .fill({})
+//       .map(() => ({
+//         id: shortId.generate(),
+//         content: faker.lorem.paragraph(),
+//         User: {
+//           email: faker.internet.email(),
+//           nickname: faker.internet.userName(),
+//         },
+//         Comments: [
+//           {
+//             id: shortId.generate(),
+//             User: {
+//               email: faker.internet.email(),
+//               nickname: faker.internet.userName(),
+//             },
+//             content: faker.lorem.sentence(),
+//           },
+//         ],
+//         Images: [{ src: faker.image.imageUrl() }],
+//       }))
+//   );
 
 const postReducer = (state: State = initialState, action: PostAction) =>
   produce(state, (draft) => {
@@ -125,9 +125,9 @@ const postReducer = (state: State = initialState, action: PostAction) =>
         break;
       case PostActionType.ADD_COMMENT_SUCCESS:
         const post = draft.mainPosts.find(
-          (v) => v.id === action.payload.postId
+          (v) => v.id === action.payload.PostId
         );
-        post.Comments.unshift(action.payload.comment);
+        post.Comments.unshift(action.payload);
         draft.addCommentLoading = false;
         draft.addCommentDone = true;
         break;

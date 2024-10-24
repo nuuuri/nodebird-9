@@ -70,10 +70,7 @@ export const addCommentRequestAction = (payload: {
   payload,
 });
 
-export const addCommentSuccessAction = (payload: {
-  postId: number;
-  comment: Comment;
-}) => ({
+export const addCommentSuccessAction = (payload: Comment) => ({
   type: PostActionType.ADD_COMMENT_SUCCESS,
   payload,
 });

@@ -13,19 +13,18 @@ import shortId from 'shortid';
 
 import { PostActionType } from '../actions/postAction';
 import { UserActionType } from '../actions/userAction';
-import { generateDummyPost } from '../reducers/postReducer';
 
-function loadPostsAPI(data) {
-  return [];
+function loadPostsAPI() {
+  return axios.get('/posts');
 }
 
 function* loadPosts() {
   try {
-    yield delay(1000);
+    const result = yield call(loadPostsAPI);
 
     yield put({
       type: PostActionType.LOAD_POST_SUCCESS,
-      payload: generateDummyPost(10),
+      payload: result.data,
     });
   } catch (err) {
     yield put({
@@ -59,21 +58,20 @@ function* addPost(action) {
   }
 }
 
+function addCommentAPI(data) {
+  return axios.post(`/post/${data.postId}/comment`, data);
+}
+
 function* addComment(action) {
   try {
-    yield delay(1000);
-    //  const result = yield call(logInAPI, action.data);
-    // logInAPI(action.data)와 같음
-    // 굳이 call을 사용하는 이유? : generator는 test하기가 매우 용이함
-
-    const id = shortId.generate();
+    const result = yield call(addCommentAPI, action.payload);
 
     yield put({
       type: PostActionType.ADD_COMMENT_SUCCESS,
-      // payload: result.data,
-      payload: { id, ...action.payload },
+      payload: result.data,
     });
   } catch (err) {
+    console.log(err);
     yield put({
       type: PostActionType.ADD_COMMENT_FAILURE,
       error: err.response.data,
