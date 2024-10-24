@@ -30,7 +30,7 @@ const Global = createGlobalStyle`
 `;
 
 export default function AppLayout({ children }: AppLayoutProps) {
-  const { isLoggedIn } = useSelector((state: RootState) => state.user);
+  const { me } = useSelector((state: RootState) => state.user);
 
   return (
     <div>
@@ -59,7 +59,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
       </Menu>
       <Row gutter={8}>
         <Col xs={24} md={6}>
-          {isLoggedIn ? <UserProfile /> : <LoginForm />}
+          {me ? <UserProfile /> : <LoginForm />}
         </Col>
         <Col xs={24} md={12}>
           {children}

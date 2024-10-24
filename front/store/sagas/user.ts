@@ -3,6 +3,26 @@ import { all, call, delay, fork, put, takeLatest } from 'redux-saga/effects';
 
 import { UserActionType } from '../actions/userAction';
 
+function loadUserInfoAPI() {
+  return axios.get('/user');
+}
+
+function* loadUserInfo() {
+  try {
+    const result = yield call(loadUserInfoAPI);
+
+    yield put({
+      type: UserActionType.LOAD_MY_INFO_SUCCESS,
+      payload: result.data,
+    });
+  } catch (err) {
+    yield put({
+      type: UserActionType.LOAD_MY_INFO_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
 function logInAPI(data) {
   return axios.post('/user/login', data);
 }
@@ -97,6 +117,10 @@ function* unfollow(action) {
 }
 
 // eventListener와 비슷한 역할을 함
+function* watchLoadUserInfo() {
+  yield takeLatest(UserActionType.LOAD_MY_INFO_REQUEST, loadUserInfo);
+}
+
 function* watchLogIn() {
   yield takeLatest(UserActionType.LOG_IN_REQUEST, logIn);
 }
@@ -119,6 +143,7 @@ function* watchUnFollow() {
 
 export default function* userSaga() {
   yield all([
+    fork(watchLoadUserInfo),
     fork(watchLogIn),
     fork(watchLogOut),
     fork(watchSignUp),

@@ -25,8 +25,8 @@ passportConfig();
 
 app.use(
   cors({
-    origin: "*",
-    credentials: false,
+    origin: "http://localhost:3060",
+    credentials: true,
   })
 );
 app.use(express.json()); // 프론트로부터 전달 받은 json은 req에 넣어줌
@@ -40,6 +40,7 @@ app.use(
   })
 );
 app.use(passport.initialize());
+app.use(passport.session());
 
 app.use("/post", postRouter);
 app.use("/user", userRouter);

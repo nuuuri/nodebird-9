@@ -6,6 +6,7 @@ import PostCard from '@/components/PostCard';
 import PostForm from '@/components/PostForm';
 
 import { loadPostRequestAction } from '@/store/actions/postAction';
+import { loadMyInfoRequestAction } from '@/store/actions/userAction';
 import { RootState } from '@/store/reducers';
 
 export default function Home() {
@@ -16,6 +17,7 @@ export default function Home() {
   );
 
   useEffect(() => {
+    dispatch(loadMyInfoRequestAction());
     dispatch(loadPostRequestAction());
   }, [dispatch]);
 

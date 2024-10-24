@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
   all,
   call,
@@ -18,7 +19,7 @@ function loadPostsAPI(data) {
   return [];
 }
 
-function* loadPosts(action) {
+function* loadPosts() {
   try {
     yield delay(1000);
 
@@ -34,22 +35,21 @@ function* loadPosts(action) {
   }
 }
 
+function addPostAPI(data) {
+  return axios.post('/post', data);
+}
+
 function* addPost(action) {
   try {
-    yield delay(1000);
-    //  const result = yield call(logInAPI, action.data);
-    // logInAPI(action.data)와 같음
-    // 굳이 call을 사용하는 이유? : generator는 test하기가 매우 용이함
+    const result = yield call(addPostAPI, action.payload);
 
-    const id = shortId.generate();
     yield put({
       type: PostActionType.ADD_POST_SUCCESS,
-      // payload: result.data,
-      payload: { id, ...action.payload },
+      payload: result.data,
     });
     yield put({
       type: UserActionType.ADD_POST_TO_ME,
-      payload: { id, ...action.payload },
+      payload: result.data,
     });
   } catch (err) {
     yield put({

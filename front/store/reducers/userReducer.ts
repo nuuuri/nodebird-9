@@ -5,6 +5,9 @@ import { User } from '@/types/User';
 import { UserAction, UserActionType } from '../actions/userAction';
 
 interface State {
+  loadMyInfoLoading: boolean;
+  loadMyInfoDone: boolean;
+  loadMyInfoError: string;
   isLoggedIn: boolean;
   isLoggingIn: boolean; // 로그인 시도 중
   isLoggingOut: boolean; // 로그아웃 시도 중
@@ -22,6 +25,9 @@ interface State {
 }
 
 const initialState: State = {
+  loadMyInfoLoading: false,
+  loadMyInfoDone: false,
+  loadMyInfoError: null,
   isLoggedIn: false,
   isLoggingIn: false,
   isLoggingOut: false,
@@ -41,6 +47,20 @@ const initialState: State = {
 const userReducer = (state: State = initialState, action: UserAction) =>
   produce(state, (draft) => {
     switch (action.type) {
+      case UserActionType.LOAD_MY_INFO_REQUEST:
+        draft.loadMyInfoLoading = true;
+        draft.loadMyInfoDone = false;
+        draft.loadMyInfoError = null;
+        break;
+      case UserActionType.LOAD_MY_INFO_SUCCESS:
+        draft.loadMyInfoLoading = false;
+        draft.loadMyInfoDone = true;
+        draft.me = action.payload;
+        break;
+      case UserActionType.LOAD_MY_INFO_FAILURE:
+        draft.loadMyInfoLoading = false;
+        draft.loadMyInfoError = action.error;
+        break;
       case UserActionType.LOG_IN_REQUEST:
         draft.isLoggingIn = true;
         draft.isLoggedIn = false;

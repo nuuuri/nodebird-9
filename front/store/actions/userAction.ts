@@ -1,6 +1,10 @@
 import { Post } from '@/types/Post';
+import { User } from '@/types/User';
 
 export const UserActionType = {
+  LOAD_MY_INFO_REQUEST: 'LOAD_MY_INFO_REQUEST',
+  LOAD_MY_INFO_SUCCESS: 'LOAD_MY_INFO_SUCCESS',
+  LOAD_MY_INFO_FAILURE: 'LOAD_MY_INFO_FAILURE',
   LOG_IN_REQUEST: 'LOG_IN_REQUEST',
   LOG_IN_SUCCESS: 'LOG_IN_SUCCESS',
   LOG_IN_FAILURE: 'LOG_IN_FAILURE',
@@ -19,6 +23,18 @@ export const UserActionType = {
   ADD_POST_TO_ME: ' ADD_POST_TO_ME',
   REMOVE_POST_OF_ME: 'REMOVE_POST_OF_ME',
 } as const;
+
+export const loadMyInfoRequestAction = () => {
+  return { type: UserActionType.LOAD_MY_INFO_REQUEST };
+};
+
+export const loadMyInfoSuccessAction = (payload: User) => {
+  return { type: UserActionType.LOAD_MY_INFO_SUCCESS, payload };
+};
+
+export const loadMyInfoFailureAction = (error: any) => {
+  return { type: UserActionType.LOAD_MY_INFO_FAILURE, error };
+};
 
 export const loginRequestAction = (payload: {
   email: string;
@@ -142,6 +158,9 @@ export const removePostOfMe = (payload: { postId: number }) => {
 };
 
 export type UserAction =
+  | ReturnType<typeof loadMyInfoRequestAction>
+  | ReturnType<typeof loadMyInfoSuccessAction>
+  | ReturnType<typeof loadMyInfoFailureAction>
   | ReturnType<typeof loginRequestAction>
   | ReturnType<typeof loginSuccessAction>
   | ReturnType<typeof loginFailureAction>
