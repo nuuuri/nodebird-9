@@ -14,6 +14,12 @@ export const PostActionType = {
   ADD_COMMENT_REQUEST: 'ADD_COMMENT_REQUEST',
   ADD_COMMENT_SUCCESS: 'ADD_COMMENT_SUCCESS',
   ADD_COMMENT_FAILURE: 'ADD_COMMENT_FAILURE',
+  LIKE_POST_REQUEST: 'LIKE_POST_REQUEST',
+  LIKE_POST_SUCCESS: 'LIKE_POST_SUCCESS',
+  LIKE_POST_FAILURE: 'LIKE_POST_FAILURE',
+  UNLIKE_POST_REQUEST: 'UNLIKE_POST_REQUEST',
+  UNLIKE_POST_SUCCESS: 'UNLIKE_POST_SUCCESS',
+  UNLIKE_POST_FAILURE: 'UNLIKE_POST_FAILURE',
 } as const;
 
 export const loadPostRequestAction = () => ({
@@ -47,12 +53,12 @@ export const addPostFailureAction = (error: any) => ({
   error,
 });
 
-export const removePostRequestAction = (payload: { postId: number }) => ({
+export const removePostRequestAction = (payload: { PostId: number }) => ({
   type: PostActionType.REMOVE_POST_REQUEST,
   payload,
 });
 
-export const removePostSuccessAction = (payload: { postId: number }) => ({
+export const removePostSuccessAction = (payload: { PostId: number }) => ({
   type: PostActionType.REMOVE_POST_SUCCESS,
   payload,
 });
@@ -63,8 +69,8 @@ export const removePostFailureAction = (error: any) => ({
 });
 
 export const addCommentRequestAction = (payload: {
-  postId: number;
-  comment: Omit<Comment, 'id'>;
+  PostId: number;
+  content: string;
 }) => ({
   type: PostActionType.ADD_COMMENT_REQUEST,
   payload,
@@ -80,6 +86,41 @@ export const addCommentFailureAction = (error: any) => ({
   error,
 });
 
+export const likePostRequestAction = (payload: { PostId: number }) => ({
+  type: PostActionType.LIKE_POST_REQUEST,
+  payload,
+});
+
+export const likePostSuccessAction = (payload: {
+  PostId: number;
+  UserId: number;
+}) => ({
+  type: PostActionType.LIKE_POST_SUCCESS,
+  payload,
+});
+
+export const likePostFailureAction = (error: any) => ({
+  type: PostActionType.LIKE_POST_FAILURE,
+  error,
+});
+export const unlikePostRequestAction = (payload: { PostId: number }) => ({
+  type: PostActionType.UNLIKE_POST_REQUEST,
+  payload,
+});
+
+export const unlikePostSuccessAction = (payload: {
+  PostId: number;
+  UserId: number;
+}) => ({
+  type: PostActionType.UNLIKE_POST_SUCCESS,
+  payload,
+});
+
+export const unlikePostFailureAction = (error: any) => ({
+  type: PostActionType.UNLIKE_POST_FAILURE,
+  error,
+});
+
 export type PostAction =
   | ReturnType<typeof loadPostRequestAction>
   | ReturnType<typeof loadPostSuccessAction>
@@ -92,4 +133,10 @@ export type PostAction =
   | ReturnType<typeof removePostFailureAction>
   | ReturnType<typeof addCommentRequestAction>
   | ReturnType<typeof addCommentSuccessAction>
-  | ReturnType<typeof addCommentFailureAction>;
+  | ReturnType<typeof addCommentFailureAction>
+  | ReturnType<typeof likePostRequestAction>
+  | ReturnType<typeof likePostSuccessAction>
+  | ReturnType<typeof likePostFailureAction>
+  | ReturnType<typeof unlikePostRequestAction>
+  | ReturnType<typeof unlikePostSuccessAction>
+  | ReturnType<typeof unlikePostFailureAction>;

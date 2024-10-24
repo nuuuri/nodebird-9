@@ -22,6 +22,12 @@ interface State {
   addCommentLoading: boolean;
   addCommentDone: boolean;
   addCommentError: any;
+  likePostLoading: boolean;
+  likePostDone: boolean;
+  likePostError: string;
+  unlikePostLoading: boolean;
+  unlikePostDone: boolean;
+  unlikePostError: string;
 }
 
 const initialState: State = {
@@ -40,6 +46,12 @@ const initialState: State = {
   addCommentLoading: false,
   addCommentDone: false,
   addCommentError: null,
+  likePostLoading: false,
+  likePostDone: false,
+  likePostError: null,
+  unlikePostLoading: false,
+  unlikePostDone: false,
+  unlikePostError: null,
 };
 
 // export const generateDummyPost = (count: number) =>
@@ -108,7 +120,7 @@ const postReducer = (state: State = initialState, action: PostAction) =>
         break;
       case PostActionType.REMOVE_POST_SUCCESS:
         draft.mainPosts = draft.mainPosts.filter(
-          (v) => v.id !== action.payload.postId
+          (v) => v.id !== action.payload.PostId
         );
         draft.removePostLoading = false;
         draft.removePostDone = true;
@@ -132,7 +144,7 @@ const postReducer = (state: State = initialState, action: PostAction) =>
         draft.addCommentDone = true;
         break;
       // const postIndex = state.mainPosts.findIndex(
-      //   (v) => v.id === action.payload.postId
+      //   (v) => v.id === action.payload.PostId
       // );
       // const post = { ...state.mainPosts[postIndex] };
       // post.Comments = [action.payload.comment, ...post.Comments];
@@ -149,6 +161,42 @@ const postReducer = (state: State = initialState, action: PostAction) =>
         draft.addCommentLoading = false;
         draft.addCommentDone = false;
         draft.addCommentError = action.error;
+        break;
+      case PostActionType.LIKE_POST_REQUEST:
+        draft.likePostLoading = true;
+        draft.likePostDone = false;
+        draft.likePostError = null;
+        break;
+      case PostActionType.LIKE_POST_SUCCESS: {
+        const post = draft.mainPosts.find(
+          (v) => v.id === action.payload.PostId
+        );
+        post.Likers.push({ id: action.payload.UserId });
+        draft.likePostLoading = false;
+        draft.likePostDone = true;
+        break;
+      }
+      case PostActionType.LIKE_POST_FAILURE:
+        draft.likePostLoading = false;
+        draft.likePostError = action.error;
+        break;
+      case PostActionType.UNLIKE_POST_REQUEST:
+        draft.unlikePostLoading = true;
+        draft.unlikePostDone = false;
+        draft.unlikePostError = null;
+        break;
+      case PostActionType.UNLIKE_POST_SUCCESS: {
+        const post = draft.mainPosts.find(
+          (v) => v.id === action.payload.PostId
+        );
+        post.Likers.filter((v) => v.id !== action.payload.UserId);
+        draft.unlikePostLoading = false;
+        draft.unlikePostDone = true;
+        break;
+      }
+      case PostActionType.UNLIKE_POST_FAILURE:
+        draft.unlikePostLoading = false;
+        draft.unlikePostError = action.error;
         break;
       default:
         return state;

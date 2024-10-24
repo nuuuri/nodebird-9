@@ -18,7 +18,11 @@ import FollowButton from './FollowButton';
 import PostCardContent from './PostCardContent';
 import PostImages from './PostImages';
 
-import { removePostRequestAction } from '@/store/actions/postAction';
+import {
+  likePostRequestAction,
+  removePostRequestAction,
+  unlikePostRequestAction,
+} from '@/store/actions/postAction';
 import { RootState } from '@/store/reducers';
 
 interface PostCardProps {
@@ -26,24 +30,28 @@ interface PostCardProps {
 }
 
 export default function PostCard({ post }: PostCardProps) {
-  const email = useSelector((state: RootState) => state.user.me?.email);
+  const { me } = useSelector((state: RootState) => state.user);
   const { removePostLoading } = useSelector((state: RootState) => state.post);
-
-  const [liked, setLiked] = useState(false);
   const [commentFormOpened, setCommentFormOpened] = useState(false);
 
   const dispatch = useDispatch();
 
-  const onToggleLike = useCallback(() => {
-    setLiked((prev) => !prev);
-  }, []);
+  const liked = post.Likers.find((v) => v.id === me?.id);
+
+  const onLike = useCallback(() => {
+    dispatch(likePostRequestAction({ PostId: post.id }));
+  }, [post.id, dispatch]);
+
+  const onUnLike = useCallback(() => {
+    dispatch(unlikePostRequestAction({ PostId: post.id }));
+  }, [post.id, dispatch]);
 
   const onToggleComment = useCallback(() => {
     setCommentFormOpened((prev) => !prev);
   }, []);
 
   const onRemovePost = useCallback(() => {
-    dispatch(removePostRequestAction({ postId: post.id }));
+    dispatch(removePostRequestAction({ PostId: post.id }));
   }, [post.id, dispatch]);
 
   return (
@@ -56,17 +64,17 @@ export default function PostCard({ post }: PostCardProps) {
             <HeartTwoTone
               twoToneColor={'#eb2f96'}
               key="heart"
-              onClick={onToggleLike}
+              onClick={onUnLike}
             />
           ) : (
-            <HeartOutlined key="heart" onClick={onToggleLike} />
+            <HeartOutlined key="heart" onClick={onLike} />
           ),
           <MessageOutlined key="comment" onClick={onToggleComment} />,
           <Popover
             key="more"
             content={
               <ButtonGroup>
-                {email && post.User.email === email && (
+                {me?.id && post.User.id === me?.id && (
                   <>
                     <Button>수정</Button>
                     <Button
@@ -83,7 +91,7 @@ export default function PostCard({ post }: PostCardProps) {
             <EllipsisOutlined />
           </Popover>,
         ]}
-        extra={email && <FollowButton post={post} />}>
+        extra={me?.email && <FollowButton post={post} />}>
         <Card.Meta
           avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
           title={post.User.nickname}

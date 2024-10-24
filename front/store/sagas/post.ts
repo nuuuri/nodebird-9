@@ -27,6 +27,7 @@ function* loadPosts() {
       payload: result.data,
     });
   } catch (err) {
+    console.error(err);
     yield put({
       type: PostActionType.LOAD_POST_FAILURE,
       error: err.response.data,
@@ -51,6 +52,7 @@ function* addPost(action) {
       payload: result.data,
     });
   } catch (err) {
+    console.error(err);
     yield put({
       type: PostActionType.ADD_POST_FAILURE,
       error: err.response.data,
@@ -59,7 +61,7 @@ function* addPost(action) {
 }
 
 function addCommentAPI(data) {
-  return axios.post(`/post/${data.postId}/comment`, data);
+  return axios.post(`/post/${data.PostId}/comment`, data);
 }
 
 function* addComment(action) {
@@ -71,7 +73,7 @@ function* addComment(action) {
       payload: result.data,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     yield put({
       type: PostActionType.ADD_COMMENT_FAILURE,
       error: err.response.data,
@@ -92,8 +94,49 @@ function* removePost(action) {
       payload: action.payload,
     });
   } catch (err) {
+    console.error(err);
     yield put({
       type: PostActionType.REMOVE_POST_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+function likePostAPI(data) {
+  return axios.patch(`/post/${data.PostId}/like`);
+}
+
+function* likePost(action) {
+  try {
+    const result = yield call(likePostAPI, action.payload);
+    yield put({
+      type: PostActionType.LIKE_POST_SUCCESS,
+      payload: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: PostActionType.LIKE_POST_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+function unlikePostAPI(data) {
+  return axios.delete(`/post/${data.PostId}/like`);
+}
+
+function* unlikePost(action) {
+  try {
+    const result = yield call(unlikePostAPI, action.payload);
+    yield put({
+      type: PostActionType.UNLIKE_POST_SUCCESS,
+      payload: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: PostActionType.UNLIKE_POST_FAILURE,
       error: err.response.data,
     });
   }
@@ -115,11 +158,21 @@ function* watchAddComment() {
   yield takeLatest(PostActionType.ADD_COMMENT_REQUEST, addComment);
 }
 
+function* watchLikePost() {
+  yield takeLatest(PostActionType.LIKE_POST_REQUEST, likePost);
+}
+
+function* watchUnlikePost() {
+  yield takeLatest(PostActionType.UNLIKE_POST_REQUEST, unlikePost);
+}
+
 export default function* postSaga() {
   yield all([
     fork(watchLoadPosts),
     fork(watchAddPost),
     fork(watchRemovePost),
     fork(watchAddComment),
+    fork(watchLikePost),
+    fork(watchUnlikePost),
   ]);
 }

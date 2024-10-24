@@ -137,7 +137,7 @@ const userReducer = (state: State = initialState, action: UserAction) =>
         break;
       case UserActionType.REMOVE_POST_OF_ME:
         draft.me.Posts = draft.me.Posts.filter(
-          (v) => v.id !== action.payload.postId
+          (v) => v.id !== action.payload.PostId
         );
         break;
       default:

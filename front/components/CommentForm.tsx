@@ -15,7 +15,6 @@ interface CommentFormProps {
 }
 
 export default function CommentForm({ post }: CommentFormProps) {
-  const { me } = useSelector((state: RootState) => state.user);
   const { addCommentDone } = useSelector((state: RootState) => state.post);
   const {
     value: commentText,
@@ -28,11 +27,11 @@ export default function CommentForm({ post }: CommentFormProps) {
   const onSubmitComment = useCallback(() => {
     dispatch(
       addCommentRequestAction({
-        postId: post.id,
-        comment: { User: me, content: commentText + '' },
+        PostId: post.id,
+        content: commentText + '',
       })
     );
-  }, [post.id, me, commentText, dispatch]);
+  }, [post.id, commentText, dispatch]);
 
   useEffect(() => {
     if (addCommentDone) {

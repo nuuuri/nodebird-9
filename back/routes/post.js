@@ -20,9 +20,21 @@ router.post("/", isLoggedIn, async (req, res, next) => {
         },
         {
           model: Comment,
+          include: [
+            {
+              model: User, // 댓글 작성자
+              attributes: ["id", "nickname"],
+            },
+          ],
         },
         {
-          model: User,
+          model: User, // 게시글 작성자
+          attributes: ["id", "nickname"],
+        },
+        {
+          model: User, // 좋아요 누른 사람
+          as: "Likers",
+          attributes: ["id", "nickname"],
         },
       ],
     });
@@ -34,10 +46,10 @@ router.post("/", isLoggedIn, async (req, res, next) => {
 });
 
 // POST /post/1/comment
-router.post("/:postId/comment", isLoggedIn, async (req, res, next) => {
+router.post("/:PostId/comment", isLoggedIn, async (req, res, next) => {
   try {
     const post = await Post.findOne({
-      where: { id: req.params.postId },
+      where: { id: req.params.PostId },
     });
 
     if (!post) {
@@ -45,9 +57,9 @@ router.post("/:postId/comment", isLoggedIn, async (req, res, next) => {
     }
 
     const comment = await Comment.create({
-      content: req.body.comment.content,
+      content: req.body.content,
       UserId: req.user.id,
-      PostId: parseInt(req.params.postId),
+      PostId: parseInt(req.params.PostId),
     });
 
     const fullComment = await Comment.findOne({
@@ -60,6 +72,38 @@ router.post("/:postId/comment", isLoggedIn, async (req, res, next) => {
       ],
     });
     res.status(201).json(fullComment);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+router.patch("/:PostId/like", async (req, res, next) => {
+  try {
+    const post = await Post.findOne({ where: { id: req.params.PostId } });
+
+    if (!post) {
+      return res.status(403).send("게시글이 존재하지 않습니다.");
+    }
+
+    await post.addLikers(req.user.id);
+    res.json({ PostId: post.id, UserId: req.user.id });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+router.delete("/:PostId/like", async (req, res, next) => {
+  try {
+    const post = await Post.findOne({ where: { id: req.params.PostId } });
+
+    if (!post) {
+      return res.status(403).send("게시글이 존재하지 않습니다.");
+    }
+
+    await post.removeLikers(req.user.id);
+    res.json({ PostId: post.id, UserId: req.user.id });
   } catch (error) {
     console.error(error);
     next(error);

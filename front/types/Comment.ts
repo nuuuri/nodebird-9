@@ -1,6 +1,8 @@
+import { User } from './User';
+
 export interface Comment {
   id: number;
   content: string;
-  UserId: number;
+  User: Pick<User, 'id' | 'nickname'>;
   PostId: number;
 }

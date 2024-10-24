@@ -153,7 +153,7 @@ export const addPostToMe = (payload: Post) => {
   return { type: UserActionType.ADD_POST_TO_ME, payload };
 };
 
-export const removePostOfMe = (payload: { postId: number }) => {
+export const removePostOfMe = (payload: { PostId: number }) => {
   return { type: UserActionType.REMOVE_POST_OF_ME, payload };
 };
 
