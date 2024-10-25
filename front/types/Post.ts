@@ -9,4 +9,5 @@ export interface Post {
   Images: Image[];
   Comments: Comment[];
   Likers: Pick<User, 'id'>[];
+  Retweet?: Post;
 }

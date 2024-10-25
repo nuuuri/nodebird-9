@@ -166,6 +166,26 @@ function* uploadImages(action) {
   }
 }
 
+function retweetPostAPI(data) {
+  return axios.post(`/post/${data}/retweet`);
+}
+
+function* retweetPost(action) {
+  try {
+    const result = yield call(retweetPostAPI, action.payload.PostId);
+    yield put({
+      type: PostActionType.RETWEET_POST_SUCCESS,
+      payload: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: PostActionType.RETWEET_POST_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
 function* watchLoadPosts() {
   yield throttle(5000, PostActionType.LOAD_POST_REQUEST, loadPosts);
 }
@@ -194,6 +214,10 @@ function* watchUploadImages() {
   yield takeLatest(PostActionType.UPLOAD_IMAGES_REQUEST, uploadImages);
 }
 
+function* watchRetweetPost() {
+  yield takeLatest(PostActionType.RETWEET_POST_REQUEST, retweetPost);
+}
+
 export default function* postSaga() {
   yield all([
     fork(watchLoadPosts),
@@ -203,5 +227,6 @@ export default function* postSaga() {
     fork(watchLikePost),
     fork(watchUnlikePost),
     fork(watchUploadImages),
+    fork(watchRetweetPost),
   ]);
 }

@@ -12,9 +12,8 @@ import { RootState } from '@/store/reducers';
 export default function Home() {
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state: RootState) => state.user);
-  const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector(
-    (state: RootState) => state.post
-  );
+  const { mainPosts, hasMorePosts, loadPostsLoading, retweetPostError } =
+    useSelector((state: RootState) => state.post);
 
   useEffect(() => {
     dispatch(loadMyInfoRequestAction());
@@ -45,6 +44,12 @@ export default function Home() {
       window.removeEventListener('scroll', onScroll);
     };
   }, [hasMorePosts, loadPostsLoading, dispatch]);
+
+  useEffect(() => {
+    if (retweetPostError) {
+      alert(retweetPostError);
+    }
+  }, [retweetPostError]);
 
   return (
     <AppLayout>

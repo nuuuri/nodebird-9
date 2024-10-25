@@ -31,6 +31,9 @@ interface State {
   uploadImagesLoading: boolean;
   uploadImagesDone: boolean;
   uploadImagesError: string;
+  retweetPostLoading: boolean;
+  retweetPostDone: boolean;
+  retweetPostError: string;
 }
 
 const initialState: State = {
@@ -58,6 +61,9 @@ const initialState: State = {
   uploadImagesLoading: false,
   uploadImagesDone: false,
   uploadImagesError: null,
+  retweetPostLoading: false,
+  retweetPostDone: false,
+  retweetPostError: null,
 };
 
 // export const generateDummyPost = (count: number) =>
@@ -218,6 +224,21 @@ const postReducer = (state: State = initialState, action: PostAction) =>
       case PostActionType.UPLOAD_IMAGES_FAILURE:
         draft.uploadImagesLoading = false;
         draft.uploadImagesError = action.error;
+        break;
+      case PostActionType.RETWEET_POST_REQUEST:
+        draft.retweetPostLoading = true;
+        draft.retweetPostDone = false;
+        draft.retweetPostError = null;
+        break;
+      case PostActionType.RETWEET_POST_SUCCESS: {
+        draft.retweetPostLoading = false;
+        draft.retweetPostDone = true;
+        draft.mainPosts.unshift(action.payload);
+        break;
+      }
+      case PostActionType.RETWEET_POST_FAILURE:
+        draft.retweetPostLoading = false;
+        draft.retweetPostError = action.error;
         break;
       case PostActionType.REMOVE_IMAGE:
         draft.imagePaths = draft.imagePaths.filter(

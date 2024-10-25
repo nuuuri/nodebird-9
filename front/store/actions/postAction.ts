@@ -23,6 +23,9 @@ export const PostActionType = {
   UPLOAD_IMAGES_REQUEST: 'UPLOAD_IMAGES_REQUEST',
   UPLOAD_IMAGES_SUCCESS: 'UPLOAD_IMAGES_SUCCESS',
   UPLOAD_IMAGES_FAILURE: 'UPLOAD_IMAGES_FAILURE',
+  RETWEET_POST_REQUEST: 'RETWEET_POST_REQUEST',
+  RETWEET_POST_SUCCESS: 'RETWEET_POST_SUCCESS',
+  RETWEET_POST_FAILURE: 'RETWEET_POST_FAILURE',
   REMOVE_IMAGE: 'REMOVE_IMAGE',
 } as const;
 
@@ -138,6 +141,21 @@ export const uploadImagesFailureAction = (error: any) => ({
   error,
 });
 
+export const retweetPostRequestAction = (payload: { PostId: number }) => ({
+  type: PostActionType.RETWEET_POST_REQUEST,
+  payload,
+});
+
+export const retweetPostSuccessAction = (payload: Post) => ({
+  type: PostActionType.RETWEET_POST_SUCCESS,
+  payload,
+});
+
+export const retweetPostFailureAction = (error: any) => ({
+  type: PostActionType.RETWEET_POST_FAILURE,
+  error,
+});
+
 export const removeImage = (payload: { index: number }) => ({
   type: PostActionType.REMOVE_IMAGE,
   payload,
@@ -165,4 +183,7 @@ export type PostAction =
   | ReturnType<typeof uploadImagesRequestAction>
   | ReturnType<typeof uploadImagesSuccessAction>
   | ReturnType<typeof uploadImagesFailureAction>
+  | ReturnType<typeof retweetPostRequestAction>
+  | ReturnType<typeof retweetPostSuccessAction>
+  | ReturnType<typeof retweetPostFailureAction>
   | ReturnType<typeof removeImage>;
