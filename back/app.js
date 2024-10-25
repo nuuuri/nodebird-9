@@ -6,6 +6,7 @@ const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
+const path = require("path");
 
 const postRouter = require("./routes/post");
 const postsRouter = require("./routes/posts");
@@ -32,6 +33,7 @@ app.use(
     credentials: true,
   })
 );
+app.use("/", express.static(path.join(__dirname, "uploads")));
 app.use(express.json()); // 프론트로부터 전달 받은 json은 req에 넣어줌
 app.use(express.urlencoded({ extended: true })); // form 데이터 처리
 app.use(cookieParser(process.env.COOKIE_SECRET));

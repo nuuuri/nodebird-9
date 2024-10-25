@@ -23,6 +23,7 @@ export const PostActionType = {
   UPLOAD_IMAGES_REQUEST: 'UPLOAD_IMAGES_REQUEST',
   UPLOAD_IMAGES_SUCCESS: 'UPLOAD_IMAGES_SUCCESS',
   UPLOAD_IMAGES_FAILURE: 'UPLOAD_IMAGES_FAILURE',
+  REMOVE_IMAGE: 'REMOVE_IMAGE',
 } as const;
 
 export const loadPostRequestAction = () => ({
@@ -39,9 +40,7 @@ export const loadPostFailureAction = (error: any) => ({
   error,
 });
 
-export const addPostRequestAction = (
-  payload: Pick<Post, 'content' | 'Images'>
-) => ({
+export const addPostRequestAction = (payload: FormData) => ({
   type: PostActionType.ADD_POST_REQUEST,
   payload,
 });
@@ -139,6 +138,11 @@ export const uploadImagesFailureAction = (error: any) => ({
   error,
 });
 
+export const removeImage = (payload: { index: number }) => ({
+  type: PostActionType.REMOVE_IMAGE,
+  payload,
+});
+
 export type PostAction =
   | ReturnType<typeof loadPostRequestAction>
   | ReturnType<typeof loadPostSuccessAction>
@@ -160,4 +164,5 @@ export type PostAction =
   | ReturnType<typeof unlikePostFailureAction>
   | ReturnType<typeof uploadImagesRequestAction>
   | ReturnType<typeof uploadImagesSuccessAction>
-  | ReturnType<typeof uploadImagesFailureAction>;
+  | ReturnType<typeof uploadImagesFailureAction>
+  | ReturnType<typeof removeImage>;

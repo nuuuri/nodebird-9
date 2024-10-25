@@ -219,6 +219,11 @@ const postReducer = (state: State = initialState, action: PostAction) =>
         draft.uploadImagesLoading = false;
         draft.uploadImagesError = action.error;
         break;
+      case PostActionType.REMOVE_IMAGE:
+        draft.imagePaths = draft.imagePaths.filter(
+          (v, i) => i !== action.payload.index
+        );
+        break;
       default:
         return state;
     }

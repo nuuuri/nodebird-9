@@ -26,7 +26,7 @@ export default function PostImages({ images }: PostImagesProps) {
       <>
         <img
           role="presentation"
-          src={images[0].src}
+          src={`http://localhost:3065/${images[0].src}`}
           alt={images[0].src}
           style={{ maxHeight: 400, objectFit: 'contain' }}
           onClick={onZoom}

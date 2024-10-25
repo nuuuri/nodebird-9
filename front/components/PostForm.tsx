@@ -7,6 +7,7 @@ import { useInput } from '@/utils/useInput';
 
 import {
   addPostRequestAction,
+  removeImage,
   uploadImagesRequestAction,
 } from '@/store/actions/postAction';
 import { RootState } from '@/store/reducers';
@@ -43,16 +44,22 @@ export default function PostForm() {
     [dispath]
   );
 
-  const onRemoveImage = useCallback((index: number) => () => {}, []);
+  const onRemoveImage = useCallback(
+    (index: number) => () => {
+      dispath(removeImage({ index }));
+    },
+    [dispath]
+  );
 
   const onSubmit = useCallback(() => {
-    dispath(
-      addPostRequestAction({
-        content: text.toString(),
-        Images: [],
-      })
-    );
-  }, [dispath, text]);
+    const formData = new FormData();
+    imagePaths.forEach((p) => {
+      formData.append('image', p);
+    });
+    formData.append('content', text.toString());
+
+    dispath(addPostRequestAction(formData));
+  }, [imagePaths, text, dispath]);
 
   useEffect(() => {
     if (addPostDone) {
@@ -87,7 +94,11 @@ export default function PostForm() {
         <div>
           {imagePaths.map((v, idx) => (
             <div key={v} style={{ display: 'inline-block' }}>
-              <img src={v} style={{ width: '200px' }} alt="v" />
+              <img
+                src={`http://localhost:3065/${v}`}
+                style={{ width: '200px' }}
+                alt="v"
+              />
               <div>
                 <Button onClick={onRemoveImage(idx)}>제거</Button>
               </div>
