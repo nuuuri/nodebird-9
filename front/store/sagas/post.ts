@@ -81,9 +81,13 @@ function* addComment(action) {
   }
 }
 
+function removePostAPI(data) {
+  return axios.delete(`/post/${data.PostId}`);
+}
+
 function* removePost(action) {
   try {
-    yield delay(1000);
+    yield call(removePostAPI, action.payload);
 
     yield put({
       type: PostActionType.REMOVE_POST_SUCCESS,

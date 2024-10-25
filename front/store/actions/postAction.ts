@@ -37,7 +37,7 @@ export const loadPostFailureAction = (error: any) => ({
 });
 
 export const addPostRequestAction = (
-  payload: Pick<Post, 'content' | 'Images' | 'User'>
+  payload: Pick<Post, 'content' | 'Images'>
 ) => ({
   type: PostActionType.ADD_POST_REQUEST,
   payload,

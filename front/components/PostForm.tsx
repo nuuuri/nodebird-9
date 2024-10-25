@@ -13,7 +13,6 @@ export default function PostForm() {
   const { imagePaths, addPostDone } = useSelector(
     (state: RootState) => state.post
   );
-  const { email, nickname } = useSelector((state: RootState) => state.user.me);
 
   const {
     value: text,
@@ -32,10 +31,9 @@ export default function PostForm() {
       addPostRequestAction({
         content: text.toString(),
         Images: [],
-        User: { email, nickname },
       })
     );
-  }, [dispath, text, email, nickname]);
+  }, [dispath, text]);
 
   useEffect(() => {
     if (addPostDone) {

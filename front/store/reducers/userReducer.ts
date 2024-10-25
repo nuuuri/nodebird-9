@@ -55,6 +55,7 @@ const userReducer = (state: State = initialState, action: UserAction) =>
       case UserActionType.LOAD_MY_INFO_SUCCESS:
         draft.loadMyInfoLoading = false;
         draft.loadMyInfoDone = true;
+        draft.isLoggedIn = true;
         draft.me = action.payload;
         break;
       case UserActionType.LOAD_MY_INFO_FAILURE:

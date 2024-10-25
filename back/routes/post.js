@@ -45,6 +45,21 @@ router.post("/", isLoggedIn, async (req, res, next) => {
   }
 });
 
+router.delete("/:PostId", isLoggedIn, async (req, res, next) => {
+  try {
+    await Post.destroy({
+      where: {
+        id: req.params.PostId,
+        UserId: req.user.id,
+      },
+    });
+    res.status(200).json({ PostId: parseInt(req.params.PostId, 10) });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 // POST /post/1/comment
 router.post("/:PostId/comment", isLoggedIn, async (req, res, next) => {
   try {
@@ -78,7 +93,7 @@ router.post("/:PostId/comment", isLoggedIn, async (req, res, next) => {
   }
 });
 
-router.patch("/:PostId/like", async (req, res, next) => {
+router.patch("/:PostId/like", isLoggedIn, async (req, res, next) => {
   try {
     const post = await Post.findOne({ where: { id: req.params.PostId } });
 
@@ -87,14 +102,14 @@ router.patch("/:PostId/like", async (req, res, next) => {
     }
 
     await post.addLikers(req.user.id);
-    res.json({ PostId: post.id, UserId: req.user.id });
+    res.status(200).json({ PostId: post.id, UserId: req.user.id });
   } catch (error) {
     console.error(error);
     next(error);
   }
 });
 
-router.delete("/:PostId/like", async (req, res, next) => {
+router.delete("/:PostId/like", isLoggedIn, async (req, res, next) => {
   try {
     const post = await Post.findOne({ where: { id: req.params.PostId } });
 
@@ -103,7 +118,7 @@ router.delete("/:PostId/like", async (req, res, next) => {
     }
 
     await post.removeLikers(req.user.id);
-    res.json({ PostId: post.id, UserId: req.user.id });
+    res.status(200).json({ PostId: post.id, UserId: req.user.id });
   } catch (error) {
     console.error(error);
     next(error);
