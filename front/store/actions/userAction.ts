@@ -20,6 +20,9 @@ export const UserActionType = {
   UNFOLLOW_REQUEST: 'UNFOLLOW_REQUEST',
   UNFOLLOW_SUCCESS: 'UNFOLLOW_SUCCESS',
   UNFOLLOW_FAILURE: 'UNFOLLOW_FAILURE',
+  CHANGE_NICKNAME_REQUEST: 'CHANGE_NICKNAME_REQUEST',
+  CHANGE_NICKNAME_SUCCESS: 'CHANGE_NICKNAME_SUCCESS',
+  CHANGE_NICKNAME_FAILURE: 'CHANGE_NICKNAME_FAILURE',
   ADD_POST_TO_ME: ' ADD_POST_TO_ME',
   REMOVE_POST_OF_ME: 'REMOVE_POST_OF_ME',
 } as const;
@@ -149,6 +152,27 @@ export const unfollowFailureAction = (error: any) => {
   };
 };
 
+export const changeNicknameRequestAction = (payload: { nickname: string }) => {
+  return {
+    type: UserActionType.CHANGE_NICKNAME_REQUEST,
+    payload,
+  };
+};
+
+export const changeNicknameSuccessAction = (payload: { nickname: string }) => {
+  return {
+    type: UserActionType.CHANGE_NICKNAME_SUCCESS,
+    payload,
+  };
+};
+
+export const changeNicknameFailureAction = (error: any) => {
+  return {
+    type: UserActionType.CHANGE_NICKNAME_FAILURE,
+    error,
+  };
+};
+
 export const addPostToMe = (payload: Post) => {
   return { type: UserActionType.ADD_POST_TO_ME, payload };
 };
@@ -176,5 +200,8 @@ export type UserAction =
   | ReturnType<typeof unfollowRequestAction>
   | ReturnType<typeof unfollowSuccessAction>
   | ReturnType<typeof unfollowFailureAction>
+  | ReturnType<typeof changeNicknameRequestAction>
+  | ReturnType<typeof changeNicknameSuccessAction>
+  | ReturnType<typeof changeNicknameFailureAction>
   | ReturnType<typeof addPostToMe>
   | ReturnType<typeof removePostOfMe>;

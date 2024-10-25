@@ -21,6 +21,9 @@ interface State {
   unfollowLoading: boolean; // 언팔로잉 시도 중
   unfollowDone: boolean;
   unfollowError: string;
+  changeNicknameLoading: boolean; // 닉네임 변경 시도 중
+  changeNicknameDone: boolean;
+  changeNicknameError: string;
   me: User;
 }
 
@@ -41,6 +44,9 @@ const initialState: State = {
   unfollowLoading: false,
   unfollowDone: false,
   unfollowError: null,
+  changeNicknameLoading: false,
+  changeNicknameDone: false,
+  changeNicknameError: null,
   me: null,
 };
 
@@ -132,6 +138,20 @@ const userReducer = (state: State = initialState, action: UserAction) =>
         draft.unfollowLoading = false;
         draft.unfollowDone = false;
         draft.unfollowError = action.error;
+        break;
+      case UserActionType.CHANGE_NICKNAME_REQUEST:
+        draft.changeNicknameLoading = true;
+        draft.changeNicknameDone = false;
+        break;
+      case UserActionType.CHANGE_NICKNAME_SUCCESS:
+        draft.changeNicknameLoading = false;
+        draft.changeNicknameDone = true;
+        draft.me.nickname = action.payload.nickname;
+        break;
+      case UserActionType.CHANGE_NICKNAME_FAILURE:
+        draft.changeNicknameLoading = false;
+        draft.changeNicknameDone = false;
+        draft.changeNicknameError = action.error;
         break;
       case UserActionType.ADD_POST_TO_ME:
         draft.me.Posts.unshift(action.payload);
