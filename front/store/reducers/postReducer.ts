@@ -28,6 +28,9 @@ interface State {
   unlikePostLoading: boolean;
   unlikePostDone: boolean;
   unlikePostError: string;
+  uploadImagesLoading: boolean;
+  uploadImagesDone: boolean;
+  uploadImagesError: string;
 }
 
 const initialState: State = {
@@ -52,6 +55,9 @@ const initialState: State = {
   unlikePostLoading: false,
   unlikePostDone: false,
   unlikePostError: null,
+  uploadImagesLoading: false,
+  uploadImagesDone: false,
+  uploadImagesError: null,
 };
 
 // export const generateDummyPost = (count: number) =>
@@ -197,6 +203,21 @@ const postReducer = (state: State = initialState, action: PostAction) =>
       case PostActionType.UNLIKE_POST_FAILURE:
         draft.unlikePostLoading = false;
         draft.unlikePostError = action.error;
+        break;
+      case PostActionType.UPLOAD_IMAGES_REQUEST:
+        draft.uploadImagesLoading = true;
+        draft.uploadImagesDone = false;
+        draft.uploadImagesError = null;
+        break;
+      case PostActionType.UPLOAD_IMAGES_SUCCESS: {
+        draft.imagePaths = action.payload;
+        draft.uploadImagesLoading = false;
+        draft.uploadImagesDone = true;
+        break;
+      }
+      case PostActionType.UPLOAD_IMAGES_FAILURE:
+        draft.uploadImagesLoading = false;
+        draft.uploadImagesError = action.error;
         break;
       default:
         return state;

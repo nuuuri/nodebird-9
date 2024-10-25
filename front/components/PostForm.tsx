@@ -1,11 +1,14 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { ChangeEvent, useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Button, Form, Input } from 'antd';
 
 import { useInput } from '@/utils/useInput';
 
-import { addPostRequestAction } from '@/store/actions/postAction';
+import {
+  addPostRequestAction,
+  uploadImagesRequestAction,
+} from '@/store/actions/postAction';
 import { RootState } from '@/store/reducers';
 
 export default function PostForm() {
@@ -25,6 +28,22 @@ export default function PostForm() {
   const onClickImageUpload = useCallback(() => {
     imageInput.current.click();
   }, []);
+
+  const onChangeImages = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      console.log('images', e.target.files);
+      const imageFormData = new FormData();
+
+      [].forEach.call(e.target.files, (f) => {
+        imageFormData.append('image', f);
+      });
+
+      dispath(uploadImagesRequestAction(imageFormData));
+    },
+    [dispath]
+  );
+
+  const onRemoveImage = useCallback((index: number) => () => {}, []);
 
   const onSubmit = useCallback(() => {
     dispath(
@@ -53,17 +72,24 @@ export default function PostForm() {
         placeholder="어떤 신기한 일이 있었나요?"
       />
       <div>
-        <input ref={imageInput} type="file" multiple hidden />
+        <input
+          ref={imageInput}
+          type="file"
+          name="image"
+          multiple
+          hidden
+          onChange={onChangeImages}
+        />
         <Button onClick={onClickImageUpload}>이미지 업로드</Button>
         <Button type="primary" style={{ float: 'right' }} htmlType="submit">
           짹짹
         </Button>
         <div>
-          {imagePaths.map((v) => (
+          {imagePaths.map((v, idx) => (
             <div key={v} style={{ display: 'inline-block' }}>
               <img src={v} style={{ width: '200px' }} alt="v" />
               <div>
-                <Button>제거</Button>
+                <Button onClick={onRemoveImage(idx)}>제거</Button>
               </div>
             </div>
           ))}

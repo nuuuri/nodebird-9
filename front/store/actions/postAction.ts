@@ -20,6 +20,9 @@ export const PostActionType = {
   UNLIKE_POST_REQUEST: 'UNLIKE_POST_REQUEST',
   UNLIKE_POST_SUCCESS: 'UNLIKE_POST_SUCCESS',
   UNLIKE_POST_FAILURE: 'UNLIKE_POST_FAILURE',
+  UPLOAD_IMAGES_REQUEST: 'UPLOAD_IMAGES_REQUEST',
+  UPLOAD_IMAGES_SUCCESS: 'UPLOAD_IMAGES_SUCCESS',
+  UPLOAD_IMAGES_FAILURE: 'UPLOAD_IMAGES_FAILURE',
 } as const;
 
 export const loadPostRequestAction = () => ({
@@ -121,6 +124,21 @@ export const unlikePostFailureAction = (error: any) => ({
   error,
 });
 
+export const uploadImagesRequestAction = (payload: FormData) => ({
+  type: PostActionType.UPLOAD_IMAGES_REQUEST,
+  payload,
+});
+
+export const uploadImagesSuccessAction = (payload: string[]) => ({
+  type: PostActionType.UPLOAD_IMAGES_SUCCESS,
+  payload,
+});
+
+export const uploadImagesFailureAction = (error: any) => ({
+  type: PostActionType.UPLOAD_IMAGES_FAILURE,
+  error,
+});
+
 export type PostAction =
   | ReturnType<typeof loadPostRequestAction>
   | ReturnType<typeof loadPostSuccessAction>
@@ -139,4 +157,7 @@ export type PostAction =
   | ReturnType<typeof likePostFailureAction>
   | ReturnType<typeof unlikePostRequestAction>
   | ReturnType<typeof unlikePostSuccessAction>
-  | ReturnType<typeof unlikePostFailureAction>;
+  | ReturnType<typeof unlikePostFailureAction>
+  | ReturnType<typeof uploadImagesRequestAction>
+  | ReturnType<typeof uploadImagesSuccessAction>
+  | ReturnType<typeof uploadImagesFailureAction>;
