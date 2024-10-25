@@ -29,8 +29,9 @@ export const PostActionType = {
   REMOVE_IMAGE: 'REMOVE_IMAGE',
 } as const;
 
-export const loadPostRequestAction = () => ({
+export const loadPostRequestAction = (payload: { lastId: number }) => ({
   type: PostActionType.LOAD_POST_REQUEST,
+  payload,
 });
 
 export const loadPostSuccessAction = (payload: Post[]) => ({

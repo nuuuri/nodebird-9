@@ -17,7 +17,7 @@ export default function Home() {
 
   useEffect(() => {
     dispatch(loadMyInfoRequestAction());
-    dispatch(loadPostRequestAction());
+    dispatch(loadPostRequestAction({ lastId: 0 }));
   }, [dispatch]);
 
   useEffect(() => {
@@ -33,7 +33,8 @@ export default function Home() {
         document.documentElement.scrollHeight - 300
       ) {
         if (hasMorePosts && !loadPostsLoading) {
-          dispatch(loadPostRequestAction());
+          const lastId = mainPosts[mainPosts.length - 1]?.id;
+          dispatch(loadPostRequestAction({ lastId }));
         }
       }
     };
@@ -43,7 +44,7 @@ export default function Home() {
     return () => {
       window.removeEventListener('scroll', onScroll);
     };
-  }, [hasMorePosts, loadPostsLoading, dispatch]);
+  }, [mainPosts, hasMorePosts, loadPostsLoading, dispatch]);
 
   useEffect(() => {
     if (retweetPostError) {

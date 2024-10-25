@@ -14,13 +14,13 @@ import shortId from 'shortid';
 import { PostActionType } from '../actions/postAction';
 import { UserActionType } from '../actions/userAction';
 
-function loadPostsAPI() {
-  return axios.get('/posts');
+function loadPostsAPI(data) {
+  return axios.get(`/posts?lastId=${data || 0}`);
 }
 
-function* loadPosts() {
+function* loadPosts(action) {
   try {
-    const result = yield call(loadPostsAPI);
+    const result = yield call(loadPostsAPI, action.payload.lastId);
 
     yield put({
       type: PostActionType.LOAD_POST_SUCCESS,

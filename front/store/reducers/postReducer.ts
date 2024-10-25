@@ -100,10 +100,10 @@ const postReducer = (state: State = initialState, action: PostAction) =>
         draft.loadPostsError = null;
         break;
       case PostActionType.LOAD_POST_SUCCESS:
-        draft.mainPosts = action.payload.concat(draft.mainPosts);
         draft.loadPostsLoading = false;
         draft.loadPostsDone = true;
-        draft.hasMorePosts = draft.mainPosts.length < 50;
+        draft.mainPosts = draft.mainPosts.concat(action.payload);
+        draft.hasMorePosts = action.payload.length === 10;
         break;
       case PostActionType.LOAD_POST_FAILURE:
         draft.loadPostsLoading = false;
