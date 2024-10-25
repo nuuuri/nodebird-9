@@ -20,6 +20,9 @@ export const UserActionType = {
   UNFOLLOW_REQUEST: 'UNFOLLOW_REQUEST',
   UNFOLLOW_SUCCESS: 'UNFOLLOW_SUCCESS',
   UNFOLLOW_FAILURE: 'UNFOLLOW_FAILURE',
+  REMOVE_FOLLOWER_REQUEST: 'REMOVE_FOLLOWER_REQUEST',
+  REMOVE_FOLLOWER_SUCCESS: 'REMOVE_FOLLOWER_SUCCESS',
+  REMOVE_FOLLOWER_FAILURE: 'REMOVE_FOLLOWER_FAILURE',
   CHANGE_NICKNAME_REQUEST: 'CHANGE_NICKNAME_REQUEST',
   CHANGE_NICKNAME_SUCCESS: 'CHANGE_NICKNAME_SUCCESS',
   CHANGE_NICKNAME_FAILURE: 'CHANGE_NICKNAME_FAILURE',
@@ -105,7 +108,7 @@ export const signUpFailureAction = (error: any) => {
 };
 
 export const followRequestAction = (payload: {
-  email: string;
+  id: number;
   nickname: string;
 }) => {
   return {
@@ -115,7 +118,7 @@ export const followRequestAction = (payload: {
 };
 
 export const followSuccessAction = (payload: {
-  email: string;
+  id: number;
   nickname: string;
 }) => {
   return {
@@ -131,14 +134,20 @@ export const followFailureAction = (error: any) => {
   };
 };
 
-export const unfollowRequestAction = (payload: { email: string }) => {
+export const unfollowRequestAction = (payload: {
+  id: number;
+  nickname: string;
+}) => {
   return {
     type: UserActionType.UNFOLLOW_REQUEST,
     payload,
   };
 };
 
-export const unfollowSuccessAction = (payload: { email: string }) => {
+export const unfollowSuccessAction = (payload: {
+  id: number;
+  nickname: string;
+}) => {
   return {
     type: UserActionType.UNFOLLOW_SUCCESS,
     payload,
@@ -148,6 +157,33 @@ export const unfollowSuccessAction = (payload: { email: string }) => {
 export const unfollowFailureAction = (error: any) => {
   return {
     type: UserActionType.UNFOLLOW_FAILURE,
+    error,
+  };
+};
+
+export const removeFollowerRequestAction = (payload: {
+  id: number;
+  nickname: string;
+}) => {
+  return {
+    type: UserActionType.REMOVE_FOLLOWER_REQUEST,
+    payload,
+  };
+};
+
+export const removeFollowerSuccessAction = (payload: {
+  id: number;
+  nickname: string;
+}) => {
+  return {
+    type: UserActionType.REMOVE_FOLLOWER_SUCCESS,
+    payload,
+  };
+};
+
+export const removeFollowerFailureAction = (error: any) => {
+  return {
+    type: UserActionType.REMOVE_FOLLOWER_FAILURE,
     error,
   };
 };
@@ -200,6 +236,9 @@ export type UserAction =
   | ReturnType<typeof unfollowRequestAction>
   | ReturnType<typeof unfollowSuccessAction>
   | ReturnType<typeof unfollowFailureAction>
+  | ReturnType<typeof removeFollowerRequestAction>
+  | ReturnType<typeof removeFollowerSuccessAction>
+  | ReturnType<typeof removeFollowerFailureAction>
   | ReturnType<typeof changeNicknameRequestAction>
   | ReturnType<typeof changeNicknameSuccessAction>
   | ReturnType<typeof changeNicknameFailureAction>

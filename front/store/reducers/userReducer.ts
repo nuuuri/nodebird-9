@@ -21,6 +21,9 @@ interface State {
   unfollowLoading: boolean; // 언팔로잉 시도 중
   unfollowDone: boolean;
   unfollowError: string;
+  removeFollowerLoading: boolean;
+  removeFollowerDone: boolean;
+  removeFollowerError: string;
   changeNicknameLoading: boolean; // 닉네임 변경 시도 중
   changeNicknameDone: boolean;
   changeNicknameError: string;
@@ -44,6 +47,9 @@ const initialState: State = {
   unfollowLoading: false,
   unfollowDone: false,
   unfollowError: null,
+  removeFollowerLoading: false,
+  removeFollowerDone: false,
+  removeFollowerError: null,
   changeNicknameLoading: false,
   changeNicknameDone: false,
   changeNicknameError: null,
@@ -131,13 +137,29 @@ const userReducer = (state: State = initialState, action: UserAction) =>
         draft.unfollowLoading = false;
         draft.unfollowDone = true;
         draft.me.Followings = draft.me.Followings.filter(
-          (v) => v.email !== action.payload.email
+          (v) => v.id !== action.payload.id
         );
         break;
       case UserActionType.UNFOLLOW_FAILURE:
         draft.unfollowLoading = false;
         draft.unfollowDone = false;
         draft.unfollowError = action.error;
+        break;
+      case UserActionType.REMOVE_FOLLOWER_REQUEST:
+        draft.removeFollowerLoading = true;
+        draft.removeFollowerDone = false;
+        break;
+      case UserActionType.REMOVE_FOLLOWER_SUCCESS:
+        draft.removeFollowerLoading = false;
+        draft.removeFollowerDone = true;
+        draft.me.Followers = draft.me.Followers.filter(
+          (v) => v.id !== action.payload.id
+        );
+        break;
+      case UserActionType.REMOVE_FOLLOWER_FAILURE:
+        draft.removeFollowerLoading = false;
+        draft.removeFollowerDone = false;
+        draft.removeFollowerError = action.error;
         break;
       case UserActionType.CHANGE_NICKNAME_REQUEST:
         draft.changeNicknameLoading = true;

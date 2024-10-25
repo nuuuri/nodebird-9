@@ -17,14 +17,17 @@ router.get("/", async (req, res, next) => {
         include: [
           {
             model: Post,
+            attributes: ["id"],
           },
           {
             model: User,
             as: "Followings",
+            attributes: ["id", "nickname"],
           },
           {
             model: User,
             as: "Followers",
+            attributes: ["id", "nickname"],
           },
         ],
       });
@@ -91,14 +94,17 @@ router.post("/login", isNotLoggedIn, (req, res, next) => {
         include: [
           {
             model: Post,
+            attributes: ["id"],
           },
           {
             model: User,
             as: "Followings",
+            attributes: ["id", "nickname"],
           },
           {
             model: User,
             as: "Followers",
+            attributes: ["id", "nickname"],
           },
         ],
       });
@@ -135,4 +141,54 @@ router.patch("/nickname", isLoggedIn, async (req, res, next) => {
     next(error); // status 500
   }
 });
+
+router.patch("/:UserId/follow", isLoggedIn, async (req, res, next) => {
+  try {
+    const user = await User.findOne({ where: { id: req.params.UserId } });
+
+    if (!user) {
+      res.status(403).send("없는 사람을 팔로우할 수 없습니다.");
+    }
+
+    await user.addFollowers(req.user.id);
+    res.status(200).json({ id: parseInt(req.params.UserId) });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+router.delete("/:UserId/follow", isLoggedIn, async (req, res, next) => {
+  try {
+    const user = await User.findOne({ where: { id: req.params.UserId } });
+
+    if (!user) {
+      res.status(403).send("없는 사람을 언팔로우할 수 없습니다.");
+    }
+
+    await user.removeFollowers(req.user.id);
+    res.status(200).json({ id: parseInt(req.params.UserId) });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+// 팔로워 차단 (팔로우 취소)
+router.delete("/:UserId/follower", isLoggedIn, async (req, res, next) => {
+  try {
+    const user = await User.findOne({ where: { id: req.params.UserId } });
+
+    if (!user) {
+      res.status(403).send("없는 유저입니다.");
+    }
+
+    await user.removeFollowings(req.user.id);
+    res.status(200).json({ UserId: parseInt(req.params.userId, 10) });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 module.exports = router;

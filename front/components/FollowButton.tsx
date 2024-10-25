@@ -19,17 +19,22 @@ export default function FollowButton({ post }: FollowButtonProps) {
     (state: RootState) => state.user
   );
 
-  const isFollowing = me?.Followings.find((v) => v.email === post.User.email);
+  const isFollowing = me?.Followings.find((v) => v.id === post.User.id);
 
   const dispatch = useDispatch();
 
   const onClickButton = () => {
     if (isFollowing) {
-      dispatch(unfollowRequestAction({ email: post.User.email }));
+      dispatch(
+        unfollowRequestAction({
+          id: post.User.id,
+          nickname: post.User.nickname,
+        })
+      );
     } else {
       dispatch(
         followRequestAction({
-          email: post.User.email,
+          id: post.User.id,
           nickname: post.User.nickname,
         })
       );

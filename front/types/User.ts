@@ -6,6 +6,6 @@ export interface User {
   password: string;
   nickname: string;
   Posts: Post[];
-  Followings: Pick<User, 'email' | 'nickname'>[];
-  Followers: Pick<User, 'email' | 'nickname'>[];
+  Followings: Pick<User, 'id' | 'nickname'>[];
+  Followers: Pick<User, 'id' | 'nickname'>[];
 }

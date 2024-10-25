@@ -6,21 +6,28 @@ import { Button, Card, List } from 'antd';
 
 import { User } from '@/types/User';
 
-import { unfollowRequestAction } from '@/store/actions/userAction';
+import {
+  removeFollowerRequestAction,
+  unfollowRequestAction,
+} from '@/store/actions/userAction';
 
 interface FollowListProps {
   header: string;
-  data: Pick<User, 'email' | 'nickname'>[];
+  data: Pick<User, 'id' | 'nickname'>[];
 }
 
 export default function FollowList({ header, data }: FollowListProps) {
   const dispatch = useDispatch();
 
   const onClickUnfollowButton = useCallback(
-    (email: string) => {
-      dispatch(unfollowRequestAction({ email }));
+    (userData: Pick<User, 'id' | 'nickname'>) => () => {
+      if (header === '팔로잉') {
+        dispatch(unfollowRequestAction({ ...userData }));
+      } else {
+        dispatch(removeFollowerRequestAction({ ...userData }));
+      }
     },
-    [dispatch]
+    [header, dispatch]
   );
 
   return (
@@ -42,7 +49,10 @@ export default function FollowList({ header, data }: FollowListProps) {
             actions={[
               <StopOutlined
                 key="stop"
-                onClick={() => onClickUnfollowButton(item.email)}
+                onClick={onClickUnfollowButton({
+                  id: item.id,
+                  nickname: item.nickname,
+                })}
               />,
             ]}>
             <Card.Meta description={item.nickname} />
