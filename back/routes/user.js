@@ -33,7 +33,7 @@ router.get("/", async (req, res, next) => {
       });
       res.status(200).json(fullUserInfoWithoutPassword);
     } else {
-      res.status(200).json(null);
+      res.status(401).send("로그인이 필요합니다.");
     }
   } catch (error) {
     console.error(error);
