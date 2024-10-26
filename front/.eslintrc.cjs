@@ -81,7 +81,6 @@ module.exports = {
       },
     ],
     '@typescript-eslint/explicit-function-return-type': 'off',
-    'no-param-reassign': 'off',
     'import/order': [
       'error',
       {
@@ -130,15 +129,13 @@ module.exports = {
         },
       },
     ],
-    'react-refresh/only-export-components': [
-      'warn',
-      { allowConstantExport: true },
-    ],
+    'no-param-reassign': 'off',
     'prettier/prettier': [
       'error',
       {
         useTabs: false,
       },
     ],
+    'react-refresh/only-export-components': 'off',
   },
 };

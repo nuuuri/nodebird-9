@@ -1,12 +1,18 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { END } from 'redux-saga';
+
 import AppLayout from '@/components/AppLayout';
 import PostCard from '@/components/PostCard';
 import PostForm from '@/components/PostForm';
 
-import { loadPostRequestAction } from '@/store/actions/postAction';
-import { loadMyInfoRequestAction } from '@/store/actions/userAction';
+import {
+  loadPostRequestAction,
+  PostActionType,
+} from '@/store/actions/postAction';
+import { UserActionType } from '@/store/actions/userAction';
+import wrapper from '@/store/configureStore';
 import { RootState } from '@/store/reducers';
 
 export default function Home() {
@@ -15,10 +21,10 @@ export default function Home() {
   const { mainPosts, hasMorePosts, loadPostsLoading, retweetPostError } =
     useSelector((state: RootState) => state.post);
 
-  useEffect(() => {
-    dispatch(loadMyInfoRequestAction());
-    dispatch(loadPostRequestAction({ lastId: 0 }));
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(loadMyInfoRequestAction());
+  //   dispatch(loadPostRequestAction({ lastId: 0 }));
+  // }, [dispatch]);
 
   useEffect(() => {
     const onScroll = () => {
@@ -61,3 +67,19 @@ export default function Home() {
     </AppLayout>
   );
 }
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  async (context) => {
+    context.store.dispatch({
+      type: UserActionType.LOAD_MY_INFO_REQUEST,
+    });
+    context.store.dispatch({
+      type: PostActionType.LOAD_POST_REQUEST,
+      payload: { lastId: 0 },
+    });
+
+    // REQUEST를 보낸 후 종료하지 않고, SUCCESS가 될 때까지 기다림
+    context.store.dispatch(END);
+    await context.store.sagaTask.toPromise();
+  }
+);
