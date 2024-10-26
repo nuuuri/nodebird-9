@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import axios from 'axios';
 import { END } from 'redux-saga';
 
 import AppLayout from '@/components/AppLayout';
@@ -70,6 +71,13 @@ export default function Home() {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   async (context) => {
+    // 쿠키 설정
+    const cookie = context.req ? context.req.headers.cookie : '';
+    axios.defaults.headers.Cookie = '';
+    if (context.req && cookie) {
+      axios.defaults.headers.Cookie = cookie;
+    }
+
     context.store.dispatch({
       type: UserActionType.LOAD_MY_INFO_REQUEST,
     });

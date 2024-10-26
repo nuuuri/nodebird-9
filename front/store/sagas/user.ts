@@ -3,11 +3,11 @@ import { all, call, delay, fork, put, takeLatest } from 'redux-saga/effects';
 
 import { UserActionType } from '../actions/userAction';
 
-function loadUserInfoAPI() {
-  return axios.get('/user');
+function loadUserInfoAPI(data?) {
+  return axios.get(data ? `/user/${data}` : '/user');
 }
 
-function* loadUserInfo() {
+function* loadMyInfo() {
   try {
     const result = yield call(loadUserInfoAPI);
 
@@ -171,8 +171,8 @@ function* changeNickname(action) {
 }
 
 // eventListener와 비슷한 역할을 함
-function* watchLoadUserInfo() {
-  yield takeLatest(UserActionType.LOAD_MY_INFO_REQUEST, loadUserInfo);
+function* watchLoadMyInfo() {
+  yield takeLatest(UserActionType.LOAD_MY_INFO_REQUEST, loadMyInfo);
 }
 
 function* watchLogIn() {
@@ -205,7 +205,7 @@ function* watchUnChangeNickname() {
 
 export default function* userSaga() {
   yield all([
-    fork(watchLoadUserInfo),
+    fork(watchLoadMyInfo),
     fork(watchLogIn),
     fork(watchLogOut),
     fork(watchSignUp),
