@@ -1,10 +1,16 @@
 import { Post } from '@/types/Post';
-import { User } from '@/types/User';
+import { Me, User } from '@/types/User';
 
 export const UserActionType = {
   LOAD_MY_INFO_REQUEST: 'LOAD_MY_INFO_REQUEST',
   LOAD_MY_INFO_SUCCESS: 'LOAD_MY_INFO_SUCCESS',
   LOAD_MY_INFO_FAILURE: 'LOAD_MY_INFO_FAILURE',
+  LOAD_USER_REQUEST: 'LOAD_USER_REQUEST',
+  LOAD_USER_SUCCESS: 'LOAD_USER_SUCCESS',
+  LOAD_USER_FAILURE: 'LOAD_USER_FAILURE',
+  LOAD_USER_INFO_REQUEST: 'LOAD_USER_INFO_REQUEST',
+  LOAD_USER_INFO_SUCCESS: 'LOAD_USER_INFO_SUCCESS',
+  LOAD_USER_INFO_FAILURE: 'LOAD_USER_INFO_FAILURE',
   LOG_IN_REQUEST: 'LOG_IN_REQUEST',
   LOG_IN_SUCCESS: 'LOG_IN_SUCCESS',
   LOG_IN_FAILURE: 'LOG_IN_FAILURE',
@@ -34,12 +40,24 @@ export const loadMyInfoRequestAction = () => {
   return { type: UserActionType.LOAD_MY_INFO_REQUEST };
 };
 
-export const loadMyInfoSuccessAction = (payload: User) => {
+export const loadMyInfoSuccessAction = (payload: Me) => {
   return { type: UserActionType.LOAD_MY_INFO_SUCCESS, payload };
 };
 
 export const loadMyInfoFailureAction = (error: any) => {
   return { type: UserActionType.LOAD_MY_INFO_FAILURE, error };
+};
+
+export const loadUserRequestAction = (payload: { UserId: number }) => {
+  return { type: UserActionType.LOAD_USER_REQUEST, payload };
+};
+
+export const loadUserSuccessAction = (payload: User) => {
+  return { type: UserActionType.LOAD_USER_SUCCESS, payload };
+};
+
+export const loadUserFailureAction = (error: any) => {
+  return { type: UserActionType.LOAD_USER_FAILURE, error };
 };
 
 export const loginRequestAction = (payload: {
@@ -221,6 +239,9 @@ export type UserAction =
   | ReturnType<typeof loadMyInfoRequestAction>
   | ReturnType<typeof loadMyInfoSuccessAction>
   | ReturnType<typeof loadMyInfoFailureAction>
+  | ReturnType<typeof loadUserRequestAction>
+  | ReturnType<typeof loadUserSuccessAction>
+  | ReturnType<typeof loadUserFailureAction>
   | ReturnType<typeof loginRequestAction>
   | ReturnType<typeof loginSuccessAction>
   | ReturnType<typeof loginFailureAction>

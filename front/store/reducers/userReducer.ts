@@ -1,6 +1,6 @@
 import { produce } from 'immer';
 
-import { User } from '@/types/User';
+import { Me, User } from '@/types/User';
 
 import { UserAction, UserActionType } from '../actions/userAction';
 
@@ -8,6 +8,9 @@ interface State {
   loadMyInfoLoading: boolean;
   loadMyInfoDone: boolean;
   loadMyInfoError: string;
+  loadUserLoading: boolean;
+  loadUserDone: boolean;
+  loadUserError: string;
   isLoggedIn: boolean;
   isLoggingIn: boolean; // 로그인 시도 중
   isLoggingOut: boolean; // 로그아웃 시도 중
@@ -27,13 +30,17 @@ interface State {
   changeNicknameLoading: boolean; // 닉네임 변경 시도 중
   changeNicknameDone: boolean;
   changeNicknameError: string;
-  me: User;
+  me: Me;
+  userInfo: User;
 }
 
 const initialState: State = {
   loadMyInfoLoading: false,
   loadMyInfoDone: false,
   loadMyInfoError: null,
+  loadUserLoading: false,
+  loadUserDone: false,
+  loadUserError: null,
   isLoggedIn: false,
   isLoggingIn: false,
   isLoggingOut: false,
@@ -54,6 +61,7 @@ const initialState: State = {
   changeNicknameDone: false,
   changeNicknameError: null,
   me: null,
+  userInfo: null,
 };
 
 const userReducer = (state: State = initialState, action: UserAction) =>
@@ -71,6 +79,21 @@ const userReducer = (state: State = initialState, action: UserAction) =>
         draft.me = action.payload;
         break;
       case UserActionType.LOAD_MY_INFO_FAILURE:
+        draft.loadMyInfoLoading = false;
+        draft.loadMyInfoError = action.error;
+        break;
+      case UserActionType.LOAD_USER_REQUEST:
+        draft.loadMyInfoLoading = true;
+        draft.loadMyInfoDone = false;
+        draft.loadMyInfoError = null;
+        break;
+      case UserActionType.LOAD_USER_SUCCESS:
+        draft.loadMyInfoLoading = false;
+        draft.loadMyInfoDone = true;
+        draft.isLoggedIn = true;
+        draft.userInfo = action.payload;
+        break;
+      case UserActionType.LOAD_USER_FAILURE:
         draft.loadMyInfoLoading = false;
         draft.loadMyInfoError = action.error;
         break;
