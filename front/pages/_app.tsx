@@ -8,6 +8,7 @@ const App = wrapper.withRedux(function ({ Component }: AppProps) {
   return (
     <>
       <Head>
+        <meta charSet="utf-8" />
         <title>NodeBird</title>
       </Head>
       <Component />
