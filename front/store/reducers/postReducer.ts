@@ -8,8 +8,12 @@ import { PostAction, PostActionType } from '../actions/postAction';
 
 interface State {
   mainPosts: Post[];
+  singlePost: Post;
   imagePaths: string[];
   hasMorePosts: boolean;
+  loadPostLoading: boolean;
+  loadPostDone: boolean;
+  loadPostError: any;
   loadPostsLoading: boolean;
   loadPostsDone: boolean;
   loadPostsError: any;
@@ -38,8 +42,12 @@ interface State {
 
 const initialState: State = {
   mainPosts: [],
+  singlePost: null,
   imagePaths: [],
   hasMorePosts: true,
+  loadPostLoading: false,
+  loadPostDone: false,
+  loadPostError: null,
   loadPostsLoading: false,
   loadPostsDone: false,
   loadPostsError: null,
@@ -95,17 +103,32 @@ const postReducer = (state: State = initialState, action: PostAction) =>
   produce(state, (draft) => {
     switch (action.type) {
       case PostActionType.LOAD_POST_REQUEST:
+        draft.loadPostLoading = true;
+        draft.loadPostDone = false;
+        draft.loadPostError = null;
+        break;
+      case PostActionType.LOAD_POST_SUCCESS:
+        draft.loadPostLoading = false;
+        draft.loadPostDone = true;
+        draft.singlePost = action.payload;
+        break;
+      case PostActionType.LOAD_POST_FAILURE:
+        draft.loadPostLoading = false;
+        draft.loadPostDone = false;
+        draft.loadPostError = action.error;
+        break;
+      case PostActionType.LOAD_POSTS_REQUEST:
         draft.loadPostsLoading = true;
         draft.loadPostsDone = false;
         draft.loadPostsError = null;
         break;
-      case PostActionType.LOAD_POST_SUCCESS:
+      case PostActionType.LOAD_POSTS_SUCCESS:
         draft.loadPostsLoading = false;
         draft.loadPostsDone = true;
         draft.mainPosts = draft.mainPosts.concat(action.payload);
         draft.hasMorePosts = action.payload.length === 10;
         break;
-      case PostActionType.LOAD_POST_FAILURE:
+      case PostActionType.LOAD_POSTS_FAILURE:
         draft.loadPostsLoading = false;
         draft.loadPostsDone = false;
         draft.loadPostsError = action.error;

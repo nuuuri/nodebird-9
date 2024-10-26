@@ -23,6 +23,27 @@ function* loadPosts(action) {
     const result = yield call(loadPostsAPI, action.payload.lastId);
 
     yield put({
+      type: PostActionType.LOAD_POSTS_SUCCESS,
+      payload: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: PostActionType.LOAD_POSTS_FAILURE,
+      error: err.message,
+    });
+  }
+}
+
+function loadPostAPI(data) {
+  return axios.get(`/post/${data}`);
+}
+
+function* loadPost(action) {
+  try {
+    const result = yield call(loadPostAPI, action.payload.PostId);
+
+    yield put({
       type: PostActionType.LOAD_POST_SUCCESS,
       payload: result.data,
     });
@@ -186,8 +207,12 @@ function* retweetPost(action) {
   }
 }
 
+function* watchLoadPost() {
+  yield takeLatest(PostActionType.LOAD_POST_REQUEST, loadPost);
+}
+
 function* watchLoadPosts() {
-  yield throttle(5000, PostActionType.LOAD_POST_REQUEST, loadPosts);
+  yield throttle(5000, PostActionType.LOAD_POSTS_REQUEST, loadPosts);
 }
 
 function* watchAddPost() {
@@ -220,6 +245,7 @@ function* watchRetweetPost() {
 
 export default function* postSaga() {
   yield all([
+    fork(watchLoadPost),
     fork(watchLoadPosts),
     fork(watchAddPost),
     fork(watchRemovePost),

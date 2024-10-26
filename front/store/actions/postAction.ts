@@ -5,6 +5,9 @@ export const PostActionType = {
   LOAD_POST_REQUEST: 'LOAD_POST_REQUEST',
   LOAD_POST_SUCCESS: 'LOAD_POST_SUCCESS',
   LOAD_POST_FAILURE: 'LOAD_POST_FAILURE',
+  LOAD_POSTS_REQUEST: 'LOAD_POSTS_REQUEST',
+  LOAD_POSTS_SUCCESS: 'LOAD_POSTS_SUCCESS',
+  LOAD_POSTS_FAILURE: 'LOAD_POSTS_FAILURE',
   ADD_POST_REQUEST: 'ADD_POST_REQUEST',
   ADD_POST_SUCCESS: 'ADD_POST_SUCCESS',
   ADD_POST_FAILURE: 'ADD_POST_FAILURE',
@@ -29,18 +32,33 @@ export const PostActionType = {
   REMOVE_IMAGE: 'REMOVE_IMAGE',
 } as const;
 
-export const loadPostRequestAction = (payload: { lastId: number }) => ({
+export const loadPostRequestAction = (payload: { PostId: number }) => ({
   type: PostActionType.LOAD_POST_REQUEST,
   payload,
 });
 
-export const loadPostSuccessAction = (payload: Post[]) => ({
+export const loadPostSuccessAction = (payload: Post) => ({
   type: PostActionType.LOAD_POST_SUCCESS,
   payload,
 });
 
 export const loadPostFailureAction = (error: any) => ({
   type: PostActionType.LOAD_POST_FAILURE,
+  error,
+});
+
+export const loadPostsRequestAction = (payload: { lastId: number }) => ({
+  type: PostActionType.LOAD_POSTS_REQUEST,
+  payload,
+});
+
+export const loadPostsSuccessAction = (payload: Post[]) => ({
+  type: PostActionType.LOAD_POSTS_SUCCESS,
+  payload,
+});
+
+export const loadPostsFailureAction = (error: any) => ({
+  type: PostActionType.LOAD_POSTS_FAILURE,
   error,
 });
 
@@ -166,6 +184,9 @@ export type PostAction =
   | ReturnType<typeof loadPostRequestAction>
   | ReturnType<typeof loadPostSuccessAction>
   | ReturnType<typeof loadPostFailureAction>
+  | ReturnType<typeof loadPostsRequestAction>
+  | ReturnType<typeof loadPostsSuccessAction>
+  | ReturnType<typeof loadPostsFailureAction>
   | ReturnType<typeof addPostRequestAction>
   | ReturnType<typeof addPostSuccessAction>
   | ReturnType<typeof addPostFailureAction>
