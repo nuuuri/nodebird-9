@@ -3,11 +3,20 @@ import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Button, Form, Input } from 'antd';
+import styled from 'styled-components';
 
 import { useInput } from '@/utils/useInput';
 
 import { loginRequestAction } from '@/store/actions/userAction';
 import { RootState } from '@/store/reducers';
+
+const FormWrapper = styled(Form)`
+  padding: 10px;
+`;
+
+const ButtonWrapper = styled.div`
+  margin-top: 10px;
+`;
 
 export default function LoginForm() {
   const { isLoggingIn, loginError } = useSelector(
@@ -31,7 +40,7 @@ export default function LoginForm() {
   }, [loginError]);
 
   return (
-    <Form onFinish={onSubmitForm} style={{ padding: '10px' }}>
+    <FormWrapper onFinish={onSubmitForm}>
       <div>
         <label htmlFor="user-email">이메일</label>
         <br />
@@ -54,7 +63,7 @@ export default function LoginForm() {
           required
         />
       </div>
-      <div style={{ marginTop: '10px' }}>
+      <ButtonWrapper>
         <Button type="primary" htmlType="submit" loading={isLoggingIn}>
           로그인
         </Button>
@@ -63,7 +72,7 @@ export default function LoginForm() {
             <Button>회원가입</Button>
           </a>
         </Link>
-      </div>
-    </Form>
+      </ButtonWrapper>
+    </FormWrapper>
   );
 }
