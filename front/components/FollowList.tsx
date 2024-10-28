@@ -21,7 +21,7 @@ export default function FollowList({ header, data }: FollowListProps) {
 
   const onClickUnfollowButton = useCallback(
     (userData: Pick<User, 'id' | 'nickname'>) => () => {
-      if (header === '팔로잉') {
+      if (header === '팔로잉 목록') {
         dispatch(unfollowRequestAction({ ...userData }));
       } else {
         dispatch(removeFollowerRequestAction({ ...userData }));
