@@ -120,3 +120,15 @@ export const getServerSideProps = wrapper.getServerSideProps(
     console.log('getState', context.store.getState().post.mainPosts);
   }
 );
+
+// getStaticProps는 반드시 getStaticPaths와 함께 사용해야 함
+// export async function getStaticPaths() {
+//   return {
+//     paths: [
+//       { params: { id: '1' } },
+//       { params: { id: '2' } },
+//       { params: { id: '3' } },
+//     ],
+//     fallback: false,
+//   };
+// }
