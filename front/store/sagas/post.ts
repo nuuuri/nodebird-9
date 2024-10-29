@@ -35,6 +35,58 @@ function* loadPosts(action) {
   }
 }
 
+function loadUserPostsAPI(data, lastId) {
+  return axios.get(`/user/${data}/posts?lastId=${lastId || 0}`);
+}
+
+function* loadUserPosts(action) {
+  try {
+    const result = yield call(
+      loadUserPostsAPI,
+      action.payload.UserId,
+      action.payload.lastId
+    );
+
+    yield put({
+      type: PostActionType.LOAD_USER_POSTS_SUCCESS,
+      payload: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: PostActionType.LOAD_USER_POSTS_FAILURE,
+      error: err.message,
+    });
+  }
+}
+
+function loadHashtagPostsAPI(data, lastId) {
+  return axios.get(
+    `/hashtag/${encodeURIComponent(data)}?lastId=${lastId || 0}`
+  );
+}
+
+function* loadHashtagPosts(action) {
+  try {
+    const result = yield call(
+      loadHashtagPostsAPI,
+      action.payload.hashtag,
+      action.payload.lastId
+    );
+
+    yield put({
+      type: PostActionType.LOAD_HASHTAG_POSTS_SUCCESS,
+      payload: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: PostActionType.LOAD_HASHTAG_POSTS_FAILURE,
+      error: err.message,
+    });
+  }
+}
+
 function loadPostAPI(data) {
   return axios.get(`/post/${data}`);
 }
@@ -215,6 +267,18 @@ function* watchLoadPosts() {
   yield throttle(5000, PostActionType.LOAD_POSTS_REQUEST, loadPosts);
 }
 
+function* watchLoadUserPosts() {
+  yield throttle(5000, PostActionType.LOAD_USER_POSTS_REQUEST, loadUserPosts);
+}
+
+function* watchLoadHashtagPosts() {
+  yield throttle(
+    5000,
+    PostActionType.LOAD_HASHTAG_POSTS_REQUEST,
+    loadHashtagPosts
+  );
+}
+
 function* watchAddPost() {
   yield takeLatest(PostActionType.ADD_POST_REQUEST, addPost);
 }
@@ -247,6 +311,8 @@ export default function* postSaga() {
   yield all([
     fork(watchLoadPost),
     fork(watchLoadPosts),
+    fork(watchLoadUserPosts),
+    fork(watchLoadHashtagPosts),
     fork(watchAddPost),
     fork(watchRemovePost),
     fork(watchAddComment),

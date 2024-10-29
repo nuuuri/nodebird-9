@@ -8,6 +8,12 @@ export const PostActionType = {
   LOAD_POSTS_REQUEST: 'LOAD_POSTS_REQUEST',
   LOAD_POSTS_SUCCESS: 'LOAD_POSTS_SUCCESS',
   LOAD_POSTS_FAILURE: 'LOAD_POSTS_FAILURE',
+  LOAD_USER_POSTS_REQUEST: 'LOAD_USER_POSTS_REQUEST',
+  LOAD_USER_POSTS_SUCCESS: 'LOAD_USER_POSTS_SUCCESS',
+  LOAD_USER_POSTS_FAILURE: 'LOAD_USER_POSTS_FAILURE',
+  LOAD_HASHTAG_POSTS_REQUEST: 'LOAD_HASHTAG_POSTS_REQUEST',
+  LOAD_HASHTAG_POSTS_SUCCESS: 'LOAD_HASHTAG_POSTS_SUCCESS',
+  LOAD_HASHTAG_POSTS_FAILURE: 'LOAD_HASHTAG_POSTS_FAILURE',
   ADD_POST_REQUEST: 'ADD_POST_REQUEST',
   ADD_POST_SUCCESS: 'ADD_POST_SUCCESS',
   ADD_POST_FAILURE: 'ADD_POST_FAILURE',
@@ -59,6 +65,42 @@ export const loadPostsSuccessAction = (payload: Post[]) => ({
 
 export const loadPostsFailureAction = (error: any) => ({
   type: PostActionType.LOAD_POSTS_FAILURE,
+  error,
+});
+
+export const loadUserPostsRequestAction = (payload: {
+  UserId: number;
+  lastId?: number;
+}) => ({
+  type: PostActionType.LOAD_USER_POSTS_REQUEST,
+  payload,
+});
+
+export const loadUserPostsSuccessAction = (payload: Post[]) => ({
+  type: PostActionType.LOAD_USER_POSTS_SUCCESS,
+  payload,
+});
+
+export const loadUserPostsFailureAction = (error: any) => ({
+  type: PostActionType.LOAD_USER_POSTS_FAILURE,
+  error,
+});
+
+export const loadHashtagPostsRequestAction = (payload: {
+  hashtag: string;
+  lastId?: number;
+}) => ({
+  type: PostActionType.LOAD_HASHTAG_POSTS_REQUEST,
+  payload,
+});
+
+export const loadHashtagPostsSuccessAction = (payload: Post[]) => ({
+  type: PostActionType.LOAD_HASHTAG_POSTS_SUCCESS,
+  payload,
+});
+
+export const loadHashtagPostsFailureAction = (error: any) => ({
+  type: PostActionType.LOAD_HASHTAG_POSTS_FAILURE,
   error,
 });
 
@@ -187,6 +229,12 @@ export type PostAction =
   | ReturnType<typeof loadPostsRequestAction>
   | ReturnType<typeof loadPostsSuccessAction>
   | ReturnType<typeof loadPostsFailureAction>
+  | ReturnType<typeof loadUserPostsRequestAction>
+  | ReturnType<typeof loadUserPostsSuccessAction>
+  | ReturnType<typeof loadUserPostsFailureAction>
+  | ReturnType<typeof loadHashtagPostsRequestAction>
+  | ReturnType<typeof loadHashtagPostsSuccessAction>
+  | ReturnType<typeof loadHashtagPostsFailureAction>
   | ReturnType<typeof addPostRequestAction>
   | ReturnType<typeof addPostSuccessAction>
   | ReturnType<typeof addPostFailureAction>

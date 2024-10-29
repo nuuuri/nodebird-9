@@ -17,6 +17,12 @@ interface State {
   loadPostsLoading: boolean;
   loadPostsDone: boolean;
   loadPostsError: any;
+  loadUserPostsLoading: boolean;
+  loadUserPostsDone: boolean;
+  loadUserPostsError: any;
+  loadHashtagPostsLoading: boolean;
+  loadHashtagPostsDone: boolean;
+  loadHashtagPostsError: any;
   addPostLoading: boolean;
   addPostDone: boolean;
   addPostError: any;
@@ -51,6 +57,12 @@ const initialState: State = {
   loadPostsLoading: false,
   loadPostsDone: false,
   loadPostsError: null,
+  loadUserPostsLoading: false,
+  loadUserPostsDone: false,
+  loadUserPostsError: null,
+  loadHashtagPostsLoading: false,
+  loadHashtagPostsDone: false,
+  loadHashtagPostsError: null,
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,
@@ -118,17 +130,23 @@ const postReducer = (state: State = initialState, action: PostAction) =>
         draft.loadPostError = action.error;
         break;
       case PostActionType.LOAD_POSTS_REQUEST:
+      case PostActionType.LOAD_USER_POSTS_REQUEST:
+      case PostActionType.LOAD_HASHTAG_POSTS_REQUEST:
         draft.loadPostsLoading = true;
         draft.loadPostsDone = false;
         draft.loadPostsError = null;
         break;
       case PostActionType.LOAD_POSTS_SUCCESS:
+      case PostActionType.LOAD_USER_POSTS_SUCCESS:
+      case PostActionType.LOAD_HASHTAG_POSTS_SUCCESS:
         draft.loadPostsLoading = false;
         draft.loadPostsDone = true;
         draft.mainPosts = draft.mainPosts.concat(action.payload);
         draft.hasMorePosts = action.payload.length === 10;
         break;
       case PostActionType.LOAD_POSTS_FAILURE:
+      case PostActionType.LOAD_USER_POSTS_FAILURE:
+      case PostActionType.LOAD_HASHTAG_POSTS_FAILURE:
         draft.loadPostsLoading = false;
         draft.loadPostsDone = false;
         draft.loadPostsError = action.error;
