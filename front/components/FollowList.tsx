@@ -14,9 +14,16 @@ import {
 interface FollowListProps {
   header: string;
   data: Pick<User, 'id' | 'nickname'>[];
+  loading: boolean;
+  onClickMore: () => void;
 }
 
-export default function FollowList({ header, data }: FollowListProps) {
+export default function FollowList({
+  header,
+  data,
+  loading,
+  onClickMore,
+}: FollowListProps) {
   const dispatch = useDispatch();
 
   const onClickUnfollowButton = useCallback(
@@ -38,7 +45,9 @@ export default function FollowList({ header, data }: FollowListProps) {
       header={<div>{header}</div>}
       loadMore={
         <div style={{ textAlign: 'center', margin: '10px 0' }}>
-          <Button>더 보기</Button>
+          <Button loading={loading} onClick={onClickMore}>
+            더 보기
+          </Button>
         </div>
       }
       bordered
