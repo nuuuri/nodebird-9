@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -18,23 +19,35 @@ export default function UserProfile() {
     <Card
       actions={[
         <div key="twit">
-          짹짹
+          <Link href={`/user/${me.id}`}>
+            <a>짹짹</a>
+          </Link>
           <br />
           {me.Posts.length}
         </div>,
         <div key="following">
-          팔로잉
+          <Link href="/profile">
+            <a>팔로잉</a>
+          </Link>
           <br />
           {me.Followings.length}
         </div>,
         <div key="follower">
-          팔로워
+          <Link href="/profile">
+            <a>팔로워</a>
+          </Link>
           <br />
           {me.Followers.length}
         </div>,
       ]}>
       <Card.Meta
-        avatar={<Avatar>{me.nickname[0]}</Avatar>}
+        avatar={
+          <Link href={`/user/${me.id}`}>
+            <a>
+              <Avatar>{me.nickname[0]}</Avatar>
+            </a>
+          </Link>
+        }
         title={me.nickname}
       />
       <Button onClick={onLogOut} loading={isLoggingOut}>

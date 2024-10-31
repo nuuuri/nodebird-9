@@ -51,6 +51,8 @@ export default function User() {
     };
   }, [mainPosts, hasMorePosts, id, loadUserPostsLoading, dispatch]);
 
+  if (!userInfo) return <div>유저를 찾을 수 없습니다.</div>;
+
   return (
     <AppLayout>
       <Head>
