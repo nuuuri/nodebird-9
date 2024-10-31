@@ -10,4 +10,6 @@ export interface Post {
   Comments: Comment[];
   Likers: Pick<User, 'id'>[];
   Retweet?: Post;
+  createdAt: Date;
+  updatedAt: Date;
 }

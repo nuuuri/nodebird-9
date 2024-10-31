@@ -11,6 +11,7 @@ import {
 } from '@ant-design/icons';
 import { Avatar, Button, Card, Comment, List, Popover } from 'antd';
 import ButtonGroup from 'antd/lib/button/button-group';
+import dayjs from 'dayjs';
 
 import type { Post } from '@/types/Post';
 
@@ -30,6 +31,8 @@ import { RootState } from '@/store/reducers';
 interface PostCardProps {
   post: Post;
 }
+
+dayjs.locale('ko');
 
 export default function PostCard({ post }: PostCardProps) {
   const { me } = useSelector((state: RootState) => state.user);
@@ -117,6 +120,9 @@ export default function PostCard({ post }: PostCardProps) {
                 <PostImages images={post.Retweet.Images} />
               )
             }>
+            <div style={{ float: 'right' }}>
+              {dayjs(post.createdAt).format('YYYY.MM.DD')}
+            </div>
             <Card.Meta
               avatar={
                 <Link href={`/user/${post.Retweet.User.id}`}>
@@ -130,17 +136,22 @@ export default function PostCard({ post }: PostCardProps) {
             />
           </Card>
         ) : (
-          <Card.Meta
-            avatar={
-              <Link href={`/user/${post.User.id}`}>
-                <a>
-                  <Avatar>{post.User.nickname[0]}</Avatar>
-                </a>
-              </Link>
-            }
-            title={post.User.nickname}
-            description={<PostCardContent postData={post.content} />}
-          />
+          <>
+            <div style={{ float: 'right' }}>
+              {dayjs(post.createdAt).format('YYYY.MM.DD')}
+            </div>
+            <Card.Meta
+              avatar={
+                <Link href={`/user/${post.User.id}`}>
+                  <a>
+                    <Avatar>{post.User.nickname[0]}</Avatar>
+                  </a>
+                </Link>
+              }
+              title={post.User.nickname}
+              description={<PostCardContent postData={post.content} />}
+            />
+          </>
         )}
       </Card>
       {commentFormOpened && (

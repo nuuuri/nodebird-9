@@ -26,12 +26,6 @@ export default function Home() {
 
   useEffect(() => {
     const onScroll = () => {
-      console.log(
-        window.scrollY,
-        document.documentElement.clientHeight,
-        document.documentElement.scrollHeight
-      );
-
       if (
         window.scrollY + document.documentElement.clientHeight >
         document.documentElement.scrollHeight - 300
