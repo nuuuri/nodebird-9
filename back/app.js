@@ -64,6 +64,6 @@ app.use("/hashtag", hashtagRouter);
 
 // app.use((err, req, res, next) => {}); // 해당 위치에 에러 처리 미들웨어가 내부적으로 존재
 
-app.listen(3065, () => {
+app.listen(80, () => {
   console.log("서버 실행 중");
 });
