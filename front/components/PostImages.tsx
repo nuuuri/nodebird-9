@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 
 import { PlusOutlined } from '@ant-design/icons';
+import { backUrl } from 'config/config';
 
 import { Image } from '@/types/Image';
 
@@ -26,7 +27,7 @@ export default function PostImages({ images }: PostImagesProps) {
       <>
         <img
           role="presentation"
-          src={`http://localhost:3065/${images[0].src}`}
+          src={`${backUrl}/${images[0].src}`}
           alt={images[0].src}
           style={{ maxHeight: 400, objectFit: 'contain' }}
           onClick={onZoom}

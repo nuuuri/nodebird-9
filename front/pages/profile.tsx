@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import axios from 'axios';
+import { backUrl } from 'config/config';
 import { END } from 'redux-saga';
 import useSWR from 'swr';
 
@@ -25,11 +26,11 @@ export default function Profile() {
   const { me } = useSelector((state: RootState) => state.user);
 
   const { data: followersData, error: followerError } = useSWR(
-    `http://localhost:3065/user/followers?limit=${followersLimit}`,
+    `${backUrl}/user/followers?limit=${followersLimit}`,
     fetcher
   );
   const { data: followingsData, error: followingError } = useSWR(
-    `http://localhost:3065/user/followings?limit=${followingsLimit}`,
+    `${backUrl}/user/followings?limit=${followingsLimit}`,
     fetcher
   );
 

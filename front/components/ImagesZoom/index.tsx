@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import Slick from 'react-slick';
 
+import { backUrl } from 'config/config';
+
 import { Image } from '@/types/Image';
 
 import {
@@ -39,7 +41,7 @@ export default function ImagesZoom({ images, onClose }: ImagesZoomProps) {
             slidesToScroll={1}>
             {images.map((v) => (
               <ImageWrapper key={v.src}>
-                <img src={`http://localhost:3065/${v.src}`} alt={v.src} />
+                <img src={`${backUrl}/${v.src}`} alt={v.src} />
               </ImageWrapper>
             ))}
           </Slick>
